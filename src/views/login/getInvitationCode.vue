@@ -20,7 +20,7 @@
                                         v-for="item in companyInfo.companyTypeInfo"
                                         :key="item.value"
                                         :label="item.value"
-                                        :value="item.key"
+                                        :value="item.value"
                                         style="width: 300px">
                                     </el-option>
                                 </el-select>  
@@ -60,37 +60,31 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item :label="$tc('login.getInvitationCode.country')" class="right" >
-                                <el-cascader
-                                size="large"
-                                :options="options"
-                                v-model="selectedOptions"
-                                @change="handleChange"
-                                style="width: 300px"
-                                >
-                                </el-cascader>
+                                <el-select v-model="countryCode" placeholder="请选择"  style="width: 300px">
+                                    <el-option
+                                    v-for="item in country"
+                                    :key="item.code"
+                                    :label="item.name"
+                                    :value="item.name"
+                                    style="width: 300px">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.province')">
-                                <el-input placeholder="Please province" type="text"  style="width: 300px"/>
+                         <el-col :span="12">
+                            <el-form-item :label="$tc('login.getInvitationCode.city')" >
+                                <el-input placeholder="Please city" type="text"  style="width: 300px" v-model="companyInfo.city"/>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.city')" class="right">
-                                <el-input placeholder="Please city" type="text"  style="width: 300px"/>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.address')">
+                            <el-form-item :label="$tc('login.getInvitationCode.address')" class="right">
                                 <el-input style="width: 300px" v-model="companyInfo.address"></el-input>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.website')" class="right">
+                         <el-col :span="12">
+                            <el-form-item :label="$tc('login.getInvitationCode.website')" >
                                 <el-input style="width: 300px" v-model="companyInfo.website"></el-input>
                             </el-form-item>
                         </el-col>
@@ -113,18 +107,11 @@
         data() {
             return {
                 single:false,
-                options:[ {
-                    value: 'typography',
-                    label: 'Typography 字体'
-                    }, {
-                    value: 'icon',
-                    label: 'Icon 图标'
-                    }, {
-                    value: 'button',
-                    label: 'Button 按钮'
-                }],
+                country:[],
+                countryCode:'',
                 selectedOptions: [],
                 companyType:2,
+                partnerType:'',
                 companyInfo:{
                     email:'',
                     tenantType: 0, //租户类型
@@ -132,23 +119,19 @@
                     companyName: '',
                     website: '',
                     companyTel: '',
-                    countryId: 0,
-                    cityId: 0,
+                    city: '',
                     address: '',
                     companyTypeInfo:[],
                     optionsSupplier:
                     [{
                         value: 'factory',
                         label: '工厂',
-                        key:'supplier1'
                         },{
                         value: 'trader',
                         label: '贸易商',
-                        key:'supplier2'
                         },{
                         value: 'shop',
                         label: '商铺',
-                        key:'supplier3'
                     }],
                     optionsCustomer:
                     [{
@@ -168,31 +151,24 @@
                     [{
                         value: 'logistics company',
                         label: '物流公司',
-                        key:'service1'
                         },{
                         value: 'customs broker',
                         label: '报告公司',
-                        key:'service2'
                         },{
                         value: 'expert agent',
                         label: '进出口公司',
-                        key:'service3'
                         },{
                         value: 'trading company',
                         label: '工厂',
-                        key:'service4'
                         },{
                         value: 'inspect company',
                         label: '贸易公司',
-                        key:'service5'
                         },{
                         value: 'financial company',
                         label: '验货公司',
-                        key:'service6'
                         },{
                         value: 'shipping agent',
                         label: '金融公司',
-                        key:'service7'
                     }],
                     type:''
                 },
@@ -216,13 +192,17 @@
             }
         },
         created() {
+            //  this.getCountry()
             // this.$route.query.type 从url上获取那个端过来进行判断 
-            if(this.$route.query.type == 'supplier'){
+            if(this.$route.query.type == 2){
                 this.companyInfo.companyTypeInfo = this.companyInfo.optionsSupplier
-            }else if(this.$route.query.type == 'customer'){
+                 this.partnerType = 2
+            }else if(this.$route.query.type == 1){
                  this.companyInfo.companyTypeInfo = this.companyInfo.optionsCustomer
+                 this.partnerType = 1
             }else{
                 this.companyInfo.companyTypeInfo = this.companyInfo.optionsService
+                this.partnerType = 3
             }
         },
         methods: {
@@ -243,24 +223,34 @@
                     }
                 });
             },
+             getCountry(){
+                //获取国家
+                this.$ajax.get(this.$apis.get_country).then(res=>{
+                  this.country = res.content     
+                }).catch(err=>{
+                    console.log(err)
+                     console.log('请求失败')
+                })
+            },
             registerApplication(){
                 //注册申请  
-                const type = this.companyInfo.companyType
-                if(type.search("service")!= -1){
-                   this.companyType = 0
-                }else if(type.search("supplier")!= -1){
-                   this.companyType = 1
-                }
+                // const type = this.companyInfo.companyType
+                // if(type.search("service")!= -1){
+                //    this.companyType = 0
+                // }else if(type.search("supplier")!= -1){
+                //    this.companyType = 1
+                // }
                
                 const params = {
                     email:this.companyInfo.email,
-                    tenantType: this.companyType, //租户类型
-                    companyType: this.companyType,
+                    tenantType: 0, //租户类型
+                    partnerType:this.partnerType,               //贸易类型
+                    companyType: this.partnerType,
                     companyName: this.companyInfo.companyName,
                     website: this.companyInfo.website || '',
                     companyTel: this.companyInfo.companyTel || '',
-                    countryId:  this.companyInfo.countryId || '',
-                    cityId: this.companyInfo.cityId || '',
+                    country:  this.countryCode || '',
+                    city: this.companyInfo.city || '',
                     address: this.companyInfo.address || '',
                 }
                 console.log(params)

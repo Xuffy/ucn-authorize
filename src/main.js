@@ -13,6 +13,16 @@ import VueI18n from 'vue-i18n'
 import lang from 'lib/lang'
 import ElementUI from 'element-ui';
 import store from './store';
+import {addCookie, getCookie, delCookie} from 'service/cookie.js';
+
+// import { Message } from 'element-ui';
+// Vue.prototype.$message = Message;
+
+Vue.prototype.$cookieStore = {
+  addCookie,
+  getCookie,
+  delCookie
+}
 
 // Vue.use(api);
 Vue.use(util);

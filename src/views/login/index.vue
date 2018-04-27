@@ -10,8 +10,8 @@
         <div class="from">
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
-              <el-form-item :label="$tc('login.userInformation.email')" prop="username">
-                  <el-input v-model="formInline.username" type="email" placeholder="Email" style="width:300px"></el-input>
+              <el-form-item :label="$tc('login.userInformation.email')" prop="email">
+                  <el-input v-model="formInline.email" type="email" placeholder="Email" style="width:300px"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
@@ -25,7 +25,7 @@
             </div>
             <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;">{{$tc('login.text.loginIn')}}</el-button>
             <div class="login-link active">
-              <router-link to="/signUp">{{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>></router-link>
+              <router-link :to="{path:'signUp', query: {type : this.$route.query.type,redirect : this.$route.query.redirect}}">{{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>></router-link>
             </div>
           </el-form>
         </div>
@@ -42,11 +42,11 @@
       return {
         loginLoading: false,
         formInline: {
-          username: '',
+          email: '',
           password: ''
         },
         ruleInline: {
-          username: [
+          email: [
             { required: true, message: '请输入邮箱地址', trigger: 'change' },
             { type: 'email', message: '请输入正确的邮箱地址', trigger:'blur,change' }
           ],
@@ -60,74 +60,55 @@
     created() {
       this.$localStore.clearAll();
       this.$sessionStore.clearAll();
+      this.formInline.email = this.$cookieStore.getCookie('username') 
+      this.formInline.password = this.$cookieStore.getCookie('password')
     },
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             // console.log(new Date(new Date().valueOf()+1*24*60*60*1000*30))
-            // this.judgeCookieSign()
+             this.judgeCookieSign()
           } else {
                this.$message({
                   message: '请输入正确的用户名密码！',
                   type: 'warning',
               });
-            // this.$Message.warning('请输入正确的用户名密码！');
             return false;
           }
         });
 
       },
       judgeCookieSign(){
-          if(this.getCookie('username') && this.getCookie('password')){
-            this.formInline.username = this.getCookie('username') 
-            this.formInline.password = this.getCookie('password')
-            const params = {
-              userName : this.formInline.username,
-              password : this.formInline.password
-            }
-            this.$ajax.post(this.$apis.post_user_application,params).then(res =>{
-                if(res.status == 'SUCCESS'){
-                  const data = res.content.userAuthorization
-                  this.$localStore.set('userSessionToken', data.userSessionToken);
-                  this.$localStore.set('userPrivileges', data.userPrivileges);
+          let  baseUrl =  this.$route.query.redirect
+          // const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
+          if(this.$cookieStore.getCookie('username') && this.$cookieStore.getCookie('password')){
+            this.$ajax.post(this.$apis.post_auth_signin,this.formInline).then(res =>{
+              console.log(res)
                   setTimeout( ()=> {
-                    this.$Message.success('登录成功');
-                     //跳转到对应得workbench
-                      window.location.href = ''
+                      this.$message({
+                          message: '登陆成功',
+                          type: 'success',
+                      });
+                     //跳转到对应得workbench 
+                    //  window.location.href = finalUrl
                   },1000);
-                }else{
-                    this.$message({
-                        showClose: true,
-                        message: res.errorMsg,
-                        center: true
-                    });
-                }
             })
           }else{
-              this.$ajax.post(this.$apis.post_user_application,params).then(res =>{
-                if(res.status == 'SUCCESS'){
-                  // const data = res.content.userAuthorization
-                  // this.$localStore.set('userSessionToken', data.userSessionToken);
-                  // this.$localStore.set('userPrivileges', data.userPrivileges);
+              this.$ajax.post(this.$apis.post_auth_signin,this.formInline).then(res =>{
                   //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数） 
-                  const expiredays = new Date(new Date().valueOf()+1*24*60*60*1000*30)
-                  this.setCookie ('username', this.formInline.username, expiredays)
-                  this.setCookie ('password', this.formInline.password, expiredays)            
-                  // this.$message({
-                  //     message: '登陆成功',
-                  //     type: 'success',
-                  //     onClose(){
-                  //         window.location.href = ''
-                  //     }
-                  // });
-                }else{
-                  this.$message({
-                      showClose: true,
-                      message: res.errorMsg,
-                      center: true
-                  });
-                }
+                  // const expiredays = new Date(new Date().valueOf()+1*24*60*60*1000*30)
+                  console.log(res)
+                  this.$cookieStore.addCookie ('username', this.formInline.email, expiredays)
+                  this.$cookieStore.addCookie ('password', this.formInline.password, expiredays) 
+                  setTimeout( ()=> {
+                      this.$message({
+                          message: '登陆成功',
+                          type: 'success',
+                      });
+                     //跳转到对应得workbench
+                      // window.location.href = finalUrl
+                  },1000);          
               })
           }
       },

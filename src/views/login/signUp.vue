@@ -8,7 +8,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.invitationCode')"  prop="invitationCode">
-                                    <el-input placeholder="Please input your Invitation code" type="number" v-model="userInfo.invitationCode" style="max-width:200px" />
+                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="invitationCode" style="max-width:200px" />
                                     <router-link to="/getInvitationCode" id="a">Go Submit a Request>></router-link>
                                 </el-form-item>
                             </el-col>
@@ -20,8 +20,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                                    <el-input placeholder="xxxx@xxx.com" type="email" v-model="userInfo.email" clearable style="max-width:200px" />
+                                <el-form-item :label="$tc('login.userInformation.email')" prop="useremail">
+                                    <el-input placeholder="xxxx@xxx.com" type="email" v-model="userInfo.useremail" clearable style="max-width:200px" />
                                     <span>This will be your log in email</span>
                                 </el-form-item>
                             </el-col>
@@ -50,13 +50,13 @@
                             <div style="padding-top:30px">
                                  <el-row>
                                     <el-col :span="12">
-                                        <el-form-item :label="$tc('login.getInvitationCode.companyName')" prop="companyName">
-                                            <el-input placeholder="Input company name" type="text" v-model="companyInfo.name" clearable style="max-width:200px" />
+                                        <el-form-item :label="$tc('login.getInvitationCode.companyName')" prop="name">
+                                            <el-input placeholder="Input company name" type="text" v-model="userInfo.name" clearable style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.companyType')" prop="companyType">
-                                            <el-select v-model="companyInfo.companyType" filterable placeholder="Select companyType" style="width: 200px">
+                                            <el-select v-model="userInfo.companyTypeN" placeholder="Select companyType" style="width: 200px">
                                                 <el-option
                                                     v-for="item in Type"
                                                     :key="item.value"
@@ -70,42 +70,40 @@
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item :label="$tc('login.getInvitationCode.contactNumber')" prop="companyTel">
-                                            <el-input placeholder="Input company name" type="number" v-model="companyInfo.tel" style="max-width:200px" />
+                                        <el-form-item :label="$tc('login.getInvitationCode.contactNumber')" prop="tel">
+                                            <el-input placeholder="Input company name" type="text" v-model="userInfo.tel" style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.website')" >
-                                            <el-input placeholder="Input company website" v-model="companyInfo.website" type="url"  clearable style="max-width:200px" />
+                                            <el-input placeholder="Input company website" v-model="userInfo.website" type="url"  clearable style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.country')">
-                                            <el-cascader
-                                            size="large"
-                                            :options="options"
-                                            v-model="selectedOptions"
-                                            @change="handleChange">
-                                            </el-cascader>
+                                            <el-select v-model="countryCode" placeholder="请选择"  style="width: 200px">
+                                                <el-option
+                                                v-for="item in country"
+                                                :key="item.code"
+                                                :label="item.name"
+                                                :value="item.code"
+                                                style="width: 200px">
+                                                </el-option>
+                                            </el-select>
                                         </el-form-item>
                                     </el-col>
-                                    <el-col :span="12">
-                                        <el-form-item :label="$tc('login.getInvitationCode.province')">
-                                            <el-input placeholder="Please province" type="text" v-model="userInfo.province" style="max-width:200px" />
+                                   <el-col :span="12">
+                                        <el-form-item :label="$tc('login.getInvitationCode.city')">
+                                            <el-input placeholder="Please city" type="text"  v-model="userInfo.city"  style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item :label="$tc('login.getInvitationCode.city')">
-                                            <el-input placeholder="Please city" type="text"  v-model="userInfo.city" style="max-width:200px" />
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.address')">
-                                            <el-input placeholder="Please address" type="text" v-model="companyInfo.address" style="max-width:200px" />
+                                            <el-input placeholder="Please address" type="text" v-model="userInfo.address" style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -127,7 +125,6 @@
     </section>
 </template>
 <script>
-    // import {provinceAndCityData, CodeToText } from 'element-china-area-data'
     export default {
         name:'signUp',
         data() {
@@ -158,38 +155,24 @@
             //     }
             // };
             return {
-                company:'',
                 single:false,
-                options:[ {
-                    value: 'typography',
-                    label: 'Typography 字体'
-                    }, {
-                    value: 'icon',
-                    label: 'Icon 图标'
-                    }, {
-                    value: 'button',
-                    label: 'Button 按钮'
-                }],
-                selectedOptions: [],
+                country:[],
+                countryCode:'',
+                invitationCode:'4sG5sc',
                 userInfo:{
-                    invitationCode:'1',
+                    tenantType:0,
                     userName:'',
-                    email:'',
+                    useremail:'',
                     password:'',
                     userTel:'',
                     checkpassword:'',
-                    province:'',
-                    city:''
-                },
-                companyInfo:{
                     name:'',
-                    companyType:0,
-                    tenantType: 0,//租户类型
+                    companyTypeN:'',
                     tel:'',
-                    address:'',
                     website:'',
-                    // countryId: 0,
-                    // cityId: 0,
+                    country:'',
+                    city:'',
+                    address:''
                 },
                 Type:[],
                 optionsSupplier:
@@ -248,7 +231,7 @@
                     userName:[
                         { required: true, message: '请输入用户名', trigger: 'blur' },
                     ],
-                    email: [
+                    useremail: [
                         { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                         { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
                     ],
@@ -264,14 +247,14 @@
                         { required: true, message: '请再次输入密码', trigger: 'blur' },
                         { validator: validatePass2, trigger: 'blur' }
                     ],
-                    companyName:[
+                    name:[
                         { required: true, message: '请输入公司名称', trigger: 'blur' },
                         { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur,change' }
                     ],
                     companyType:[
                         { required: true, message: '请输入公司类型', trigger: 'blur' },
                     ],
-                    companyTel: [
+                    tel: [
                         {  required: true, message: '请输入联系方式', trigger: 'blur' },
                         {  max: 13, message: '长度在13个字符以内', trigger: 'blur,change' }
                     ],
@@ -281,11 +264,6 @@
                     // ],
                 }
             }
-        },
-        created() {
-            //  this.getCompany()
-            // this.signUp()
-
         },
         methods: {
              submitForm(formName) {
@@ -312,51 +290,68 @@
             },
             signUp(){
                 //注册
-                const params = {
-                    invitationCode:this.userInfo.invitationCode,
-                    userName:this.userInfo.userName,
-                    email:this.userInfo.email,
-                    password:this.userInfo.password,
-                    userTel:this.userInfo.userTel,
+                 const params = {
+                    tenantType: 0,
+                    partnerType: this.userInfo.companyType,
+                    companyType: this.userInfo.companyType,
+                    companyName: this.userInfo.name,
+                    website: this.userInfo.website,
+                    companyTel: this.userInfo.tel,
+                    country: this.countryCode,
+                    city: this.userInfo.city,
+                    address: this.userInfo.address,
+                    invitationCode: this.invitationCode,
+                    userName: this.userInfo.userName,
+                    email: this.userInfo.useremail,
+                    password: this.userInfo.password,
+                    userTel: this.userInfo.userTel
                 }
-                console.log(params)
-                this.$ajax.post(this.$apis.post_user_application,params).then(res =>{
-                    const data = res.content.userAuthorization
-                    //保存token
-                    this.$localStore.set('token', data.userSessionToken);
-                    //用户权限
+                this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
+                    console.log(res)
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
-                     if(res.status == 'SUCCESS'){
-                        this.$message({
-                            message: '注册成功',
-                            type: 'success',
-                            onClose(){
-                                // this.$router.push('/');
-                            }
-                        });
-                     }
+                    // this.$message({
+                    //     message: '注册成功',
+                    //     type: 'success',
+                    //     onClose(){
+                    //          this.$router.push('/');
+                    //     }
+                    // });
+                    let  baseUrl =  this.$route.query.redirect
+                    const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
                 }).catch(res =>{
-                    
+                    console.log(res)
                 });
             },
             getCompany(){
-                //校验邀请码 ${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode
+                //校验邀请码  
                 this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res =>{
-                    if(res.status == 'SUCCESS'){
-                        if(res.content.companyType == 0){
-                            this.Type = this.optionsService
-                        }else if(res.content.companyType == 1){
-                            this.Type = this.optionsSupplier
-                        }else{
-                            this.Type = this.optionsCustomer
-                        }
-                        this.companyInfo = res.content
-                        this.selectedOptions.push(res.content.countryId,res.content.cityId)
+                    console.log(res.companyType)
+                    if(res.companyType == 3){
+                        this.Type = this.optionsService
+                        console.log(this.Type)
+                    }else if(res.companyType == 2){
+                        this.Type = this.optionsSupplier
+                    }else{
+                        this.Type = this.optionsCustomer
                     }
+                    this.userInfo = res
                 }).catch(res =>{
                     console.log('请求失败')
                 });
-            }
+            },
+            getCountry(){
+                //获取国家
+                this.$ajax.get(this.$apis.get_country).then(res=>{
+                  this.country = res    
+                }).catch(err=>{
+                    console.log(err)
+                    console.log('请求失败')
+                })
+            },
+        },
+        created() {
+            // this.getCompany()
+            // this.getCountry()
         }
     }
 </script>
