@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-top"></div>
-    <section id="login-app" class="login-box">
+    <section id="login-app" class="login-box" v-loading="loading2" element-loading-text="登陆加载中">
       <div style="text-align: center;">
         <i class="logo"></i>
         <span class="title">{{ $tc('login.text.signIn') }}</span>
@@ -24,7 +24,7 @@
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;">
+            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;" >
               {{$tc('login.text.loginIn')}}
             </el-button>
             <div class="login-link active">
@@ -48,7 +48,7 @@
     name: 'login',
     data() {
       return {
-        loginLoading: false,
+        loading2: false,
         formInline: {
           email: '',
           password: ''
@@ -75,7 +75,6 @@
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            // console.log(new Date(new Date().valueOf()+1*24*60*60*1000*30))
             this.judgeCookieSign()
           } else {
             this.$message({
@@ -89,16 +88,17 @@
       },
       judgeCookieSign() {
         let baseUrl = this.$route.query.redirect;
-
+        this.loading2 = true;
+        console.log(this.$route.query.redirect)
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
 
         this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
           .then(data => {
+            this.loading2 = false
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
-
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
 
@@ -114,25 +114,6 @@
               //  window.location.href = finalUrl
             }, 1000);*/
           })
-        // const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
-        /*if (this.$cookieStore.getCookie('username') && this.$cookieStore.getCookie('password')) {
-        } else {
-          this.$ajax.post(this.$apis.post_auth_signin, this.formInline).then(res => {
-            //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数）
-            // const expiredays = new Date(new Date().valueOf()+1*24*60*60*1000*30)
-            console.log(res)
-            this.$cookieStore.addCookie('username', this.formInline.email, expiredays)
-            this.$cookieStore.addCookie('password', this.formInline.password, expiredays)
-            setTimeout(() => {
-              this.$message({
-                message: '登陆成功',
-                type: 'success',
-              });
-              //跳转到对应得workbench
-              // window.location.href = finalUrl
-            }, 1000);
-          })
-        }*/
       },
     }
   }
@@ -143,7 +124,6 @@
   .login-link {
     display: flex;
     justify-content: flex-end;
-
   &
   .active {
     justify-content: center;
@@ -151,7 +131,7 @@
 
   a {
     color: #409EFF;
-    font-size: 14px;
+    font-size: 12px;
 
   &
   :hover {
