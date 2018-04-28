@@ -7,7 +7,7 @@ export default {
     //   mock: 'https://www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api'
     // },
     local: {
-      BASE_LYF: 'http://dev.uuser-facade.ucnholding.com',
+      BASE_LYF: 'http://dev.uuser-facade.ucnholding.com:18100',
       BASE_LYF_signin: 'http://dev.usso-facade.ucnholding.com:18100',
       MOCK: 'https://www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api',
       BASE_JML: 'http://dev.umeta-facade.ucnholding.com'

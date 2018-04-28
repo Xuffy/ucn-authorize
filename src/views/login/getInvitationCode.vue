@@ -65,7 +65,7 @@
                                     v-for="item in country"
                                     :key="item.code"
                                     :label="item.name"
-                                    :value="item.name"
+                                    :value="item.code"
                                     style="width: 300px">
                                     </el-option>
                                 </el-select>
@@ -192,7 +192,7 @@
             }
         },
         created() {
-            //  this.getCountry()
+              this.getCountry()
             // this.$route.query.type 从url上获取那个端过来进行判断 
             if(this.$route.query.type == 2){
                 this.companyInfo.companyTypeInfo = this.companyInfo.optionsSupplier
@@ -206,10 +206,6 @@
             }
         },
         methods: {
-            handleChange(value) {
-                this.companyInfo.cityId = value[0]
-                this.companyInfo.countryId = value[1]
-            },
             backSignUp(){
                 this.$router.push('/signUp');
             },
@@ -226,21 +222,12 @@
              getCountry(){
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
-                  this.country = res.content     
+                  this.country = res     
                 }).catch(err=>{
-                    console.log(err)
-                     console.log('请求失败')
+                    console.log('请求失败')
                 })
             },
             registerApplication(){
-                //注册申请  
-                // const type = this.companyInfo.companyType
-                // if(type.search("service")!= -1){
-                //    this.companyType = 0
-                // }else if(type.search("supplier")!= -1){
-                //    this.companyType = 1
-                // }
-               
                 const params = {
                     email:this.companyInfo.email,
                     tenantType: 0, //租户类型
@@ -256,21 +243,13 @@
                 console.log(params)
                this.$ajax.post(this.$apis.post_user_application, params)
                 .then(res => {
-                    if(res.status == 'SUCCESS'){
-                        this.$message({
-                            showClose: true,
-                            message: '提交成功，我们将尽快联系您！',
-                            center: true
-                        });
-                    }else{
-                         this.$message({
-                            showClose: true,
-                            message: res.errorMsg,
-                            center: true
-                        });
-                    }
+                    this.$message({
+                        showClose: true,
+                        message: '提交成功，我们将尽快联系您！',
+                        center: true
+                    });
                 }).catch(res =>{
-                    
+                
                 });
             }
         }

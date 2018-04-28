@@ -83,7 +83,7 @@
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.country')">
-                                            <el-select v-model="countryCode" placeholder="请选择"  style="width: 200px">
+                                            <el-select v-model="userInfo.country" placeholder="请选择"  style="width: 200px">
                                                 <el-option
                                                 v-for="item in country"
                                                 :key="item.code"
@@ -125,6 +125,8 @@
     </section>
 </template>
 <script>
+import config from 'service/config';
+import {Base64} from 'js-base64';
     export default {
         name:'signUp',
         data() {
@@ -157,10 +159,10 @@
             return {
                 single:false,
                 country:[],
-                countryCode:'',
-                invitationCode:'4sG5sc',
+                invitationCode:'cstX1J',
                 userInfo:{
                     tenantType:0,
+                    country:'',
                     userName:'',
                     useremail:'',
                     password:'',
@@ -172,7 +174,7 @@
                     website:'',
                     country:'',
                     city:'',
-                    address:''
+                    address:'',
                 },
                 Type:[],
                 optionsSupplier:
@@ -267,14 +269,15 @@
         },
         methods: {
              submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                if (valid) {
-                     this.signUp()
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-                });
+                  this.signUp()
+                // this.$refs[formName].validate((valid) => {
+                // if (valid) {
+                //      this.signUp()
+                // } else {
+                //     console.log('error submit!!');
+                //     return false;
+                // }
+                // });
             },
             handleChange(value) {
                 console.log(value)
@@ -297,7 +300,7 @@
                     companyName: this.userInfo.name,
                     website: this.userInfo.website,
                     companyTel: this.userInfo.tel,
-                    country: this.countryCode,
+                    country: this.userInfo.country,
                     city: this.userInfo.city,
                     address: this.userInfo.address,
                     invitationCode: this.invitationCode,
@@ -306,16 +309,17 @@
                     password: this.userInfo.password,
                     userTel: this.userInfo.userTel
                 }
+                console.log(params)
                 this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
                     console.log(res)
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
-                    // this.$message({
-                    //     message: '注册成功',
-                    //     type: 'success',
-                    //     onClose(){
-                    //          this.$router.push('/');
-                    //     }
-                    // });
+                    this.$message({
+                        message: '注册成功',
+                        type: 'success',
+                        // onClose(){
+                        //      this.$router.push('/');
+                        // }
+                    });
                     let  baseUrl =  this.$route.query.redirect
                     const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
                 }).catch(res =>{
@@ -324,8 +328,8 @@
             },
             getCompany(){
                 //校验邀请码  
-                this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res =>{
-                    console.log(res.companyType)
+                  console.log(this.invitationCode)
+                this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.invitationCode}`).then(res =>{
                     if(res.companyType == 3){
                         this.Type = this.optionsService
                         console.log(this.Type)
@@ -334,6 +338,7 @@
                     }else{
                         this.Type = this.optionsCustomer
                     }
+                    console.log(res)
                     this.userInfo = res
                 }).catch(res =>{
                     console.log('请求失败')
@@ -350,8 +355,8 @@
             },
         },
         created() {
-            // this.getCompany()
-            // this.getCountry()
+             this.getCompany()
+              this.getCountry()
         }
     }
 </script>
