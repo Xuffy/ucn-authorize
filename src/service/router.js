@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import config from 'service/config';
-import Layout from 'components/Layout/index.vue'
 import {localStore, sessionStore} from 'service/store';
 
 Vue.use(Router);
 
 export const routerMap = [
     {
-      path: '/',
+      path: '*',
       name:'login',
       hidden: true,
       component: () => import('../views/login/index.vue')

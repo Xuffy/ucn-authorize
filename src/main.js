@@ -4,7 +4,6 @@ import router from 'service/router'
 import ajax from 'service/ajax'
 import config from 'service/config';
 import * as filters from 'service/filters.js'
-// import api from 'service/api';
 import apis from 'service/apis';
 import util from 'service/util';
 import '../theme/index.css';

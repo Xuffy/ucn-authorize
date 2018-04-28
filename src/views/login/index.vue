@@ -11,21 +11,27 @@
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                  <el-input v-model="formInline.email" type="email" placeholder="Email" style="width:300px"></el-input>
+                <el-input v-model="formInline.email" type="email" placeholder="Email" style="width:300px"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.password')" prop="password">
-                  <el-input v-model="formInline.password" type="password" placeholder="Password" style="width:300px"></el-input>
+                <el-input v-model="formInline.password" type="password" placeholder="Password"
+                          style="width:300px"></el-input>
               </el-form-item>
             </div>
             <div class="login-link" style="margin-top:50px;">
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;">{{$tc('login.text.loginIn')}}</el-button>
+            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;">
+              {{$tc('login.text.loginIn')}}
+            </el-button>
             <div class="login-link active">
-              <router-link :to="{path:'signUp', query: {type : this.$route.query.type,redirect : this.$route.query.redirect}}">{{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>></router-link>
+              <router-link
+                :to="{path:'signUp', query: {type : this.$route.query.type,redirect : this.$route.query.redirect}}">
+                {{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>>
+              </router-link>
             </div>
           </el-form>
         </div>
@@ -35,7 +41,9 @@
 </template>
 
 <script>
-  import config from  'service/config';
+  import config from 'service/config';
+  import {Base64} from 'js-base64';
+
   export default {
     name: 'login',
     data() {
@@ -47,8 +55,8 @@
         },
         ruleInline: {
           email: [
-            { required: true, message: '请输入邮箱地址', trigger: 'change' },
-            { type: 'email', message: '请输入正确的邮箱地址', trigger:'blur,change' }
+            {required: true, message: '请输入邮箱地址', trigger: 'change'},
+            {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'change'},
@@ -60,77 +68,98 @@
     created() {
       this.$localStore.clearAll();
       this.$sessionStore.clearAll();
-      this.formInline.email = this.$cookieStore.getCookie('username') 
-      this.formInline.password = this.$cookieStore.getCookie('password')
+      this.formInline.email = this.$cookieStore.getCookie('username');
+      this.formInline.password = this.$cookieStore.getCookie('password');
     },
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             // console.log(new Date(new Date().valueOf()+1*24*60*60*1000*30))
-             this.judgeCookieSign()
+            this.judgeCookieSign()
           } else {
-               this.$message({
-                  message: '请输入正确的用户名密码！',
-                  type: 'warning',
-              });
+            this.$message({
+              message: '请输入正确的用户名密码！',
+              type: 'warning',
+            });
             return false;
           }
         });
 
       },
-      judgeCookieSign(){
-          let  baseUrl =  this.$route.query.redirect
-          // const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
-          if(this.$cookieStore.getCookie('username') && this.$cookieStore.getCookie('password')){
-            this.$ajax.post(this.$apis.post_auth_signin,this.formInline).then(res =>{
-              console.log(res)
-                  setTimeout( ()=> {
-                      this.$message({
-                          message: '登陆成功',
-                          type: 'success',
-                      });
-                     //跳转到对应得workbench 
-                    //  window.location.href = finalUrl
-                  },1000);
-            })
-          }else{
-              this.$ajax.post(this.$apis.post_auth_signin,this.formInline).then(res =>{
-                  //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数） 
-                  // const expiredays = new Date(new Date().valueOf()+1*24*60*60*1000*30)
-                  console.log(res)
-                  this.$cookieStore.addCookie ('username', this.formInline.email, expiredays)
-                  this.$cookieStore.addCookie ('password', this.formInline.password, expiredays) 
-                  setTimeout( ()=> {
-                      this.$message({
-                          message: '登陆成功',
-                          type: 'success',
-                      });
-                     //跳转到对应得workbench
-                      // window.location.href = finalUrl
-                  },1000);          
-              })
-          }
+      judgeCookieSign() {
+        let baseUrl = this.$route.query.redirect;
+
+        if (!this.formInline.email || !this.formInline.password) {
+          return false;
+        }
+
+        this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
+          .then(data => {
+            let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
+              , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
+
+            this.$cookieStore.addCookie('username', this.formInline.email, expire);
+            this.$cookieStore.addCookie('password', this.formInline.password, expire);
+
+
+            window.location.href = url;
+
+            /*setTimeout(() => {
+              this.$message({
+                message: '登陆成功',
+                type: 'success',
+              });
+              //跳转到对应得workbench
+              //  window.location.href = finalUrl
+            }, 1000);*/
+          })
+        // const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
+        /*if (this.$cookieStore.getCookie('username') && this.$cookieStore.getCookie('password')) {
+        } else {
+          this.$ajax.post(this.$apis.post_auth_signin, this.formInline).then(res => {
+            //设置cookie   name为cookie的名字，value是值，expiredays为过期时间（天数）
+            // const expiredays = new Date(new Date().valueOf()+1*24*60*60*1000*30)
+            console.log(res)
+            this.$cookieStore.addCookie('username', this.formInline.email, expiredays)
+            this.$cookieStore.addCookie('password', this.formInline.password, expiredays)
+            setTimeout(() => {
+              this.$message({
+                message: '登陆成功',
+                type: 'success',
+              });
+              //跳转到对应得workbench
+              // window.location.href = finalUrl
+            }, 1000);
+          })
+        }*/
       },
     }
   }
 </script>
 <style scoped lang="less">
   .login {
-    .login-link {
-      display:flex;
-      justify-content: flex-end;
-      &.active {
-        justify-content: center;
-      }
-      a {
-        color:#409EFF;
-        font-size:14px;
-        &:hover {
-          opacity: .6;
-        }
-      }
-    }
+
+  .login-link {
+    display: flex;
+    justify-content: flex-end;
+
+  &
+  .active {
+    justify-content: center;
+  }
+
+  a {
+    color: #409EFF;
+    font-size: 14px;
+
+  &
+  :hover {
+    opacity: .6;
+  }
+
+  }
+  }
   }
   .login .ivu-input-group-prepend {
     background-color: #ffffff;
@@ -216,20 +245,24 @@
     margin-top: 10px;
     width: 100%;
     box-sizing: border-box;
-    .from {
-      .from-item {
-        display:flex;
-        align-items:center;
-        margin-bottom:10px;
-        span {
-          width: 100px;
-          font-size:12px;
-          color:#666;
-          text-align:right;
-          padding-right:10px;
-        }
-      }
-    }
+
+  .from {
+
+  .from-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+  span {
+    width: 100px;
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  }
+  }
   }
 
 
