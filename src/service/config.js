@@ -13,15 +13,12 @@ export default {
       BASE_JML: 'http://dev.umeta-facade.ucnholding.com'
     },
     develop: {
-      path: '/static/__project',
-      api: 'http://192.168.11.215:30704'
+      BASE_LYF_signin: 'http://dev.usso-facade.ucnholding.com:18100',
     },
     test: {
-      path: '/static/__project',
       api: 'http://store.test.tailorx.cn/api'
     },
     production: {
-      path: '/static/__project',
       api: 'https://store.tailorx.cn/api'
     }
   }[process.env.NODE_ENV],
