@@ -9,7 +9,7 @@
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.invitationCode')"  prop="invitationCode">
                                     <el-input placeholder="Please input your Invitation code" type="text" v-model="invitationCode" style="max-width:200px" />
-                                    <router-link to="/getInvitationCode" id="a">Go Submit a Request>></router-link>
+                                    <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">Go Submit a Request>></router-link>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -149,17 +149,10 @@ import {Base64} from 'js-base64';
                 callback();
                 }
             };
-            // var checkPhone = (rule, value, callback) => {
-            //     let mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
-            //     let tel =  /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;
-            //     if(!tel.test(value) || !mobile.test(value)){
-            //         return callback(new Error('请填写联系电话(座机格式\'区号-座机号码\')'));
-            //     }
-            // };
             return {
                 single:false,
                 country:[],
-                invitationCode:'cstX1J',
+                invitationCode:'',
                 userInfo:{
                     tenantType:0,
                     country:'',
@@ -269,15 +262,14 @@ import {Base64} from 'js-base64';
         },
         methods: {
              submitForm(formName) {
-                  this.signUp()
-                // this.$refs[formName].validate((valid) => {
-                // if (valid) {
-                //      this.signUp()
-                // } else {
-                //     console.log('error submit!!');
-                //     return false;
-                // }
-                // });
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                     this.signUp()
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+                });
             },
             handleChange(value) {
                 console.log(value)
@@ -309,26 +301,22 @@ import {Base64} from 'js-base64';
                     password: this.userInfo.password,
                     userTel: this.userInfo.userTel
                 }
-                console.log(params)
+                console.log(this.userInfo)
                 this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
-                    console.log(res)
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
                     this.$message({
                         message: '注册成功',
                         type: 'success',
-                        // onClose(){
-                        //      this.$router.push('/');
-                        // }
                     });
                     let  baseUrl =  this.$route.query.redirect
-                    const finalUrl = `${baseUrl}?token=${res.userSessionToken}`
+                    , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(res.userSessionToken)}`;
+                     window.location.href = url;
                 }).catch(res =>{
                     console.log(res)
                 });
             },
             getCompany(){
                 //校验邀请码  
-                  console.log(this.invitationCode)
                 this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.invitationCode}`).then(res =>{
                     if(res.companyType == 3){
                         this.Type = this.optionsService
@@ -355,8 +343,8 @@ import {Base64} from 'js-base64';
             },
         },
         created() {
-             this.getCompany()
-              this.getCountry()
+            this.getCompany()
+            this.getCountry()
         }
     }
 </script>

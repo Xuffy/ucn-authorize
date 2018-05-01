@@ -17,14 +17,14 @@
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.password')" prop="password">
                 <el-input v-model="formInline.password" type="password" placeholder="Password"
-                          style="width:300px"></el-input>
+                          style="width:300px" @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
             <div class="login-link" style="margin-top:50px;">
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;" >
+            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" >
               {{$tc('login.text.loginIn')}}
             </el-button>
             <div class="login-link active">
@@ -39,7 +39,6 @@
     </section>
   </div>
 </template>
-
 <script>
   import config from 'service/config';
   import {Base64} from 'js-base64';
@@ -89,30 +88,18 @@
       judgeCookieSign() {
         let baseUrl = this.$route.query.redirect;
         this.loading2 = true;
-        console.log(this.$route.query.redirect)
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
-
         this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
           .then(data => {
+            console.log(data)
             this.loading2 = false
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
-
-
-            window.location.href = url;
-
-            /*setTimeout(() => {
-              this.$message({
-                message: '登陆成功',
-                type: 'success',
-              });
-              //跳转到对应得workbench
-              //  window.location.href = finalUrl
-            }, 1000);*/
+             window.location.href = url;
           })
       },
     }

@@ -194,15 +194,15 @@
         created() {
               this.getCountry()
             // this.$route.query.type 从url上获取那个端过来进行判断 
-            if(this.$route.query.type == 2){
-                this.companyInfo.companyTypeInfo = this.companyInfo.optionsSupplier
-                 this.partnerType = 2
+            if(this.$route.query.type == 3){
+                  this.companyInfo.companyTypeInfo = this.companyInfo.optionsService
+                this.partnerType = 3
             }else if(this.$route.query.type == 1){
                  this.companyInfo.companyTypeInfo = this.companyInfo.optionsCustomer
                  this.partnerType = 1
             }else{
-                this.companyInfo.companyTypeInfo = this.companyInfo.optionsService
-                this.partnerType = 3
+                 this.companyInfo.companyTypeInfo = this.companyInfo.optionsSupplier
+                 this.partnerType = 2
             }
         },
         methods: {
