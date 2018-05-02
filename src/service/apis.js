@@ -3,13 +3,13 @@ import config from './config';
 
 
 const apis = {
-  post_user_signup: ['/user/sign-up', 'BASE_LYF'],
-  post_user_application: ['/user/application', 'BASE_LYF'],
-  get_user_invitationCode: ['/user/invitation-code/verify', 'BASE_LYF'],
-  post_auth_signin: ['/authentication/sign-in', 'BASE_LYF_signin'],
-  delete_auth_signout: ['/authentication/sign-in', 'BASE_LYF_signin'],
-  get_country: ['/country/all', 'BASE_JML'],
-  get_code: ['/code/all', 'BASE_JML']
+  post_user_signup: ['/user/sign-up', 'UUSER_URL'],
+  post_user_application: ['/user/application', 'UUSER_URL'],
+  get_user_invitationCode: ['/user/invitation-code/verify', 'UUSER_URL'],
+  post_auth_signin: ['/authentication/sign-in', 'USSO_URL'],
+  delete_auth_signout: ['/authentication/sign-in', 'UUSER_URL'],
+  get_country: ['/country/all', 'UMETA_URL'],
+  get_code: ['/code/all', 'UMETA_URL']
 };
 
 

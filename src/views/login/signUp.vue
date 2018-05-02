@@ -357,7 +357,6 @@ import {Base64} from 'js-base64';
         box-sizing: border-box;
         .container {
             min-height:100%;
-            width:100%;
             background: #fff;
             border-radius: 5px;
             padding:10px 40px;
