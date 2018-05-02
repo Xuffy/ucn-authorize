@@ -29,7 +29,7 @@
             </el-button>
             <div class="login-link active">
               <router-link
-                :to="{path:'signUp', query: {type : this.$route.query.type,redirect : this.$route.query.redirect}}">
+                :to="{path:'signUp', query: {type : this.$route.query.type}}">
                 {{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>>
               </router-link>
             </div>
@@ -99,7 +99,8 @@
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
-             window.location.href = url;
+            this.$localStore.set('URL', Base64.decode(baseUrl));
+            window.location.href = url;
           }) 
           .catch((res) => {
             this.loading2 = false

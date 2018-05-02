@@ -212,8 +212,7 @@
                 this.partnerType = 2
             }else{
                 this.companyInfo.companyTypeInfo = this.companyInfo.optionsCustomer
-                this.partnerType = 1
-                 
+                this.partnerType = 1     
             }
         },
         methods: {

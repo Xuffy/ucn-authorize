@@ -133,7 +133,9 @@ import {Base64} from 'js-base64';
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入密码'));
-                } else {
+                } else if(!/^[0-9A-Za-z]{6,15}$/.test(this.userInfo.checkpassword)){
+                      callback(new Error('密码不能少于6位'));
+                }else{
                 if (this.userInfo.checkpassword !== '') {
                     this.$refs.userInfo.validateField('checkpassword');
                 }
@@ -232,10 +234,10 @@ import {Base64} from 'js-base64';
                     ],
                     password:[
                         { required: true, message: '请输入密码', trigger: 'blur' },
-                        { min: 6, validator: validatePass, trigger: 'blur' }
+                        { type: 'string', min: 6, validator: validatePass, trigger: 'blur' }
                     ],
                     userTel:[
-                        // {  required: true, message: '请输入联系方式', trigger: 'blur' },
+                         {  required: true, message: '请输入联系方式', trigger: 'blur' },
                         {  max: 13, message: '长度在13个字符以内', trigger: 'blur,change' }
                     ],
                     checkpassword: [
@@ -308,8 +310,8 @@ import {Base64} from 'js-base64';
                         message: '注册成功',
                         type: 'success',
                     });
-                    let  baseUrl =  this.$route.query.redirect
-                    , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(res.userSessionToken)}`;
+                    let  baseUrl = this.$localStore.get('URL')
+                    , url = `${baseUrl}?token=${Base64.encode(res.userSessionToken)}`;
                      window.location.href = url;
                 }).catch(res =>{
                     console.log(res)
@@ -350,7 +352,6 @@ import {Base64} from 'js-base64';
             },
         },
         created() {
-            // this.getCompany()
             this.getCountry()
         }
     }
