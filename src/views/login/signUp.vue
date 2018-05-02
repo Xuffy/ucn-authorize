@@ -8,7 +8,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.invitationCode')"  prop="invitationCode">
-                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="invitationCode" style="max-width:200px" @change="getCompany()"/>
+                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="userInfo.invitationCode " style="max-width:200px" @change="getCompany()"/>
                                     <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">Go Submit a Request>></router-link>
                                 </el-form-item>
                             </el-col>
@@ -152,7 +152,6 @@ import {Base64} from 'js-base64';
             return {
                 single:false,
                 country:[],
-                invitationCode:'',
                 userInfo:{
                     tenantType:0,
                     country:'',
@@ -168,6 +167,7 @@ import {Base64} from 'js-base64';
                     country:'',
                     city:'',
                     address:'',
+                    invitationCode:'',
                 },
                 Type:[],
                 optionsSupplier:
@@ -295,7 +295,7 @@ import {Base64} from 'js-base64';
                     country: this.userInfo.country,
                     city: this.userInfo.city,
                     address: this.userInfo.address,
-                    invitationCode: this.invitationCode,
+                    invitationCode: this.userInfo.invitationCode,
                     userName: this.userInfo.userName,
                     email: this.userInfo.useremail,
                     password: this.userInfo.password,
@@ -316,8 +316,8 @@ import {Base64} from 'js-base64';
                 });
             },
             getCompany(){
-                //校验邀请码  
-                this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.invitationCode}`).then(res =>{
+                //校验邀请码
+                this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res =>{
                     if(res.companyType == 3){
                         this.Type = this.optionsService
                         console.log(this.Type)
@@ -326,8 +326,15 @@ import {Base64} from 'js-base64';
                     }else{
                         this.Type = this.optionsCustomer
                     }
-                    console.log(res)
-                    this.userInfo = res
+                    this.userInfo.address = res.address
+                    this.userInfo.city = res.city
+                    this.userInfo.companyType = res.companyType
+                    this.userInfo.country = res.country
+                    this.userInfo.email = res.email
+                    this.userInfo.name = res.name
+                    this.userInfo.partnerType = res.partnerType
+                    this.userInfo.tel = res.tel
+                    this.userInfo.website = res.website
                 }).catch(res =>{
                     console.log('请求失败')
                 });

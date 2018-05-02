@@ -8,7 +8,7 @@ const apis = {
   get_user_invitationCode: ['/user/invitation-code/verify', 'UUSER_URL'],
   post_auth_signin: ['/authentication/sign-in', 'USSO_URL'],
   delete_auth_signout: ['/authentication/sign-in', 'UUSER_URL'],
-  get_country: ['/country/all', 'UMETA_URL'],
+  get_country: ['/country/countryall', 'UMETA_URL'],
   get_code: ['/code/all', 'UMETA_URL']
 };
 
