@@ -10,10 +10,16 @@ export default {
       BASE_LYF: 'http://dev.uuser-facade.ucnholding.com:18100',
       BASE_LYF_signin: 'http://dev.usso-facade.ucnholding.com:18100',
       MOCK: 'https://www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api',
-      BASE_JML: 'http://dev.umeta-facade.ucnholding.com'
+      BASE_JML: 'http://dev.umeta-facade.ucnholding.com',
+
+      USSO_URL: 'http://dev.usso-facade.ucnholding.com:18100', // sso 服务
+      UUSER_URL: 'http://dev.uuser-facade.ucnholding.com:18100', // 用户中心
+      UMETA_URL: 'http://dev.umeta-facade.ucnholding.com:18100', // 元数据
     },
     develop: {
-      BASE_LYF_signin: 'http://dev.usso-facade.ucnholding.com:18100',
+      USSO_URL: 'http://dev.usso-facade.ucnholding.com:18100', // sso 服务
+      UUSER_URL: 'http://dev.uuser-facade.ucnholding.com:18100', // 用户中心
+      UMETA_URL: 'http://dev.umeta-facade.ucnholding.com:18100', // 元数据
     },
     test: {
       api: 'http://store.test.tailorx.cn/api'
