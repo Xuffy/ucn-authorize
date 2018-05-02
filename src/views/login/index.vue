@@ -100,7 +100,10 @@
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
              window.location.href = url;
-          })
+          }) 
+          .catch((res) => {
+            this.loading2 = false
+          });
       },
     }
   }
