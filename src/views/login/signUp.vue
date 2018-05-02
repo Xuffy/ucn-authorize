@@ -8,7 +8,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.invitationCode')"  prop="invitationCode">
-                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="invitationCode" style="max-width:200px" />
+                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="invitationCode" style="max-width:200px" @change="getCompany()"/>
                                     <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">Go Submit a Request>></router-link>
                                 </el-form-item>
                             </el-col>
@@ -343,7 +343,7 @@ import {Base64} from 'js-base64';
             },
         },
         created() {
-            this.getCompany()
+            // this.getCompany()
             this.getCountry()
         }
     }
