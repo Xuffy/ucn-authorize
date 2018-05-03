@@ -133,7 +133,7 @@ import {Base64} from 'js-base64';
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入密码'));
-                } else if(!/^[0-9A-Za-z]{6,15}$/.test(this.userInfo.checkpassword)){
+                } else if(!/^[0-9A-Za-z]{6,}$/.test(this.userInfo.password)){
                       callback(new Error('密码不能少于6位'));
                 }else{
                 if (this.userInfo.checkpassword !== '') {
