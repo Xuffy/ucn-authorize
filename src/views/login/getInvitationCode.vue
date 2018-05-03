@@ -200,9 +200,15 @@
             }else if(this.$route.query.type == 1){
                  this.companyInfo.companyTypeInfo = this.companyInfo.optionsCustomer
                  this.partnerType = 1
-            }else{
+            }else if(this.$route.query.type == 2){
                  this.companyInfo.companyTypeInfo = this.companyInfo.optionsSupplier
                  this.partnerType = 2
+            }else{
+                this.$message({
+                    showClose: true,
+                    message: 'type为空！',
+                    center: true
+                });
             }
         },
         methods: {
