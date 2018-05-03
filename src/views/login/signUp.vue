@@ -21,7 +21,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.email')" prop="useremail">
-                                    <el-input placeholder="xxxx@xxx.com" type="email" v-model="userInfo.useremail" clearable style="max-width:200px" />
+                                    <el-input placeholder="xxxx@xxx.com" type="email"  v-model="userInfo.useremail" clearable style="max-width:200px" />
                                     <span>This will be your log in email</span>
                                 </el-form-item>
                             </el-col>
@@ -132,9 +132,11 @@ import {Base64} from 'js-base64';
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('请输入密码'));
-                } else if(!/^[0-9A-Za-z]{6,}$/.test(this.userInfo.password)){
-                      callback(new Error('密码不能少于6位'));
+                    callback(new Error('请输入密码'));
+                }else if(this.userInfo.password.indexOf(" ")>=0){
+                     callback(new Error('密码不能有空格'));
+                } else if(!/^[0-9A-Za-z!@#$%*+-^]{6,}$/.test(this.userInfo.password)){
+                    callback(new Error('密码不能少于6位'));
                 }else{
                 if (this.userInfo.checkpassword !== '') {
                     this.$refs.userInfo.validateField('checkpassword');
