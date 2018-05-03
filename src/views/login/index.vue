@@ -93,7 +93,6 @@
         }
         this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
           .then(data => {
-            console.log(data)
             this.loading2 = false
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
