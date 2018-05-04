@@ -279,7 +279,7 @@ import {Base64} from 'js-base64';
                 console.log(value)
             },
             backSignIn(){
-                this.$router.push('/');
+                window.history.go(-1)
             },
             agreement(val){
                 //跳转协议

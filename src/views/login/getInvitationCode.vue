@@ -107,6 +107,7 @@
         data() {
             return {
                 single:false,
+                isDisable: false,
                 country:[],
                 countryCode:'',
                 selectedOptions: [],
@@ -213,7 +214,7 @@
         },
         methods: {
             backSignUp(){
-                this.$router.push('/signUp');
+              window.history.go(-1)
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -246,7 +247,6 @@
                     city: this.companyInfo.city || '',
                     address: this.companyInfo.address || '',
                 }
-                console.log(params)
                this.$ajax.post(this.$apis.post_user_application, params)
                 .then(res => {
                     this.$message({
