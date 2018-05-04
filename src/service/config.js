@@ -17,9 +17,9 @@ export default {
       UMETA_URL: '//192.168.51.248:11005', // 元数据
     },
     develop: {
-      USSO_URL: '//dev.usso-facade.ucnscm.com', // sso 服务
-      UUSER_URL: '//dev.uuser-facade.ucnscm.com', // 用户中心
-      UMETA_URL: '//dev.umeta-facade.ucnscm.com', // 元数据
+      USSO_URL: '//192.168.51.248:11006', // sso 服务
+      UUSER_URL: '//192.168.51.248:11004', // 用户中心
+      UMETA_URL: '//192.168.51.248:11005', // 元数据
     },
     test: {
       USSO_URL: '//test.usso-facade.ucnscm.cn', // sso 服务
