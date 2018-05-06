@@ -11,12 +11,12 @@
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                <el-input v-model="formInline.email" type="email" placeholder="Email" style="width:300px"></el-input>
+                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width:300px"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.password')" prop="password">
-                <el-input v-model="formInline.password" type="password" placeholder="Password"
+                <el-input v-model="formInline.password" type="password" :placeholder="$tc('login.placeholder.password')"
                           style="width:300px" @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
@@ -99,7 +99,7 @@
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
             this.$localStore.set('URL', Base64.decode(baseUrl));
-            window.location.href = url;
+             window.location.href = url;
           }) 
           .catch((res) => {
             this.loading2 = false

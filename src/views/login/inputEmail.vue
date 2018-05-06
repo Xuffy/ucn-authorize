@@ -6,7 +6,7 @@
                 <el-input v-model="emailFrom.email" type="email" placeholder="Please input the email" style="width: 200px"></el-input>
             </div> -->
             <el-form-item :label="$tc('login.userInformation.email')" prop="email" class="inputBox center" >
-                <el-input v-model="emailFrom.email" type="email" placeholder="Please input the email" style="width: 200px"></el-input>
+                <el-input v-model="emailFrom.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width: 200px"></el-input>
             </el-form-item>
 
             <div class="inputBox">

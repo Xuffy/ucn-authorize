@@ -18,7 +18,7 @@ const companyInformation = {
 };
 
 const text = {
-    RequestToGetInvitationCode: "RequestToGetInvitationCode",
+    RequestToGetInvitationCode: "Request To Get Invitation Code",
     reSendMail: "Re - send mail",
     goSignInNow: "Go sign in now",
     signIn: "Sign in",
@@ -53,10 +53,27 @@ const btn = {
     ok: "ok"
 };
 
+const placeholder = {
+    invitationCode: "Please input your Invitation code",
+    username: "Input your username",
+    email: "xxxx@xxx.com",
+    password: "Input your password",
+    tel: "Please input your contact number",
+    checkpassword: "Input your password again",
+    companyName: "Input company name",
+    companyType: "Select company type",
+    contactNumber: "Input contact number",
+    website: "Input company website",
+    country: "Select country",
+    city: "Input city",
+    address: "Input address"
+};
+
 export default {
     userInformation,
     companyInformation,
     getInvitationCode,
     btn,
-    text
+    text,
+    placeholder
 }

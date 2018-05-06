@@ -8,7 +8,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.invitationCode')"  prop="invitationCode">
-                                    <el-input placeholder="Please input your Invitation code" type="text" v-model="userInfo.invitationCode " style="max-width:200px" @change="getCompany()"/>
+                                    <el-input :placeholder="$tc('login.placeholder.invitationCode')" type="text" v-model="userInfo.invitationCode " style="max-width:200px" @change="getCompany()"/>
                                     <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">Go Submit a Request>></router-link>
                                 </el-form-item>
                             </el-col>
@@ -16,12 +16,12 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.userName')" prop="userName">
-                                     <el-input placeholder="nput your username" type="text" v-model="userInfo.userName" clearable style="max-width:200px" />
+                                     <el-input :placeholder="$tc('login.placeholder.username')" type="text" v-model="userInfo.userName" clearable style="max-width:200px" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.email')" prop="useremail">
-                                    <el-input placeholder="xxxx@xxx.com" type="email"  v-model="userInfo.useremail" clearable style="max-width:200px" />
+                                    <el-input :placeholder="$tc('login.placeholder.email')" type="email"  v-model="userInfo.useremail" clearable style="max-width:200px" />
                                     <span>This will be your log in email</span>
                                 </el-form-item>
                             </el-col>
@@ -29,19 +29,19 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.password')" prop="password">
-                                    <el-input placeholder="Input your password" type="password" clearable v-model="userInfo.password" style="max-width:200px" />
+                                    <el-input :placeholder="$tc('login.placeholder.password')" type="password" clearable v-model="userInfo.password" style="max-width:200px" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item :label="$tc('login.userInformation.tel')" prop="userTel">
-                                     <el-input placeholder="IPlease input your contact number" type="text" v-model="userInfo.userTel" style="max-width:200px" />
+                                     <el-input :placeholder="$tc('login.placeholder.tel')" type="text" v-model="userInfo.userTel" style="max-width:200px" />
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item prop="checkpassword">
-                                    <el-input placeholder="Input your password again" type="password" clearable v-model="userInfo.checkpassword" style="max-width:200px" />
+                                    <el-input :placeholder="$tc('login.placeholder.checkpassword')" type="password" clearable v-model="userInfo.checkpassword" style="max-width:200px" />
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -51,12 +51,12 @@
                                  <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.companyName')" prop="name">
-                                            <el-input placeholder="Input company name" type="text" v-model="userInfo.name" clearable style="max-width:200px" />
+                                            <el-input :placeholder="$tc('login.placeholder.companyName')" type="text" v-model="userInfo.name" clearable style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.companyType')" prop="companyType">
-                                            <el-select v-model="userInfo.companyTypeN" placeholder="Select companyType" style="width: 200px">
+                                            <el-select v-model="userInfo.companyTypeN" :placeholder="$tc('login.placeholder.companyType')" style="width: 200px">
                                                 <el-option
                                                     v-for="item in Type"
                                                     :key="item.value"
@@ -71,19 +71,19 @@
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.contactNumber')" prop="tel">
-                                            <el-input placeholder="Input company name" type="text" v-model="userInfo.tel" style="max-width:200px" />
+                                            <el-input :placeholder="$tc('login.placeholder.contactNumber')" type="text" v-model="userInfo.tel" style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.website')" >
-                                            <el-input placeholder="Input company website" v-model="userInfo.website" type="url"  clearable style="max-width:200px" />
+                                            <el-input :placeholder="$tc('login.placeholder.website')" v-model="userInfo.website" type="url"  clearable style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.country')">
-                                            <el-select v-model="userInfo.country" placeholder="请选择"  style="width: 200px">
+                                            <el-select v-model="userInfo.country" :placeholder="$tc('login.placeholder.country')"  style="width: 200px">
                                                 <el-option
                                                 v-for="item in country"
                                                 :key="item.code"
@@ -96,14 +96,14 @@
                                     </el-col>
                                    <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.city')">
-                                            <el-input placeholder="Please city" type="text"  v-model="userInfo.city"  style="max-width:200px" />
+                                            <el-input :placeholder="$tc('login.placeholder.city')" type="text"  v-model="userInfo.city"  style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item :label="$tc('login.getInvitationCode.address')">
-                                            <el-input placeholder="Please address" type="text" v-model="userInfo.address" style="max-width:200px" />
+                                            <el-input :placeholder="$tc('login.placeholder.address')" type="text" v-model="userInfo.address" style="max-width:200px" />
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -305,7 +305,6 @@ import {Base64} from 'js-base64';
                     password: this.userInfo.password,
                     userTel: this.userInfo.userTel
                 }
-                console.log(this.userInfo)
                 this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
                     this.$message({
@@ -322,14 +321,19 @@ import {Base64} from 'js-base64';
             getCompany(){
                 //校验邀请码
                 this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res =>{
-                    if(res.companyType == 3){
-                        this.Type = this.optionsService
-                        console.log(this.Type)
-                    }else if(res.companyType == 2){
-                        this.Type = this.optionsSupplier
-                    }else{
-                        this.Type = this.optionsCustomer
-                    }
+                     switch (res.companyType)
+                        {
+                            case 1:
+                                this.Type = this.optionsCustomer;
+                                break;
+                            case 2:
+                                this.Type = this.optionsSupplier;
+                                break;
+                            case 3:
+                                this.Type = this.optionsService;
+                                break;
+                        }
+                        //YsOPY3
                     this.userInfo.address = res.address
                     this.userInfo.city = res.city
                     this.userInfo.companyType = res.companyType
@@ -339,6 +343,7 @@ import {Base64} from 'js-base64';
                     this.userInfo.partnerType = res.partnerType
                     this.userInfo.tel = res.tel
                     this.userInfo.website = res.website
+                    this.userInfo.companyTypeN = this.$localStore.get('type')
                 }).catch(res =>{
                     console.log('请求失败')
                 });
@@ -348,7 +353,6 @@ import {Base64} from 'js-base64';
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res    
                 }).catch(err=>{
-                    console.log(err)
                     console.log('请求失败')
                 })
             },

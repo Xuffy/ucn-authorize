@@ -13,10 +13,10 @@
         
         <el-form :label-position="labelPosition" class="inputBox center" label-width="200px"  :model="password" :rules="rules" ref="password">
             <el-form-item :label="$tc('login.text.newPassword')" prop="pass">
-                <el-input v-model="password.pass" type="password" placeholder="Please input"  style="width:200px;"></el-input>
+                <el-input v-model="password.pass" type="password" :placeholder="$tc('login.placeholder.password')"  style="width:200px;"></el-input>
             </el-form-item>
             <el-form-item :label="$tc('login.text.repeatThePassword')" prop="checkPass">
-                <el-input v-model="password.checkPass" type="password" placeholder="Please input"  style="width:200px;"></el-input>
+                <el-input v-model="password.checkPass" type="password" :placeholder="$tc('login.placeholder.password')"  style="width:200px;"></el-input>
             </el-form-item>
         </el-form>
          <div class="inputBox btn">
