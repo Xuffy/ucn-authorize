@@ -155,7 +155,7 @@
                 rules: {
                     companyName:[
                         { required: true, message: '请输入公司名称', trigger: 'blur' },
-                        { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur,change' }
+                        { max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur,change' }
                     ],
                     type:[
                         { required: true, message: '请输入公司类型', trigger: 'blur' },
@@ -199,8 +199,8 @@
             },
             istype(){
                  // this.$route.query.type 从url上获取那个端过来进行判断 
-                 this.$route.query.type = 1
-                 switch (this.$route.query.type)
+                //  this.$route.query.type = 1
+                switch (Number(this.$route.query.type))
                 {
                     case 1:
                         this.companyTypeInfo = this.optionsCustomer;

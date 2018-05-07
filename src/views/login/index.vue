@@ -69,6 +69,7 @@
       this.$sessionStore.clearAll();
       this.formInline.email = this.$cookieStore.getCookie('username');
       this.formInline.password = this.$cookieStore.getCookie('password');
+      this.$localStore.set('URL', Base64.decode(this.$route.query.redirect));
     },
     methods: {
       handleSubmit(name) {
@@ -98,8 +99,11 @@
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
-            this.$localStore.set('URL', Base64.decode(baseUrl));
-             window.location.href = url;
+            if(data.partnerType == this.$route.query.type){
+               window.location.href = url;
+            }else{
+              this.$message({message: '用户不存在！'});
+            }            
           }) 
           .catch((res) => {
             this.loading2 = false

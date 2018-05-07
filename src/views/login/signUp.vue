@@ -55,7 +55,7 @@
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item :label="$tc('login.getInvitationCode.companyType')" prop="companyType">
+                                        <el-form-item :label="$tc('login.getInvitationCode.companyType')" prop="companyTypeN">
                                             <el-select v-model="userInfo.companyTypeN" :placeholder="$tc('login.placeholder.companyType')" style="width: 200px">
                                                 <el-option
                                                     v-for="item in Type"
@@ -225,7 +225,7 @@ import {Base64} from 'js-base64';
                 rules: {
                     invitationCode:[
                         { required: true, message: '请输入邀请码', trigger: 'blur' },
-                        { min: 3, max:6, message: '长度在 3 到 6 个字符', trigger: 'blur,change' }
+                        { min: 6, max:6, message: '长度在 6 到 6 个字符', trigger: 'blur,change' }
                     ],
                     userName:[
                         { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -248,9 +248,9 @@ import {Base64} from 'js-base64';
                     ],
                     name:[
                         { required: true, message: '请输入公司名称', trigger: 'blur' },
-                        { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur,change' }
+                        { max: 100, message: '长度在 1 到 100个字符', trigger: 'blur,change' }
                     ],
-                    companyType:[
+                    companyTypeN:[
                         { required: true, message: '请输入公司类型', trigger: 'blur' },
                     ],
                     tel: [
@@ -291,8 +291,8 @@ import {Base64} from 'js-base64';
                 //注册
                  const params = {
                     tenantType: 0,
-                    partnerType: this.userInfo.companyType,
-                    companyType: this.userInfo.companyType,
+                    partnerType: this.userInfo.companyType || this.$route.query.type,
+                    companyType: this.userInfo.companyType || this.$route.query.type,
                     companyName: this.userInfo.name,
                     website: this.userInfo.website,
                     companyTel: this.userInfo.tel,
@@ -307,13 +307,17 @@ import {Base64} from 'js-base64';
                 }
                 this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
-                    this.$message({
-                        message: '注册成功',
-                        type: 'success',
-                    });
-                    let  baseUrl = this.$localStore.get('URL')
-                    , url = `${baseUrl}?token=${Base64.encode(res.userSessionToken)}`;
-                     window.location.href = url;
+                    if(res.partnerType == this.$route.query.type){
+                        this.$message({
+                            message: '注册成功',
+                            type: 'success',
+                        });
+                        let  baseUrl = this.$localStore.get('URL')
+                        , url = `${baseUrl}?token=${Base64.encode(res.userSessionToken)}`;
+                        window.location.href = url;
+                    }else{
+                        this.$message({message: '用户不存在！'});
+                    } 
                 }).catch(res =>{
                     console.log(res)
                 });
@@ -321,29 +325,21 @@ import {Base64} from 'js-base64';
             getCompany(){
                 //校验邀请码
                 this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res =>{
-                     switch (res.companyType)
-                        {
-                            case 1:
-                                this.Type = this.optionsCustomer;
-                                break;
-                            case 2:
-                                this.Type = this.optionsSupplier;
-                                break;
-                            case 3:
-                                this.Type = this.optionsService;
-                                break;
-                        }
+                    if(res.partnerType == this.$route.query.type){
                         //YsOPY3
-                    this.userInfo.address = res.address
-                    this.userInfo.city = res.city
-                    this.userInfo.companyType = res.companyType
-                    this.userInfo.country = res.country
-                    this.userInfo.email = res.email
-                    this.userInfo.name = res.name
-                    this.userInfo.partnerType = res.partnerType
-                    this.userInfo.tel = res.tel
-                    this.userInfo.website = res.website
-                    this.userInfo.companyTypeN = this.$localStore.get('type')
+                        this.userInfo.address = res.address
+                        this.userInfo.city = res.city
+                        this.userInfo.companyType = res.companyType
+                        this.userInfo.country = res.country
+                        this.userInfo.email = res.email
+                        this.userInfo.name = res.name
+                        this.userInfo.partnerType = res.partnerType
+                        this.userInfo.tel = res.tel
+                        this.userInfo.website = res.website
+                        this.userInfo.companyTypeN = this.$localStore.get('type')
+                     }else{
+                          this.$message({message: '邀请码无效！'});
+                     }
                 }).catch(res =>{
                     console.log('请求失败')
                 });
@@ -356,9 +352,24 @@ import {Base64} from 'js-base64';
                     console.log('请求失败')
                 })
             },
+            istype(){
+                switch (Number(this.$route.query.type))
+                {
+                    case 1:
+                        this.Type = this.optionsCustomer;
+                        break;
+                    case 2:
+                        this.Type = this.optionsSupplier;
+                        break;
+                    case 3:
+                        this.Type = this.optionsService;
+                        break;
+                }
+            },
         },
         created() {
-            this.getCountry()
+            this.getCountry();
+            this.istype();
         }
     }
 </script>
