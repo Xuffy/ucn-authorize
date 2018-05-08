@@ -1,16 +1,5 @@
 <template>
     <div class="input-email">
-        <!-- <div class="inputBox center">
-            <div class="form-input">
-                <label for="Email：">{{ $t('login.text.newPassword') }}:</label>
-                <el-input v-model="password.pass" type="password" style="width:200px;" placeholder="please input"></el-input>
-            </div>
-            <div class="form-input">
-                <label for="Email：">{{ $t('login.text.repeatThePassword') }}：</label>
-                <el-input v-model="password.checkPass" type="password" style="width:200px;" placeholder="please input"></el-input>
-            </div>
-        </div> -->
-        
         <el-form :label-position="labelPosition" class="inputBox center" label-width="200px"  :model="password" :rules="rules" ref="password">
             <el-form-item :label="$tc('login.text.newPassword')" prop="pass">
                 <el-input v-model="password.pass" type="password" :placeholder="$tc('login.placeholder.password')"  style="width:200px;"></el-input>

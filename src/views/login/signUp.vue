@@ -225,7 +225,7 @@ import {Base64} from 'js-base64';
                 rules: {
                     invitationCode:[
                         { required: true, message: '请输入邀请码', trigger: 'blur' },
-                        { min: 6, max:6, message: '长度在 6 到 6 个字符', trigger: 'blur,change' }
+                        { min: 6, max:6, message: '长度为6个字符', trigger: 'blur,change' }
                     ],
                     userName:[
                         { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -336,12 +336,13 @@ import {Base64} from 'js-base64';
                         this.userInfo.partnerType = res.partnerType
                         this.userInfo.tel = res.tel
                         this.userInfo.website = res.website
+                        console.log(this.$localStore.get('type'))
                         this.userInfo.companyTypeN = this.$localStore.get('type')
                      }else{
                           this.$message({message: '邀请码无效！'});
                      }
                 }).catch(res =>{
-                    console.log('请求失败')
+                    console.log(res)
                 });
             },
             getCountry(){
@@ -349,7 +350,7 @@ import {Base64} from 'js-base64';
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res    
                 }).catch(err=>{
-                    console.log('请求失败')
+                    console.log(err)
                 })
             },
             istype(){

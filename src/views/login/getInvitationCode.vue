@@ -194,7 +194,7 @@
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res;     
                 }).catch(err=>{
-                    console.log('请求失败')
+                    console.log(err)
                 })
             },
             istype(){
