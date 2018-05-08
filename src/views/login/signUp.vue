@@ -20,8 +20,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item :label="$tc('login.userInformation.email')" prop="useremail">
-                                    <el-input :placeholder="$tc('login.placeholder.email')" type="email"  v-model="userInfo.useremail" clearable style="max-width:200px" />
+                                <el-form-item :label="$tc('login.userInformation.email')" prop="email">
+                                    <el-input :placeholder="$tc('login.placeholder.email')" type="email"  v-model="userInfo.email" clearable style="max-width:200px" />
                                     <span>This will be your log in email</span>
                                 </el-form-item>
                             </el-col>
@@ -135,7 +135,7 @@ import {Base64} from 'js-base64';
                     callback(new Error('请输入密码'));
                 }else if(this.userInfo.password.indexOf(" ")>=0){
                      callback(new Error('密码不能有空格'));
-                } else if(!/^[0-9A-Za-z!@#$%*+-^]{6,}$/.test(this.userInfo.password)){
+                } else if(!/^[^\u4e00-\u9fa5]{6,}$/.test(this.userInfo.password)){
                     callback(new Error('密码不能少于6位'));
                 }else{
                 if (this.userInfo.checkpassword !== '') {
@@ -160,7 +160,7 @@ import {Base64} from 'js-base64';
                     tenantType:0,
                     country:'',
                     userName:'',
-                    useremail:'',
+                    email:'',
                     password:'',
                     userTel:'',
                     checkpassword:'',
@@ -230,7 +230,7 @@ import {Base64} from 'js-base64';
                     userName:[
                         { required: true, message: '请输入用户名', trigger: 'blur' },
                     ],
-                    useremail: [
+                    email: [
                         { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                         { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
                     ],
@@ -301,7 +301,7 @@ import {Base64} from 'js-base64';
                     address: this.userInfo.address,
                     invitationCode: this.userInfo.invitationCode,
                     userName: this.userInfo.userName,
-                    email: this.userInfo.useremail,
+                    email: this.userInfo.email,
                     password: this.userInfo.password,
                     userTel: this.userInfo.userTel
                 }
