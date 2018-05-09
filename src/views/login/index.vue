@@ -11,7 +11,8 @@
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width:300px"></el-input>
+                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width:300px"
+                 @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
