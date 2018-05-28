@@ -154,19 +154,19 @@
                     }],
                 rules: {
                     companyName:[
-                        { required: true, message: '请输入公司名称', trigger: 'blur' },
-                        { max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur,change' }
+                        { required: true, message: this.$tc('login.prompt.companyName'), trigger: 'blur' },
+                        { max: 100, message:  this.$tc('login.prompt.companyNamelength'), trigger: 'blur,change' }
                     ],
                     type:[
-                        { required: true, message: '请输入公司类型', trigger: 'blur' },
+                        { required: true, message: this.$tc('login.prompt.companyType'), trigger: 'blur' },
                     ],
                     companyTel: [
-                        {  required: true, message: '请输入联系方式', trigger: 'blur' },
-                        {  max: 13, message: '长度在13个字符以内', trigger: 'blur,change' }
+                        {  required: true, message: this.$tc('login.prompt.inputYourTel'), trigger: 'blur' },
+                        {  max: 13, message: this.$tc('login.prompt.telLength'), trigger: 'blur,change' }
                     ],
                     email: [
-                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+                        { required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'blur' },
+                        { type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change' }
                     ],
                 }
             }
@@ -212,7 +212,7 @@
                         this.companyTypeInfo = this.optionsService;
                         break;
                     default:
-                         this.$message({message: 'type为空！' });
+                         this.$message({message: this.$tc('login.prompt.emptyType') });
                 
                 }
             },
@@ -223,7 +223,7 @@
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
                     this.isDisable = true;
-                    this.$message({message: '提交成功，我们将尽快联系您！'});
+                    this.$message({message: this.$tc('login.prompt.signInSuccess')});
                 }).catch(res =>{
                     this.isDisable = false;
                 });   

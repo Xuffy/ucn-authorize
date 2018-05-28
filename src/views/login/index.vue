@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-top"></div>
-    <section id="login-app" class="login-box" v-loading="loading2" element-loading-text="登陆加载中">
+    <section id="login-app" class="login-box">
       <div style="text-align: center;">
         <i class="logo"></i>
         <span class="title">{{ $tc('login.text.signIn') }}</span>
@@ -25,7 +25,7 @@
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" >
+            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" v-loading="loading2" >
               {{$tc('login.text.loginIn')}}
             </el-button>
             <div class="login-link active">
@@ -55,12 +55,12 @@
         },
         ruleInline: {
           email: [
-            {required: true, message: '请输入邮箱地址', trigger: 'change'},
-            {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
+            {required: true, message:this.$tc('login.prompt.inputYourEmail'), trigger: 'change'},
+            {type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change'}
           ],
           password: [
-            {required: true, message: '请输入密码', trigger: 'change'},
-            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'change'}
+            {required: true, message: this.$tc('login.prompt.inputYourPassword'), trigger: 'change'},
+            {type: 'string', min: 6, message: this.$tc('login.prompt.passwordLength'), trigger: 'change'}
           ]
         }
       }
@@ -79,7 +79,7 @@
             this.judgeCookieSign()
           } else {
             this.$message({
-              message: '请输入正确的用户名密码！',
+              message: this.$tc('login.prompt.correctUserNamePassword'),
               type: 'warning',
             });
             return false;
@@ -90,6 +90,7 @@
       judgeCookieSign() {
         let baseUrl = this.$route.query.redirect;
         this.loading2 = true;
+        this.$message({message:this.$tc('login.prompt.loading')});
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
@@ -103,7 +104,7 @@
             if(data.partnerType == this.$route.query.type){
                window.location.href = url;
             }else{
-              this.$message({message: '用户不存在！'});
+              this.$message({message:this.$tc('login.prompt.userNoExist')});
             }            
           }) 
           .catch((res) => {

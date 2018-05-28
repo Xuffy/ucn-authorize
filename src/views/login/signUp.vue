@@ -132,11 +132,11 @@ import {Base64} from 'js-base64';
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请输入密码'));
+                    callback(new Error(this.$tc('login.prompt.inputYourPassword')));
                 }else if(this.userInfo.password.indexOf(" ")>=0){
-                     callback(new Error('密码不能有空格'));
+                     callback(new Error(this.$tc('login.prompt.passwordsCannotHaveSpaces')));
                 } else if(!/^[^\u4e00-\u9fa5]{6,}$/.test(this.userInfo.password)){
-                    callback(new Error('密码不能少于6位'));
+                    callback(new Error(this.$tc('login.prompt.passwordLength')));
                 }else{
                 if (this.userInfo.checkpassword !== '') {
                     this.$refs.userInfo.validateField('checkpassword');
@@ -146,9 +146,9 @@ import {Base64} from 'js-base64';
             };
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('请再次输入密码'));
+                callback(new Error(this.$tc('login.prompt.checkpassword')));
                 } else if (value !== this.userInfo.password) {
-                callback(new Error('两次输入密码不一致!'));
+                callback(new Error(this.$tc('login.prompt.passwordMistake')));
                 } else {
                 callback();
                 }
@@ -224,38 +224,38 @@ import {Base64} from 'js-base64';
                 }],
                 rules: {
                     invitationCode:[
-                        { required: true, message: '请输入邀请码', trigger: 'blur' },
-                        { min: 6, max:6, message: '长度为6个字符', trigger: 'blur,change' }
+                        { required: true, message: this.$tc('login.prompt.invitationCode'), trigger: 'blur' },
+                        { min: 6, max:6, message: this.$tc('login.prompt.sixLength'), trigger: 'blur,change' }
                     ],
                     userName:[
-                        { required: true, message: '请输入用户名', trigger: 'blur' },
+                        { required: true, message: this.$tc('login.prompt.inputYourUserName'), trigger: 'blur' },
                     ],
                     email: [
-                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+                        { required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'blur' },
+                        { type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change' }
                     ],
                     password:[
-                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { required: true, message: this.$tc('login.prompt.inputYourPassword'), trigger: 'blur' },
                         { type: 'string', min: 6, validator: validatePass, trigger: 'blur' }
                     ],
                     userTel:[
-                         {  required: true, message: '请输入联系方式', trigger: 'blur' },
-                        {  max: 13, message: '长度在13个字符以内', trigger: 'blur,change' }
+                         {  required: true, message: this.$tc('login.prompt.inputYourTel'), trigger: 'blur' },
+                        {  max: 13, message: this.$tc('login.prompt.telLength'), trigger: 'blur,change' }
                     ],
                     checkpassword: [
-                        { required: true, message: '请再次输入密码', trigger: 'blur' },
+                        { required: true, message: this.$tc('login.prompt.checkpassword'), trigger: 'blur' },
                         { validator: validatePass2, trigger: 'blur' }
                     ],
                     name:[
-                        { required: true, message: '请输入公司名称', trigger: 'blur' },
-                        { max: 100, message: '长度在 1 到 100个字符', trigger: 'blur,change' }
+                        { required: true, message: this.$tc('login.prompt.companyName'), trigger: 'blur' },
+                        { max: 100, message: this.$tc('login.prompt.companyNamelength'), trigger: 'blur,change' }
                     ],
                     companyTypeN:[
-                        { required: true, message: '请输入公司类型', trigger: 'blur' },
+                        { required: true, message: this.$tc('login.prompt.companyType'), trigger: 'blur' },
                     ],
                     tel: [
-                        {  required: true, message: '请输入联系方式', trigger: 'blur' },
-                        {  max: 13, message: '长度在13个字符以内', trigger: 'blur,change' }
+                        {  required: true, message: this.$tc('login.prompt.inputYourTel'), trigger: 'blur' },
+                        {  max: 13, message: this.$tc('login.prompt.telLength'), trigger: 'blur,change' }
                     ],
                     // email: [
                     //     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -309,14 +309,14 @@ import {Base64} from 'js-base64';
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
                     if(res.partnerType == this.$route.query.type){
                         this.$message({
-                            message: '注册成功',
+                            message: this.$tc('login.prompt.signUpSuccess'),
                             type: 'success',
                         });
                         let  baseUrl = this.$localStore.get('URL')
                         , url = `${baseUrl}?token=${Base64.encode(res.userSessionToken)}`;
                         window.location.href = url;
                     }else{
-                        this.$message({message: '用户不存在！'});
+                        this.$message({message:this.$tc('login.prompt.userNoExist')});
                     } 
                 }).catch(res =>{
                     console.log(res)
@@ -336,10 +336,9 @@ import {Base64} from 'js-base64';
                         this.userInfo.partnerType = res.partnerType
                         this.userInfo.tel = res.tel
                         this.userInfo.website = res.website
-                        console.log(this.$localStore.get('type'))
                         this.userInfo.companyTypeN = this.$localStore.get('type')
                      }else{
-                          this.$message({message: '邀请码无效！'});
+                          this.$message({message:this.$tc('login.prompt.invitationCodeInvalid')});
                      }
                 }).catch(res =>{
                     console.log(res)

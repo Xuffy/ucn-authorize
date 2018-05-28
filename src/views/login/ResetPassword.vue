@@ -20,7 +20,7 @@
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('请输入密码'));
+                callback(new Error(this.$tc('login.prompt.inputYourPassword')));
                 } else {
                 if (this.password.checkPass !== '') {
                     this.$refs.password.validateField('checkPass');
@@ -30,9 +30,9 @@
             };
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error('请再次输入密码'));
+                callback(new Error(this.$tc('login.prompt.checkpassword')));
                 } else if (value !== this.password.pass) {
-                callback(new Error('两次输入的密码不一致，请核对后重新输入'));
+                callback(new Error(this.$tc('login.prompt.passwordMistake')));
                 } else {
                 callback();
                 }
@@ -45,11 +45,11 @@
                 },
                 rules: {
                     pass: [
-                        { min:6, message: '密码最少为6位', trigger: 'blur' },
+                        { min:6, message: this.$tc('login.prompt.passwordLength'), trigger: 'blur' },
                         { validator: validatePass, trigger: 'blur' }
                     ],
                     checkPass: [
-                        { min:6, message: '密码最少为6位', trigger: 'blur' },
+                        { min:6, message: this.$tc('login.prompt.passwordLength'), trigger: 'blur' },
                         { validator: validatePass2, trigger: 'blur' }
                     ],
                 }
