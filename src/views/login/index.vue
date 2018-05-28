@@ -25,7 +25,7 @@
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" v-loading="loading2" >
+            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" :loading="loading2" >
               {{$tc('login.text.loginIn')}}
             </el-button>
             <div class="login-link active">
@@ -78,7 +78,7 @@
           if (valid) {
             this.judgeCookieSign()
           } else {
-            this.$message({
+            this.$message.warning({
               message: this.$tc('login.prompt.correctUserNamePassword'),
               type: 'warning',
             });
@@ -90,7 +90,7 @@
       judgeCookieSign() {
         let baseUrl = this.$route.query.redirect;
         this.loading2 = true;
-        this.$message({message:this.$tc('login.prompt.loading')});
+        // this.$message({message:this.$tc('login.prompt.loading')});
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
@@ -104,9 +104,9 @@
             if(data.partnerType == this.$route.query.type){
                window.location.href = url;
             }else{
-              this.$message({message:this.$tc('login.prompt.userNoExist')});
-            }            
-          }) 
+              this.$message.warning({message:this.$tc('login.prompt.userNoExist')});
+            }
+          })
           .catch((res) => {
             this.loading2 = false
           });

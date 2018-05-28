@@ -1,0 +1,15 @@
+{
+  "invitationCode": "Please input your Invitation code",
+  "username": "Input your username",
+  "email": "xxxx@xxx.com",
+  "password": "Input your password",
+  "tel": "Please input your contact number",
+  "checkpassword": "Input your password again",
+  "companyName": "Input company name",
+  "companyType": "Select company type",
+  "contactNumber": "Input contact number",
+  "website": "Input company website",
+  "country": "Select country",
+  "city": "Input city",
+  "address": "Input address"
+}
