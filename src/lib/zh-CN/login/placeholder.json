@@ -1,0 +1,15 @@
+{
+  "invitationCode": "请输入邀请码",
+  "username": "请输入用户名",
+  "email": "请输入邮箱",
+  "password": "请输入密码",
+  "tel": "请输入联系方式",
+  "checkpassword": "请再次输入密码",
+  "companyName": "请输入公司名称",
+  "companyType": "请选择公司类型",
+  "contactNumber": "请输入联系方式",
+  "website": "请输入公司网址",
+  "country": "请选择国家",
+  "city": "请输入城市",
+  "address": "请输入地址"
+}
