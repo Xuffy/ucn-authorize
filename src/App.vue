@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{noAuth: !show}">
-    <div class="shade"></div>
+    <!--<div class="shade"></div>-->
     <router-view></router-view>
   </div>
 </template>
