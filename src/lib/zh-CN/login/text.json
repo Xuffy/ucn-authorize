@@ -1,0 +1,16 @@
+{
+  "RequestToGetInvitationCode": "获取邀请码",
+  "reSendMail": "重新发送",
+  "goSignInNow": "去登录",
+  "signIn": "登录",
+  "remenberMe": "记住我",
+  "forgetPassword": "忘记密码",
+  "noAccount": "没有账户",
+  "signUpNow": "立即注册",
+  "loginIn": "登录",
+  "newPassword": "新密码",
+  "repeatThePassword": "再次输入密码",
+  "userInformation": "用户信息",
+  "goSubmitARequest": "获取邀请码",
+  "companyInformation": "公司信息"
+}

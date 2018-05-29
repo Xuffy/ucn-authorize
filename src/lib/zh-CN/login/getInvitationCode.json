@@ -1,0 +1,11 @@
+{
+  "email": "邮箱",
+  "companyName": "公司名称",
+  "companyType": "公司类型",
+  "website": "网址",
+  "country": "国家",
+  "address": "地址",
+  "contactNumber": "联系方式",
+  "province": "省份",
+  "city": "城市"
+}

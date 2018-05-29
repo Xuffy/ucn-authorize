@@ -1,0 +1,11 @@
+{
+  "email": "Email",
+  "companyName": "Company Name",
+  "companyType": "Company Type",
+  "website": "Website",
+  "country": "Country",
+  "address": "Address",
+  "contactNumber": "Contact Number",
+  "province": "Province",
+  "city": "City"
+}

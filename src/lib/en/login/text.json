@@ -1,0 +1,16 @@
+{
+  "RequestToGetInvitationCode": "Request To Get Invitation Code",
+  "reSendMail": "Resend mail",
+  "goSignInNow": "Go sign in now",
+  "signIn": "Sign in",
+  "remenberMe": "Remember me",
+  "forgetPassword": "Forget the password",
+  "noAccount": "No account",
+  "signUpNow": "Sign up now",
+  "loginIn": "Login",
+  "newPassword": "New password",
+  "repeatThePassword": "Enter the password again",
+  "userInformation": "User Information",
+  "goSubmitARequest": "Go Submit a request",
+  "companyInformation": "Company Information"
+}

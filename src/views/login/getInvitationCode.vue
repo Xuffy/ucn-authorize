@@ -23,7 +23,7 @@
                                         :value="item.value"
                                         style="width: 300px">
                                     </el-option>
-                                </el-select>  
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -94,7 +94,7 @@
                 companyInfo:{
                     tenantType: 0, //租户类型
                     partnerType:'',
-                    companyType: '',                  
+                    companyType: '',
                     companyName: '',
                     email:'',
                     website: '',
@@ -192,13 +192,13 @@
             getCountry(){
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
-                  this.country = res;     
+                  this.country = res;
                 }).catch(err=>{
                     console.log(err)
                 })
             },
             istype(){
-                 // this.$route.query.type 从url上获取那个端过来进行判断 
+                 // this.$route.query.type 从url上获取那个端过来进行判断
                 //  this.$route.query.type = 1
                 switch (Number(this.$route.query.type))
                 {
@@ -212,8 +212,8 @@
                         this.companyTypeInfo = this.optionsService;
                         break;
                     default:
-                         this.$message({message: this.$tc('login.prompt.emptyType') });
-                
+                         this.$message.warning({message: this.$tc('login.prompt.emptyType') });
+
                 }
             },
             registerApplication(){
@@ -223,13 +223,13 @@
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
                     this.isDisable = true;
-                    this.$message({message: this.$tc('login.prompt.signInSuccess')});
+                    this.$message.warning({message: this.$tc('login.prompt.signInSuccess')});
                 }).catch(res =>{
                     this.isDisable = false;
-                });   
+                });
             }
         }
-    } 
+    }
 </script>
 <style lang="less" scoped>
     .get-invitation-code {

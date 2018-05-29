@@ -64,7 +64,7 @@
                                                     :value="item.value"
                                                     style="width: 200px">
                                                 </el-option>
-                                            </el-select>  
+                                            </el-select>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -284,7 +284,7 @@ import {Base64} from 'js-base64';
             agreement(val){
                 //跳转协议
                 // if(val){
-                   
+
                 // }
             },
             signUp(){
@@ -308,7 +308,7 @@ import {Base64} from 'js-base64';
                 this.$ajax.post(this.$apis.post_user_signup,params).then(res =>{
                     //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
                     if(res.partnerType == this.$route.query.type){
-                        this.$message({
+                        this.$message.warning({
                             message: this.$tc('login.prompt.signUpSuccess'),
                             type: 'success',
                         });
@@ -316,8 +316,8 @@ import {Base64} from 'js-base64';
                         , url = `${baseUrl}?token=${Base64.encode(res.userSessionToken)}`;
                         window.location.href = url;
                     }else{
-                        this.$message({message:this.$tc('login.prompt.userNoExist')});
-                    } 
+                        this.$message.warning({message:this.$tc('login.prompt.userNoExist')});
+                    }
                 }).catch(res =>{
                     console.log(res)
                 });
@@ -338,7 +338,7 @@ import {Base64} from 'js-base64';
                         this.userInfo.website = res.website
                         this.userInfo.companyTypeN = this.$localStore.get('type')
                      }else{
-                          this.$message({message:this.$tc('login.prompt.invitationCodeInvalid')});
+                          this.$message.warning({message:this.$tc('login.prompt.invitationCodeInvalid')});
                      }
                 }).catch(res =>{
                     console.log(res)
@@ -347,7 +347,7 @@ import {Base64} from 'js-base64';
             getCountry(){
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
-                  this.country = res    
+                  this.country = res
                 }).catch(err=>{
                     console.log(err)
                 })

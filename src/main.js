@@ -37,7 +37,7 @@ Object.keys(filters).forEach(key => {
 
 
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: 'zhCN',
   // locale: Vue.prototype.$sessionStore.get('language') || 'en',
   messages: lang
 });

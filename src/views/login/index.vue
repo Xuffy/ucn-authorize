@@ -11,8 +11,9 @@
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
               <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width:300px"
-                 @keyup.enter.native="handleSubmit('formInline')"></el-input>
+                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')"
+                          style="width:300px"
+                          @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
@@ -25,7 +26,8 @@
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
               <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
             </div>
-            <el-button type="primary" @click="handleSubmit('formInline')"  style="width:100%;margin:10px 0;" v-loading="loading2" >
+            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;"
+                       :loading="loading2">
               {{$tc('login.text.loginIn')}}
             </el-button>
             <div class="login-link active">
@@ -55,7 +57,7 @@
         },
         ruleInline: {
           email: [
-            {required: true, message:this.$tc('login.prompt.inputYourEmail'), trigger: 'change'},
+            {required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'change'},
             {type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change'}
           ],
           password: [
@@ -78,7 +80,7 @@
           if (valid) {
             this.judgeCookieSign()
           } else {
-            this.$message({
+            this.$message.warning({
               message: this.$tc('login.prompt.correctUserNamePassword'),
               type: 'warning',
             });
@@ -90,7 +92,7 @@
       judgeCookieSign() {
         let baseUrl = this.$route.query.redirect;
         this.loading2 = true;
-        this.$message({message:this.$tc('login.prompt.loading')});
+        // this.$message({message:this.$tc('login.prompt.loading')});
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
@@ -101,12 +103,12 @@
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
-            if(data.partnerType == this.$route.query.type){
-               window.location.href = url;
-            }else{
-              this.$message({message:this.$tc('login.prompt.userNoExist')});
-            }            
-          }) 
+            if (data.partnerType === this.$route.query.type) {
+              window.location.href = url;
+            } else {
+              this.$message.warning({message: this.$tc('login.prompt.userNoExist')});
+            }
+          })
           .catch((res) => {
             this.loading2 = false
           });
@@ -120,6 +122,7 @@
   .login-link {
     display: flex;
     justify-content: flex-end;
+
   &
   .active {
     justify-content: center;
