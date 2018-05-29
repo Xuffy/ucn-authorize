@@ -12,14 +12,14 @@ export default {
       MOCK: '//www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api',
       BASE_JML: '//dev.umeta-facade.ucnscm.com',
 
-      USSO_URL: '//192.168.51.248:11006', // sso 服务
-      UUSER_URL: '//192.168.51.248:11004', // 用户中心
-      UMETA_URL: '//192.168.51.248:11005', // 元数据
+      USSO_URL: '//192.168.51.208:11006', // sso 服务
+      UUSER_URL: '//192.168.51.208:11004', // 用户中心
+      UMETA_URL: '//192.168.51.208:11005', // 元数据
     },
     develop: {
-      USSO_URL: '//192.168.51.248:11006', // sso 服务
-      UUSER_URL: '//192.168.51.248:11004', // 用户中心
-      UMETA_URL: '//192.168.51.248:11005', // 元数据
+      USSO_URL: '//192.168.51.208:11006', // sso 服务
+      UUSER_URL: '//192.168.51.208:11004', // 用户中心
+      UMETA_URL: '//192.168.51.208:11005', // 元数据
     },
     test: {
       USSO_URL: '//test.usso-facade.ucnscm.cn', // sso 服务
