@@ -225,7 +225,6 @@ import {Base64} from 'js-base64';
                 rules: {
                     invitationCode:[
                         { required: true, message: this.$tc('login.prompt.invitationCode'), trigger: 'blur' },
-                        { min: 6, max:6, message: this.$tc('login.prompt.sixLength'), trigger: 'blur,change' }
                     ],
                     userName:[
                         { required: true, message: this.$tc('login.prompt.inputYourUserName'), trigger: 'blur' },
