@@ -98,16 +98,12 @@
         }
         this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
           .then(data => {
-            this.loading2 = false
+            this.loading2 = false;
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
             this.$cookieStore.addCookie('username', this.formInline.email, expire);
             this.$cookieStore.addCookie('password', this.formInline.password, expire);
-            if (data.partnerType === this.$route.query.type) {
-              window.location.href = url;
-            } else {
-              this.$message.warning({message: this.$tc('login.prompt.userNoExist')});
-            }
+            window.location.href = url;
           })
           .catch((res) => {
             this.loading2 = false
