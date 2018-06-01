@@ -3,7 +3,7 @@
         <div class="contianer">
             <div class="hd">
                 <h4> {{ $i.login.text.RequestToGetInvitationCode }} </h4>
-                <p>Please submit your company infomation, and we will contact you soon, if you have any question, feel free to contact us：email-xxx@xxx.com; tel-123456789</p>
+                <p>{{$i.login.text.submitInfo}}：{{$i.login.text.email}}-xxx@xxx.com; {{$i.login.text.tel}}-123456789</p>
             </div>
             <el-form label-width="200px" class="form-box" :model="companyInfo" :rules="rules" ref="companyInfo">
                 <div class="form-wrap">
@@ -157,7 +157,7 @@
                 rules: {
                     companyName:[
                         { required: true, message: this.$i.login.prompt.companyName, trigger: 'blur' },
-                        { max: 100, message:  this.$ilogin.prompt.companyNamelength, trigger: 'blur,change' }
+                        { max: 100, message:  this.$i.login.prompt.companyNamelength, trigger: 'blur,change' }
                     ],
                     type:[
                         { required: true, message: this.$i.login.prompt.companyType, trigger: 'blur' },
@@ -214,7 +214,7 @@
                         this.companyTypeInfo = this.optionsService;
                         break;
                     default:
-                         this.$message.warning({message: this.$i.login.prompt.emptyType });
+                         this.$message.warning({message: this.$i.login.prompt.emptyType});
 
                 }
             },

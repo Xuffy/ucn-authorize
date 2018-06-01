@@ -1,7 +1,7 @@
 <template>
     <div class="input-email">
         <div class="inputBox center">
-            <label for="icon"><i class="el-icon-success"></i></label>Dear xxxxx，<span v-if="$route.name === 'Identify'">we ahave sent you an email , pleasr follow the instruction to reset your password</span><span v-else>you have reset your password, please remember your new password</span>
+            <label for="icon"><i class="el-icon-success"></i></label>{{$i.login.text.modifyPassword}} xxxxx，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
         </div>
         <div class="inputBox">
             <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>

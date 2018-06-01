@@ -10,8 +10,8 @@
                 <el-form-item :label="this.$i.login.userInformation.invitationCode" prop="invitationCode">
                   <el-input :placeholder="this.$i.login.placeholder.invitationCode" type="text"
                             v-model="userInfo.invitationCode " style="max-width:200px" @change="getCompany()"/>
-                  <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">Go Submit
-                    a Request>>
+                  <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">
+                    {{$i.login.text.goSubmitARequest}}>>
                   </router-link>
                 </el-form-item>
               </el-col>
@@ -27,7 +27,7 @@
                 <el-form-item :label="this.$i.login.userInformation.email" prop="email">
                   <el-input :placeholder="this.$i.login.placeholder.email" type="email" v-model="userInfo.email"
                             clearable style="max-width:200px"/>
-                  <span>This will be your log in email</span>
+                  <span>{{$i.login.text.thisWillBeYourLogInEmail}}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -124,7 +124,7 @@
                 </el-row>
                 <div class="bottom-btn">
                   <div class="choice">
-                    <el-checkbox v-model="single" :click="agreement(single)">I have readed "xxx"</el-checkbox>
+                    <el-checkbox v-model="single" :click="agreement(single)">{{$i.login.text.ihaveReaded}} "xxx"</el-checkbox>
                   </div>
                   <div class="btn-wrap">
                     <el-button type="primary" @click="submitForm('userInfo')" :disabled="!single">{{ $i.login.btn.ok
@@ -387,6 +387,7 @@
     created() {
       this.getCountry();
       this.istype();
+      console.log(this.$i.login.prompt)
     }
   }
 </script>

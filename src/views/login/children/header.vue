@@ -1,38 +1,46 @@
 <template>
-    <header>
+    <!-- <header>
         <div v-for="(item, index) in list" :key="item.id" :class="{'active':$route.name === item.name}">
             <span>{{index + 1}}</span>{{item.text}}
         </div>
-    </header>
+    </header> -->
+    <div>
+        <el-steps :active="1" align-center>
+            <el-step :title="$i.login.text.inputEmail" ></el-step>
+            <el-step :title="$i.login.text.identify" ></el-step>
+            <el-step :title="$i.login.text.resetPassword" ></el-step>
+            <el-step :title="$i.login.text.finish" ></el-step>
+        </el-steps>
+    </div>
 </template>
 <script>
     export default {
         name: 'vheader',
         data() {
             return {
-
+            
             }
         },
         props: {
-            list: {
-                type:Array,
-                default:() => [{
-                    text:'Input email',
-                    name: 'inputEmail'
-                },{
-                    text:'Identify',
-                    name: 'Identify'
-                },{
-                    text: 'Reset password',
-                    name: 'ResetPassword'
-                },{
-                    text:'Finish',
-                    name: 'Finish'
-                }]
-            }
+            // list: {
+            //     type:Array,
+            //     default:() => [{
+            //         text:'',
+            //         name: 'inputEmail'
+            //     },{
+            //         text:'',
+            //         name: 'Identify'
+            //     },{
+            //         text: '',
+            //         name: 'ResetPassword'
+            //     },{
+            //         text:'Finish',
+            //         name: 'Finish'
+            //     }]
+            // }
         },
         created() {
-            
+           
         }
     }
 </script>

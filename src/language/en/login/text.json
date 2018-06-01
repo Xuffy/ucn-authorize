@@ -12,5 +12,17 @@
   "repeatThePassword": "Enter the password again",
   "userInformation": "User Information",
   "goSubmitARequest": "Go Submit a request",
-  "companyInformation": "Company Information"
+  "companyInformation": "Company Information",
+  "thisWillBeYourLogInEmail": "This will be your log in email",
+  "inputEmail": "Input email",
+  "identify": "Identify",
+  "resetPassword": "Reset password",
+  "finish": "Finish",
+  "dear": "Dear",
+  "successPassword": "you have reset your password, please remember your new password",
+  "modifyPassword": "we ahave sent you an email , pleasr follow the instruction to reset your password",
+  "ihaveReaded": "I have readed",
+  "submitInfo":"Please submit your company infomation, and we will contact you soon, if you have any, question, feel free to contact us",
+  "email":"email",
+  "tel": "tel"
 }
