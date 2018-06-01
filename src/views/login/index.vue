@@ -4,36 +4,36 @@
     <section id="login-app" class="login-box">
       <div style="text-align: center;">
         <i class="logo"></i>
-        <span class="title">{{ $tc('login.text.signIn') }}</span>
+        <span class="title">{{ $i.login.text.signIn}}</span>
       </div>
       <div class="login-form">
         <div class="from">
           <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
             <div class="from-item">
-              <el-form-item :label="$tc('login.userInformation.email')" prop="email">
-                <el-input v-model="formInline.email" type="email" :placeholder="$tc('login.placeholder.email')"
+              <el-form-item :label="$i.login.userInformation.email" prop="email">
+                <el-input v-model="formInline.email" type="email" :placeholder="$i.login.placeholder.email"
                           style="width:300px"
                           @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
             <div class="from-item">
-              <el-form-item :label="$tc('login.userInformation.password')" prop="password">
-                <el-input v-model="formInline.password" type="password" :placeholder="$tc('login.placeholder.password')"
+              <el-form-item :label="$i.login.userInformation.password" prop="password">
+                <el-input v-model="formInline.password" type="password" :placeholder="$i.login.placeholder.password"
                           style="width:300px" @keyup.enter.native="handleSubmit('formInline')"></el-input>
               </el-form-item>
             </div>
             <div class="login-link" style="margin-top:50px;">
               <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
-              <router-link to="/forgetPassword">{{ $tc('login.text.forgetPassword') }}?</router-link>
+              <router-link to="/forgetPassword">{{ $i.login.text.forgetPassword }}?</router-link>
             </div>
             <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;"
-                       :loading="loading2">
-              {{$tc('login.text.loginIn')}}
+                       :loading="loading">
+              {{$i.login.text.loginIn}}
             </el-button>
             <div class="login-link active">
               <router-link
                 :to="{path:'signUp', query: {type : this.$route.query.type}}">
-                {{$tc('login.text.noAccount')}}? {{$tc('login.text.signUpNow')}}>>
+                {{$i.login.text.noAccount}}? {{$i.login.text.signUpNow}}>>
               </router-link>
             </div>
           </el-form>
@@ -50,29 +50,27 @@
     name: 'login',
     data() {
       return {
-        loading2: false,
+        loading: false,
         formInline: {
           email: '',
           password: ''
         },
         ruleInline: {
           email: [
-            {required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'change'},
-            {type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change'}
+            {required: true, message: this.$i.login.prompt.inputYourEmail, trigger: 'change'},
+            {type: 'email', message: this.$i.login.prompt.pleaseEnterCorrectEmail, trigger: 'blur,change'}
           ],
           password: [
-            {required: true, message: this.$tc('login.prompt.inputYourPassword'), trigger: 'change'},
-            {type: 'string', min: 6, message: this.$tc('login.prompt.passwordLength'), trigger: 'change'}
+            {required: true, message: this.$i.login.prompt.inputYourPassword, trigger: 'change'},
+            {type: 'string', min: 6, message: this.$i.login.prompt.passwordLength, trigger: 'change'}
           ]
-        }
+        },
+        query: this.$sessionStore.get('query') || {}
       }
     },
-    created() {
-      this.$localStore.clearAll();
-      this.$sessionStore.clearAll();
-      this.formInline.email = this.$cookieStore.getCookie('username');
-      this.formInline.password = this.$cookieStore.getCookie('password');
-      this.$localStore.set('URL', Base64.decode(this.$route.query.redirect));
+    mounted() {
+      this.formInline.email = this.$localStore.get('username') || '';
+      this.formInline.password = Base64.decode(this.$localStore.get('password') || '');
     },
     methods: {
       handleSubmit(name) {
@@ -81,7 +79,7 @@
             this.judgeCookieSign()
           } else {
             this.$message.warning({
-              message: this.$tc('login.prompt.correctUserNamePassword'),
+              message: this.$i.login.prompt.correctUserNamePassword,
               type: 'warning',
             });
             return false;
@@ -90,23 +88,22 @@
 
       },
       judgeCookieSign() {
-        let baseUrl = this.$route.query.redirect;
-        this.loading2 = true;
-        // this.$message({message:this.$tc('login.prompt.loading')});
+        this.loading = true;
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
         this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
           .then(data => {
-            this.loading2 = false;
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
-              , url = `${Base64.decode(baseUrl)}?token=${Base64.encode(data.userSessionToken)}`;
-            this.$cookieStore.addCookie('username', this.formInline.email, expire);
-            this.$cookieStore.addCookie('password', this.formInline.password, expire);
+              , url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(data.userSessionToken)}`;
+            this.$localStore.set('username', this.formInline.email, expire);
+            this.$localStore.set('password', Base64.encode(this.formInline.password), expire);
+
+            this.$sessionStore.clearAll();
             window.location.href = url;
           })
-          .catch((res) => {
-            this.loading2 = false
+          .finally((res) => {
+            this.loading = false
           });
       },
     }

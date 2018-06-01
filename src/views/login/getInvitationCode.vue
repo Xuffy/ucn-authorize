@@ -2,20 +2,20 @@
     <section class="get-invitation-code">
         <div class="contianer">
             <div class="hd">
-                <h4> {{ $t('login.text.RequestToGetInvitationCode') }} </h4>
+                <h4> {{ $i.login.text.RequestToGetInvitationCode }} </h4>
                 <p>Please submit your company infomation, and we will contact you soon, if you have any question, feel free to contact us：email-xxx@xxx.com; tel-123456789</p>
             </div>
             <el-form label-width="200px" class="form-box" :model="companyInfo" :rules="rules" ref="companyInfo">
                 <div class="form-wrap">
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.email')" class="right" prop="email">
-                                <el-input style="width: 300px" v-model="companyInfo.email" :placeholder="$tc('login.placeholder.email')"></el-input>
+                            <el-form-item :label="$i.login.getInvitationCode.email" class="right" prop="email">
+                                <el-input style="width: 300px" v-model="companyInfo.email" :placeholder="this.$i.login.placeholder.email"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.companyType')" prop="type">
-                                <el-select v-model="companyInfo.type" filterable :placeholder="$tc('login.placeholder.companyType')"  style="width: 300px">
+                            <el-form-item :label="this.$i.login.getInvitationCode.companyType" prop="type">
+                                <el-select v-model="companyInfo.type" filterable :placeholder="this.$i.login.placeholder.companyType"  style="width: 300px">
                                     <el-option
                                         v-for="item in companyTypeInfo"
                                         :key="item.value"
@@ -29,20 +29,20 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.companyName')"  prop="companyName" class="right">
-                                <el-input :placeholder="$tc('login.placeholder.companyName')" style="width: 300px" v-model="companyInfo.companyName"></el-input>
+                            <el-form-item :label="this.$i.login.getInvitationCode.companyName"  prop="companyName" class="right">
+                                <el-input :placeholder="this.$i.login.placeholder.companyName" style="width: 300px" v-model="companyInfo.companyName"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.contactNumber')" prop="companyTel">
-                                <el-input style="width: 300px" v-model="companyInfo.companyTel" :placeholder="$tc('login.placeholder.contactNumber')"></el-input>
+                            <el-form-item :label="this.$i.login.getInvitationCode.contactNumber" prop="companyTel">
+                                <el-input style="width: 300px" v-model="companyInfo.companyTel" :placeholder="this.$i.login.placeholder.contactNumber"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.country')" class="right" >
-                                <el-select v-model="companyInfo.country" :placeholder="$tc('login.placeholder.country')" style="width: 300px">
+                            <el-form-item :label="this.$i.login.getInvitationCode.country" class="right" >
+                                <el-select v-model="companyInfo.country" :placeholder="this.$i.login.placeholder.country" style="width: 300px">
                                     <el-option
                                     v-for="item in country"
                                     :key="item.code"
@@ -54,20 +54,20 @@
                             </el-form-item>
                         </el-col>
                          <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.city')" >
-                                <el-input :placeholder="$tc('login.placeholder.city')" type="text"  style="width: 300px" v-model="companyInfo.city"/>
+                            <el-form-item :label="this.$i.login.getInvitationCode.city" >
+                                <el-input :placeholder="this.$i.login.placeholder.city" type="text"  style="width: 300px" v-model="companyInfo.city"/>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.address')" class="right">
-                                <el-input style="width: 300px" v-model="companyInfo.address" :placeholder="$tc('login.placeholder.address')"></el-input>
+                            <el-form-item :label="this.$i.login.getInvitationCode.address" class="right">
+                                <el-input style="width: 300px" v-model="companyInfo.address" :placeholder="this.$i.login.placeholder.address"></el-input>
                             </el-form-item>
                         </el-col>
                          <el-col :span="12">
-                            <el-form-item :label="$tc('login.getInvitationCode.website')" >
-                                <el-input style="width: 300px" v-model="companyInfo.website" :placeholder="$tc('login.placeholder.website')"></el-input>
+                            <el-form-item :label="this.$i.login.getInvitationCode.website" >
+                                <el-input style="width: 300px" v-model="companyInfo.website" :placeholder="this.$i.login.placeholder.website"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -75,8 +75,10 @@
             </el-form>
             <div class="bottom-btn">
                 <div class="btn-wrap">
-                    <el-button type="primary" @click="submitForm('companyInfo')" :disabled="isDisable">{{ $tc('login.btn.submit') }}</el-button>
-                    <el-button @click="backSignUp">{{ $tc('login.btn.cancel') }}</el-button>
+                    <el-button type="primary" @click="submitForm('companyInfo')" :disabled="isDisable">
+                      {{$i.login.btn.submit}}
+                    </el-button>
+                    <el-button @click="backSignUp">{{ $i.login.btn.cancel }}</el-button>
                 </div>
             </div>
         </div>
@@ -154,19 +156,19 @@
                     }],
                 rules: {
                     companyName:[
-                        { required: true, message: this.$tc('login.prompt.companyName'), trigger: 'blur' },
-                        { max: 100, message:  this.$tc('login.prompt.companyNamelength'), trigger: 'blur,change' }
+                        { required: true, message: this.$i.login.prompt.companyName, trigger: 'blur' },
+                        { max: 100, message:  this.$ilogin.prompt.companyNamelength, trigger: 'blur,change' }
                     ],
                     type:[
-                        { required: true, message: this.$tc('login.prompt.companyType'), trigger: 'blur' },
+                        { required: true, message: this.$i.login.prompt.companyType, trigger: 'blur' },
                     ],
                     companyTel: [
-                        {  required: true, message: this.$tc('login.prompt.inputYourTel'), trigger: 'blur' },
-                        {  max: 13, message: this.$tc('login.prompt.telLength'), trigger: 'blur,change' }
+                        {  required: true, message: this.$i.login.prompt.inputYourTel, trigger: 'blur' },
+                        {  max: 13, message: this.$i.login.prompt.telLength, trigger: 'blur,change' }
                     ],
                     email: [
-                        { required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'blur' },
-                        { type: 'email', message: this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change' }
+                        { required: true, message: this.$i.login.prompt.inputYourEmail, trigger: 'blur' },
+                        { type: 'email', message: this.$i.login.prompt.pleaseEnterCorrectEmail, trigger: 'blur,change' }
                     ],
                 }
             }
@@ -212,7 +214,7 @@
                         this.companyTypeInfo = this.optionsService;
                         break;
                     default:
-                         this.$message.warning({message: this.$tc('login.prompt.emptyType') });
+                         this.$message.warning({message: this.$i.login.prompt.emptyType });
 
                 }
             },
@@ -223,7 +225,7 @@
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
                     this.isDisable = true;
-                    this.$message.warning({message: this.$tc('login.prompt.signInSuccess')});
+                    this.$message.warning({message: this.$i.login.prompt.signInSuccess});
                 }).catch(res =>{
                     this.isDisable = false;
                 });

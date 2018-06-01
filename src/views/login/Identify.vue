@@ -4,8 +4,8 @@
             <label for="icon"><i class="el-icon-success"></i></label>Dear xxxxx，<span v-if="$route.name === 'Identify'">we ahave sent you an email , pleasr follow the instruction to reset your password</span><span v-else>you have reset your password, please remember your new password</span>
         </div>
         <div class="inputBox">
-            <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $tc('login.text.reSendMail') }} </button>
-            <router-link to="/" v-else>{{ $t('login.text.goSignInNow') }}>></router-link>
+            <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
+            <router-link to="/" v-else>{{ $i.login.text.goSignInNow }}>></router-link>
         </div>
     </div>
 </template>

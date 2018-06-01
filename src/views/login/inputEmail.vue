@@ -1,16 +1,16 @@
 <template>
     <div class="input-email">
-        <el-form class="input-email" :model="emailFrom" :rules="rules" ref="emailFrom"> 
+        <el-form class="input-email" :model="emailFrom" :rules="rules" ref="emailFrom">
             <!-- <div class="inputBox center" >
                 <label for="Email">{{ $t('login.userInformation.email') }}：</label>
                 <el-input v-model="emailFrom.email" type="email" placeholder="Please input the email" style="width: 200px"></el-input>
             </div> -->
-            <el-form-item :label="$tc('login.userInformation.email')" prop="email" class="inputBox center" >
-                <el-input v-model="emailFrom.email" type="email" :placeholder="$tc('login.placeholder.email')" style="width: 200px"></el-input>
+            <el-form-item :label="this.$i.login.userInformation.email" prop="email" class="inputBox center" >
+                <el-input v-model="emailFrom.email" type="email" :placeholder="this.$i.login.placeholder.email" style="width: 200px"></el-input>
             </el-form-item>
 
             <div class="inputBox">
-                <el-button type="primary" @click="Next('emailFrom')">{{ $tc('login.btn.submit') }}</el-button>
+                <el-button type="primary" @click="Next('emailFrom')">{{ $i.login.btn.submit }}</el-button>
             </div>
         </el-form>
     </div>
@@ -25,11 +25,11 @@
                 },
                 rules: {
                      email: [
-                        { required: true, message: this.$tc('login.prompt.inputYourEmail'), trigger: 'blur' },
-                        { type: 'email', message:  this.$tc('login.prompt.pleaseEnterCorrectEmail'), trigger: 'blur,change' }
+                        { required: true, message: this.$i.login.prompt.inputYourEmail, trigger: 'blur' },
+                        { type: 'email', message:  this.$i.login.prompt.pleaseEnterCorrectEmail, trigger: 'blur,change' }
                     ]
                 }
-            }          
+            }
         },
         methods: {
             Next(formName) {
@@ -40,7 +40,7 @@
                         // this.$Message.warning('请输入正确的邮箱地址！');
                         return false;
                     }
-                }); 
+                });
             },
             inputEmail(){
                 //若录入的email在我们系统不存在，返回：您输入的emai未注册，请核对后重新输入！

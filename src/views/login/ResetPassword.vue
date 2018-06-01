@@ -1,15 +1,15 @@
 <template>
     <div class="input-email">
         <el-form :label-position="labelPosition" class="inputBox center" label-width="200px"  :model="password" :rules="rules" ref="password">
-            <el-form-item :label="$tc('login.text.newPassword')" prop="pass">
-                <el-input v-model="password.pass" type="password" :placeholder="$tc('login.placeholder.password')"  style="width:200px;"></el-input>
+            <el-form-item :label="this.$i.login.text.newPassword" prop="pass">
+                <el-input v-model="password.pass" type="password" :placeholder="this.$i.login.placeholder.password"  style="width:200px;"></el-input>
             </el-form-item>
-            <el-form-item :label="$tc('login.text.repeatThePassword')" prop="checkPass">
-                <el-input v-model="password.checkPass" type="password" :placeholder="$tc('login.placeholder.password')"  style="width:200px;"></el-input>
+            <el-form-item :label="this.$i.login.text.repeatThePassword" prop="checkPass">
+                <el-input v-model="password.checkPass" type="password" :placeholder="this.$i.login.placeholder.password"  style="width:200px;"></el-input>
             </el-form-item>
         </el-form>
          <div class="inputBox btn">
-            <el-button type="primary" @click="Next('password')">{{$tc('login.btn.submit') }}</el-button>
+            <el-button type="primary" @click="Next('password')">{{$i.login.btn.submit }}</el-button>
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error(this.$tc('login.prompt.inputYourPassword')));
+                callback(new Error(this.$i.login.prompt.inputYourPassword));
                 } else {
                 if (this.password.checkPass !== '') {
                     this.$refs.password.validateField('checkPass');
@@ -30,9 +30,9 @@
             };
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
-                callback(new Error(this.$tc('login.prompt.checkpassword')));
+                callback(new Error(this.$i.login.prompt.checkpassword));
                 } else if (value !== this.password.pass) {
-                callback(new Error(this.$tc('login.prompt.passwordMistake')));
+                callback(new Error(this.$i.login.prompt.passwordMistake));
                 } else {
                 callback();
                 }
@@ -45,11 +45,11 @@
                 },
                 rules: {
                     pass: [
-                        { min:6, message: this.$tc('login.prompt.passwordLength'), trigger: 'blur' },
+                        { min:6, message: this.$i.login.prompt.passwordLength, trigger: 'blur' },
                         { validator: validatePass, trigger: 'blur' }
                     ],
                     checkPass: [
-                        { min:6, message: this.$tc('login.prompt.passwordLength'), trigger: 'blur' },
+                        { min:6, message: this.$i.login.prompt.passwordLength, trigger: 'blur' },
                         { validator: validatePass2, trigger: 'blur' }
                     ],
                 }
@@ -77,7 +77,7 @@
                         return false;
                     }
                 });
-                
+
             }
         }
     }

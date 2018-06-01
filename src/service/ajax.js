@@ -1,15 +1,17 @@
 import Axios from 'axios'
+import Vue from 'vue'
 import Qs from 'qs'
 import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css';
 import {Message} from 'element-ui';
 import _config from './config';
+import $i from '../language/index';
+import md5 from 'blueimp-md5';
 import {localStore, sessionStore} from 'service/store';
 
-
 /**
- *
+ * axios配置
  * @type {any}
  */
 const axios = Axios.create({
@@ -17,13 +19,29 @@ const axios = Axios.create({
   timeout: _config.TIMEOUT,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    // 'U-Session-Token':'askjhasjkhgkajshg'
+    'Accept-Language': _config.LANGUAGE,
   },
   transformRequest: [function (data) {
-    // return JSON.stringify(data);
     return data;
   }],
 });
+
+/**
+ * 异常验证
+ * @param code
+ * @param msg
+ */
+const validate_error = (code, msg) => {
+  switch (code) {
+    case 'AUTH-011': // 登录失效
+      return router.push('/login');
+
+  }
+
+  Message.warning(msg || $i.hintMessage.dataException);
+  throw new Error(`${msg || $i.hintMessage.dataException}`);
+}
+
 
 const $ajax = (config) => {
 
@@ -54,11 +72,18 @@ const $ajax = (config) => {
    * @returns {*[]}
    */
   this.sethHeader = (options, config) => {
+    let t = localStore.get('token') || '';
+
+    options.headers = options.headers || {};
     if (config._contentType === 'F') {
       options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       options.data = Qs.stringify(options.data);
     } else {
       options.data = JSON.stringify(options.data);
+    }
+
+    if (!config._noAuth && _config.AUTH) {
+      options.headers['U-Session-Token'] = t;
     }
     return [options, config]
   }
@@ -77,12 +102,10 @@ const $ajax = (config) => {
 
     if (config._cache) {
       if (!_.isEmpty(resCache) && _.isArray(resCache)) {
-        _.map(resCache, val => {
-          let p = data.params || data;
-          if (url === val.url && _.isEqual(p, val.params)) {
-            resData = val;
-          }
-        });
+        let res = _.findWhere(resCache, {id: md5(url + JSON.stringify(data))});
+        if (res) {
+          resData = res;
+        }
       }
     }
 
@@ -95,15 +118,16 @@ const $ajax = (config) => {
 
       switch (_options.method) {
         case 'DELETE':
-          return axios.delete(_options.url,{params:_options.data});
+          return axios.delete(_options.url);
         case 'PUT':
-          return axios.put(_options.url);
+          return axios.put(_options.url, options.data, _options);
         default:
           return axios(_options);
       }
     }
   }
 }
+
 /**
  * 合并请求
  * @param list
@@ -180,16 +204,29 @@ NProgress.configure({
  * request拦截器
  */
 axios.interceptors.request.use(config => {
-
   NProgress.start();
+
+  if (!config.headers['U-Session-Token'] && !config._noAuth && _config.AUTH) {
+    Message({
+      message: $i.hintMessage.loginExpired,
+      type: 'warning',
+      customClass: 'set-top',
+      duration: 2000,
+      onClose: () => {
+        router.push('/login');
+      }
+    });
+    Promise.reject();
+    return config;
+  } else {
+  }
 
   return config
 }, error => {
   NProgress.done();
-  Message.warning(response.data.msg || '请求异常，请重试！');
-  Promise.reject(error)
+  Message.warning($i.hintMessage.requestException);
+  Promise.reject(error);
 });
-
 
 /**
  * respone拦截器
@@ -210,8 +247,7 @@ axios.interceptors.response.use(
     }
 
     if (response.data.status !== 'SUCCESS') {
-      Message.warning(response.data.errorMsg || '数据返回异常，请重试！');
-      throw new Error(`[code - ${response.data.status || '000'}] ${response.data.errorMsg || 'api request data unsuccessful'}`);
+      return validate_error(response.data.errorCode, response.data.errorMsg);
     }
 
     // 缓存设置
@@ -220,11 +256,11 @@ axios.interceptors.response.use(
     if (config._cache) {
       let rcList = [];
       _.map(resCache, val => {
-        if (config.url !== val.url || !_.isEqual(config.params, val.params)) {
+        if (config.url !== val.url || !_.isEqual(config.data, val.params)) {
           rcList.push(val);
         }
       });
-      rcList.push({url: config.url, params: config.params, data: response.data});
+      rcList.push({url: config.url, params: config.data, data: response.data, id: md5(config.url + config.data)});
       sessionStore.set('request_cache', rcList);
     }
 
@@ -238,11 +274,26 @@ axios.interceptors.response.use(
 
   },
   error => {
-    Message.error(_.isObject(error) || !error ? '网络异常，请稍后重试！' : error);
+    Message.warning(_.isObject(error) || !error ? $i.hintMessage.networkException : error);
     NProgress.done();
     return Promise.reject(error)
   }
 );
 
+
+/**
+ * 扩展finally
+ * @param callback
+ * @returns {Promise<any>}
+ */
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => {
+      throw reason
+    })
+  );
+};
 
 export default $ajax;

@@ -1,11 +1,12 @@
 <template>
   <div id="app" :class="{noAuth: !show}">
-    <!--<div class="shade"></div>-->
+    <div class="shade"></div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+  import config from 'service/config';
 
   export default {
     name: 'app',
@@ -15,13 +16,17 @@
         show: false
       }
     },
+    watch: {},
     created() {
-      let query = this.$route.query;
+      let query = this.$sessionStore.get('query');
+
       if (!query.type || !query.redirect) {
-        return false;
-      } else {
-        this.$sessionStore.set('query', query);
+
+        if (config.ENV_FLAG !== 'local') {
+          return false;
+        }
       }
+      this.$sessionStore.set('query', query);
       this.show = true;
     }
   }
@@ -44,11 +49,11 @@
   }
 
   .noAuth {
-    /*-webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
     -o-filter: grayscale(100%);
     filter: grayscale(100%);
-    filter: gray;*/
+    filter: gray;
   }
 </style>

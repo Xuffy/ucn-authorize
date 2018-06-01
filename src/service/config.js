@@ -31,12 +31,25 @@ export default {
     }
   }[process.env.NODE_ENV],
 
+  // 是否开启token验证
+  AUTH: false,
+
+  // 环境标识
+  ENV_FLAG: process.env.NODE_ENV,
+
+  // 是否mock
+  IS_MOCK: false,
+
   // 请求超时
   TIMEOUT: 60000,
 
+  // 默认语言设置
+  // LANGUAGE: 'zh-CN',
+  LANGUAGE: 'en',
+
   // 项目版本号
-  VERSION: `3.3.4.${process.env.VERSION}`,
+  VERSION: `2.0.${process.env.VERSION}`,
 
   // 本地store缓存 前缀
-  STORE_PREFIX: 'ucn_'
+  STORE_PREFIX: 'ucn_auth_'
 }
