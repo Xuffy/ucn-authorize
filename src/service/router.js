@@ -9,38 +9,32 @@ export const routerMap = [
     {
       path: '*',
       name:'login',
-      hidden: true,
       component: () => import('../views/login/index.vue')
     },
     {
       path: '/forgetPassword',
       name:'forgetPassword',
-      hidden: true,
       component: () => import('../views/login/forgetPassword'),
       redirect: '/forgetPassword/inputEmail',
       children: [
         {
           path:'inputEmail',
           name:'inputEmail',
-          hidden: true,
           component: () => import('../views/login/inputEmail')
         },
         {
           path:'Identify',
           name:'Identify',
-          hidden: true,
           component: () => import('../views/login/Identify')
         },
         {
           path:'ResetPassword',
           name:'ResetPassword',
-          hidden: true,
           component: () => import('../views/login/ResetPassword')
         },
         {
           path:'Finish',
           name:'Finish',
-          hidden: true,
           component: () => import('../views/login/Identify')
         }
       ]
@@ -48,14 +42,17 @@ export const routerMap = [
     {
       path: '/signUp',
       name:'signUp',
-      hidden: true,
       component: () => import('../views/login/signUp')
     },
     {
       path:'/getInvitationCode',
       name:'getInvitationCode',
-      hidden: true,
       component: () => import('../views/login/getInvitationCode')
+    },
+    {
+      path:'/activation',
+      name:'activation',
+      component: () => import('../views/activation/index')
     }
   ]
 ;

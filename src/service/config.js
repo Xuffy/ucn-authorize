@@ -1,16 +1,8 @@
 export default {
   // 环境配置
   ENV: {
-    // local: {
-    //   path: '/static/__project',
-    //   api: '//store.test.tailorx.cn/api',
-    //   mock: 'https://www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api'
-    // },
     local: {
-      BASE_LYF: '//dev.uuser-facade.ucnscm.com',
-      BASE_LYF_signin: '//dev.usso-facade.ucnscm.com',
       MOCK: '//www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api',
-      BASE_JML: '//dev.umeta-facade.ucnscm.com',
 
       USSO_URL: '//192.168.51.208:11006', // sso 服务
       UUSER_URL: '//192.168.51.208:11004', // 用户中心
@@ -44,8 +36,8 @@ export default {
   TIMEOUT: 60000,
 
   // 默认语言设置
-  LANGUAGE: 'zh-CN',
-  // LANGUAGE: 'en',
+  // LANGUAGE: 'zh-CN',
+  LANGUAGE: 'en',
 
   // 项目版本号
   VERSION: `2.0.${process.env.VERSION}`,

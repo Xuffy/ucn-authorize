@@ -20,12 +20,9 @@
     created() {
       let query = this.$sessionStore.get('query');
 
-      if (!query.type || !query.redirect) {
-
-        if (config.ENV_FLAG !== 'local') {
-          return false;
-        }
-      }
+      /*if (!query.type || !query.redirect) {
+        return false;
+      }*/
       this.$sessionStore.set('query', query);
       this.show = true;
     }
