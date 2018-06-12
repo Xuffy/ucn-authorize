@@ -4,6 +4,7 @@ export default {
     local: {
       MOCK: '//www.easy-mock.com/mock/5abe0744a2146a37688ec3c1/api',
 
+      // USSO_URL: '//192.168.51.198:11006', // sso 服务
       USSO_URL: '//192.168.51.148:11006', // sso 服务
       UUSER_URL: '//192.168.51.148:11004', // 用户中心
       UMETA_URL: '//192.168.51.148:11005', // 元数据

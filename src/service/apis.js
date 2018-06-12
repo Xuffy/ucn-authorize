@@ -9,7 +9,9 @@ const apis = {
   post_auth_signin: ['/authentication/sign-in', 'USSO_URL'],
   delete_auth_signout: ['/authentication/sign-in', 'UUSER_URL'],
   get_country: ['/country/countryall', 'UMETA_URL'],
-  get_code: ['/code/all', 'UMETA_URL']
+  get_code: ['/code/all', 'UMETA_URL'],
+  USER_VALIDATE_ACTIVE: ['/user/validate/active/{token}/{email}', 'UUSER_URL'],
+  USER_ACTIVE: ['/user/active', 'UUSER_URL']
 };
 
 
