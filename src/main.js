@@ -47,6 +47,11 @@ if (config.ENV_FLAG === 'production') {
   }
 }
 
+// underscorejs配置template
+_.templateSettings = {
+  interpolate: /\{(.+?)\}/g
+};
+
 
 new Vue({
   el: '#app',

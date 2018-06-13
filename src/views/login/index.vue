@@ -88,11 +88,16 @@
 
       },
       judgeCookieSign() {
+        let params = _.clone(this.formInline);
         this.loading = true;
+
         if (!this.formInline.email || !this.formInline.password) {
           return false;
         }
-        this.$ajax.post(this.$apis.post_auth_signin, this.formInline)
+
+        params.partnerType = this.query.type;
+
+        this.$ajax.post(this.$apis.post_auth_signin, params)
           .then(data => {
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(data.userSessionToken)}`;
