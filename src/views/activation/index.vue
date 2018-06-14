@@ -4,7 +4,7 @@
       <el-card class="card-box" v-show="showEdit">
         <div slot="header" class="clearfix">
           <span>激活账户-设置账户密码</span>
-          <el-button style="float: right; padding:0" type="text">登录</el-button>
+          <!--<el-button style="float: right; padding:0" type="text">登录</el-button>-->
         </div>
         <el-form status-icon :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="form-box">
           <el-form-item label="密码" prop="pass">
