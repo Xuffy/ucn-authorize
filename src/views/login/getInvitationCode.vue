@@ -225,7 +225,7 @@
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
                     this.isDisable = true;
-                    this.$message.warning({message: this.$i.login.prompt.signInSuccess});
+                    this.$message.success({message: this.$i.login.prompt.signInSuccess});
                 }).catch(res =>{
                     this.isDisable = false;
                 });
