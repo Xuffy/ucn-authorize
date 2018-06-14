@@ -202,9 +202,9 @@
 
   .login-box .logo {
     display: inline-block;
-    background-image: url("../../assets/images/logo.jpg");
-    width: 150px;
-    height: 68px;
+    background-image: url("../../assets/images/logo.png");
+    width: 181px;
+    height: 50px;
     vertical-align: middle;
     margin: 30px 20px 20px 0;
     background-size: 100% 100%;
@@ -213,7 +213,7 @@
   .login-box .title {
     display: inline-block;
     vertical-align: middle;
-    font-size: 50px;
+    font-size: 44px;
   }
 
   .login-form {
