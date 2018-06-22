@@ -24,6 +24,9 @@ const json = {
   hintMessage: _.extend({},
     require(`./${lang}/hintMessage/index`)
   ),
+  activation: _.extend({},
+    require(`./${lang}/activation/index`)
+  ),
 }
 
 export default json;

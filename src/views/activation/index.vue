@@ -3,19 +3,19 @@
     <transition name="el-zoom-in-center">
       <el-card class="card-box" v-show="showEdit">
         <div slot="header" class="clearfix">
-          <span>激活账户-设置账户密码</span>
+          <span v-text="$i.activation.title"></span>
           <!--<el-button style="float: right; padding:0" type="text">登录</el-button>-->
         </div>
         <el-form status-icon :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="form-box">
-          <el-form-item label="密码" prop="pass">
+          <el-form-item :label="$i.activation.pwd" prop="pass">
             <el-input type="password" v-model="ruleForm.pass" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
+          </el-form-item><br>
+          <el-form-item :label="$i.activation.confirmPwd" prop="checkPass">
             <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off"></el-input>
-          </el-form-item>
+          </el-form-item><br><br>
           <el-form-item>
-            <el-button type="primary" @click="submitForm()" :loading="submitLoading">提交</el-button>
-            <el-button @click="resetForm">重置</el-button>
+            <el-button type="primary" @click="submitForm()" :loading="submitLoading">{{$i.login.btn.submit}}</el-button>
+            <el-button @click="resetForm">{{$i.activation.reset}}</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -34,9 +34,9 @@
 
       validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入密码'));
+          callback(new Error(this.$i.login.placeholder.password));
         } else if (value.length < 6) {
-          callback(new Error('密码不能少于6位'));
+          callback(new Error(this.$i.login.prompt.passwordLength));
         } else {
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass');
@@ -46,9 +46,9 @@
       };
       validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'));
+          callback(new Error(this.$i.login.placeholder.checkpassword));
         } else if (value !== this.ruleForm.pass) {
-          callback(new Error('两次输入密码不一致!'));
+          callback(new Error(this.$i.login.prompt.passwordMistake));
         } else {
           callback();
         }
@@ -71,7 +71,7 @@
     mounted() {
       this.validateLoading = this.$loading({
         lock: true,
-        text: '正在验证',
+        text: this.$i.activation.authenticating,
         spinner: 'el-icon-loading',
         customClass: 'activation-loading'
       });
@@ -83,17 +83,9 @@
         this.$ajax.get(this.$apis.USER_VALIDATE_ACTIVE,
           {token: this.queryString.activeToken, email: this.queryString.email})
           .then(res => {
-            this.validateLoading.close();
             this.showEdit = true;
           })
-          .catch(() => {
-            this.validateLoading.close();
-            this.$notify.error({
-              title: '错误',
-              message: '激活验证失败',
-              duration: 0
-            });
-          });
+          .finally(()=>this.validateLoading.close());
       },
       submitForm() {
         this.$refs.ruleForm.validate((valid) => {
