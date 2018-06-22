@@ -75,7 +75,7 @@
             </el-form>
             <div class="bottom-btn">
                 <div class="btn-wrap">
-                    <el-button type="primary" @click="submitForm('companyInfo')" :disabled="isDisable">
+                    <el-button type="primary" @click="submitForm('companyInfo')">
                       {{$i.login.btn.submit}}
                     </el-button>
                     <el-button @click="backSignUp">{{ $i.login.btn.cancel }}</el-button>
@@ -201,7 +201,7 @@
             },
             istype(){
                  // this.$route.query.type 从url上获取那个端过来进行判断
-                //  this.$route.query.type = 1
+                  this.$route.query.type = 1
                 switch (Number(this.$route.query.type))
                 {
                     case 1:
@@ -225,7 +225,15 @@
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
                     this.isDisable = true;
-                    this.$message.success({message: this.$i.login.prompt.signInSuccess});
+                    this.$message({
+                      type: 'success',
+                      message: this.$i.login.prompt.signInSuccess,
+                      onClose: (() => {
+                        this.$router.push({
+                          path: '/signUp',   
+                        })
+                      })             
+                    });                  
                 }).catch(res =>{
                     this.isDisable = false;
                 });
