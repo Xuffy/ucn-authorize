@@ -12,7 +12,7 @@
              <div class="bottom-btn">
                 <div class="btn-wrap">
                     <el-button type="primary" @click="Next('emailFrom')">{{ $i.login.btn.submit }}</el-button>
-                    <el-button>{{ $i.login.btn.cancel }}</el-button>
+                    <el-button @click="goBack">{{ $i.login.btn.cancel }}</el-button>
                </div>
              </div>
         </el-form>
@@ -47,7 +47,10 @@
             },
             inputEmail(){
                 //若录入的email在我们系统不存在，返回：您输入的emai未注册，请核对后重新输入！
-            }
+            },
+          goBack(){
+              window.history.go(-1);
+          }
         },
     }
 </script>
