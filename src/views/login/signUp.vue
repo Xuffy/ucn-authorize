@@ -124,7 +124,8 @@
                 </el-row>
                 <div class="bottom-btn">
                   <div class="choice">
-                    <el-checkbox v-model="single" :click="agreement(single)">{{$i.login.text.ihaveReaded}} "xxx"</el-checkbox>
+                    <el-checkbox v-model="single" :click="agreement(single)">{{$i.login.text.ihaveReaded}} "xxx"
+                    </el-checkbox>
                   </div>
                   <div class="btn-wrap">
                     <el-button type="primary" @click="submitForm('userInfo')" :disabled="!single">{{ $i.login.btn.ok
@@ -177,7 +178,6 @@
         country: [],
         userInfo: {
           tenantType: 0,
-          country: '',
           userName: '',
           email: '',
           password: '',
@@ -331,7 +331,7 @@
               type: 'success',
             });
             // let baseUrl = this.$sessionStore.get('query')
-             let url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(res.userSessionToken)}`;
+            let url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(res.userSessionToken)}`;
             window.location.href = url;
           } else {
             this.$message.warning({message: this.$i.login.prompt.userNoExist});
@@ -358,8 +358,6 @@
           } else {
             this.$message.warning({message: this.$i.login.prompt.invitationCodeInvalid});
           }
-        }).catch(res => {
-          console.log(res)
         });
       },
       getCountry() {
@@ -397,23 +395,26 @@
     background: #f4f4f4;
     width: 100%;
     min-height: 100vh;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+  }
 
-  .container {
+  .signUp .container {
     min-height: 100%;
     background: #fff;
     border-radius: 5px;
     padding: 10px 40px;
+  }
 
-  .form-box {
+  .signUp .container .form-box {
     padding-bottom: 50px;
+  }
 
-  &
-  .active {
+  .signUp .container .form-box .active {
     padding-bottom: 100px;
   }
 
-  .hd {
+  .signUp .container .form-box .hd {
     font-weight: normal;
     font-size: 15px;
     height: 40px;
@@ -421,44 +422,49 @@
     border-bottom: 1px solid #efefef;
   }
 
-  }
-  .bottom-btn {
+  .signUp .container .bottom-btn {
     border-top: 1px solid #f4f4f4;
+  }
 
-  .choice {
+  .signUp .container .bottom-btn .choice {
     padding: 0 100px;
     height: 80px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
   }
 
-  .btn-wrap {
+  .signUp .container .bottom-btn .btn-wrap {
     width: 300px;
     padding-bottom: 20px;
     margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
   }
 
-  }
-  }
-  #a {
+  .signUp #a {
     color: #108EE9;
     font-size: 14px;
     text-decoration: none;
     line-height: 100%;
+  }
 
-  &
-  :hover {
+  .signUp #a :hover {
     opacity: .8;
   }
 
-  }
-  span {
+  .signUp span {
     color: #999999;
     font-size: 12px;
-  }
-
   }
 </style>

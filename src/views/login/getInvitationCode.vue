@@ -200,7 +200,6 @@
             },
             istype(){
                  // this.$route.query.type 从url上获取那个端过来进行判断
-                  this.$route.query.type = 1
                 switch (Number(this.$route.query.type))
                 {
                     case 1:
