@@ -227,9 +227,10 @@
                       type: 'success',
                       message: this.$i.login.prompt.signInSuccess,
                       onClose: (() => {
-                        this.$router.push({
+                        /*this.$router.push({
                           path: '/signUp',
-                        })
+                        })*/
+                        window.history.go(-1);
                       })
                     });
                 }).catch(res =>{

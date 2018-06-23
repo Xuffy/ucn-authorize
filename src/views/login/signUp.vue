@@ -341,6 +341,9 @@
         });
       },
       getCompany() {
+        if (!this.userInfo.invitationCode) {
+          return false;
+        }
         //校验邀请码
         this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res => {
           if (res.partnerType == this.$route.query.type) {

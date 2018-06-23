@@ -1,45 +1,41 @@
 <template>
   <div class="login">
-    <div class="login-top"></div>
-    <section id="login-app" class="login-box">
-      <div style="text-align: center;">
+    <div class="login-box">
+      <div class="left-form">
         <i class="logo"></i>
-        <span class="title">{{ $i.login.text.signIn}}</span>
-      </div>
-      <div class="login-form">
-        <div class="from">
-          <el-form :model="formInline" label-width="100px" :rules="ruleInline" ref="formInline">
-            <div class="from-item">
-              <el-form-item :label="$i.login.userInformation.email" prop="email">
-                <el-input v-model="formInline.email" type="email" :placeholder="$i.login.placeholder.email"
-                          style="width:300px"
-                          @keyup.enter.native="handleSubmit('formInline')"></el-input>
-              </el-form-item>
-            </div>
-            <div class="from-item">
-              <el-form-item :label="$i.login.userInformation.password" prop="password">
-                <el-input v-model="formInline.password" type="password" :placeholder="$i.login.placeholder.password"
-                          style="width:300px" @keyup.enter.native="handleSubmit('formInline')"></el-input>
-              </el-form-item>
-            </div>
-            <div class="login-link" style="margin-top:50px;">
-              <!-- <el-checkbox v-model="checked">{{ $t('login.text.remenberMe') }}</el-checkbox> -->
-              <router-link to="/forgetPassword">{{ $i.login.text.forgetPassword }}?</router-link>
-            </div>
-            <el-button type="primary" @click="handleSubmit('formInline')" style="width:100%;margin:10px 0;"
-                       :loading="loading">
-              {{$i.login.text.loginIn}}
-            </el-button>
-            <div class="login-link active">
-              <router-link
-                :to="{path:'signUp', query: {type : this.$route.query.type}}">
-                {{$i.login.text.noAccount}}? {{$i.login.text.signUpNow}}>>
-              </router-link>
-            </div>
-          </el-form>
+        <div class="form-box">
+
+          <input type="text" class="username" :placeholder="$i.login.userInformation.email"
+                 v-model="form.email" @keyup.enter="submitLogin">
+
+          <input type="password" class="password" :placeholder="$i.login.userInformation.password"
+                 v-model="form.password" @keyup.enter="submitLogin">
+
+          <el-button type="primary" size="medium" :loading="loading"
+                     @click="submitLogin">{{$i.login.text.loginIn}}
+          </el-button>
+
+          <p class="bottom-text">
+            <span>{{$i.login.text.noAccount}}?</span>
+            <router-link
+              :to="{path:'signUp', query: {type : this.$route.query.type}}">
+              {{$i.login.text.signUpNow}}>>
+            </router-link>
+          </p>
         </div>
       </div>
-    </section>
+      <div class="right-box">
+        <div class="text-box">
+          <p class="sign-title">{{ $i.login.text.signIn}}</p>
+          <router-link to="/forgetPassword">{{ $i.login.text.forgetPassword }}?</router-link>
+          <router-link
+            :to="{path:'signUp', query: {type : this.$route.query.type}}">
+            {{$i.login.text.noAccount}}? {{$i.login.text.signUpNow}}>>
+          </router-link>
+        </div>
+        <div class="back-image"></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -51,49 +47,27 @@
     data() {
       return {
         loading: false,
-        formInline: {
+        form: {
           email: '',
           password: ''
-        },
-        ruleInline: {
-          email: [
-            {required: true, message: this.$i.login.prompt.inputYourEmail, trigger: 'change'},
-            {type: 'email', message: this.$i.login.prompt.pleaseEnterCorrectEmail, trigger: 'blur,change'}
-          ],
-          password: [
-            {required: true, message: this.$i.login.prompt.inputYourPassword, trigger: 'change'},
-            {type: 'string', min: 6, message: this.$i.login.prompt.passwordLength, trigger: 'change'}
-          ]
         },
         query: this.$sessionStore.get('query') || {}
       }
     },
+    created() {
+    },
     mounted() {
-      this.formInline.email = this.$localStore.get('username') || '';
-      this.formInline.password = Base64.decode(this.$localStore.get('password') || '');
+      this.form.email = this.$localStore.get('username') || '';
+      this.form.password = Base64.decode(this.$localStore.get('password') || '');
     },
     methods: {
-      handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.judgeCookieSign()
-          } else {
-            this.$message.warning({
-              message: this.$i.login.prompt.correctUserNamePassword,
-              type: 'warning',
-            });
-            return false;
-          }
-        });
-
-      },
-      judgeCookieSign() {
-        let params = _.clone(this.formInline);
-        this.loading = true;
-
-        if (!this.formInline.email || !this.formInline.password) {
+      submitLogin() {
+        let params = _.clone(this.form);
+        if (this.$validateForm(params, this.$db.login.signIn)) {
           return false;
         }
+
+        this.loading = true;
 
         params.partnerType = this.query.type;
 
@@ -101,8 +75,8 @@
           .then(data => {
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
               , url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(data.userSessionToken)}`;
-            this.$localStore.set('username', this.formInline.email, expire);
-            this.$localStore.set('password', Base64.encode(this.formInline.password), expire);
+            this.$localStore.set('username', this.form.email, expire);
+            this.$localStore.set('password', Base64.encode(this.form.password), expire);
 
             this.$sessionStore.clearAll();
             window.location.href = url;
@@ -110,137 +84,135 @@
           .finally((res) => {
             this.loading = false
           });
-      },
+      }
     }
   }
 </script>
-<style scoped lang="less">
+<style scoped>
   .login {
-
-  .login-link {
-    display: flex;
-    justify-content: flex-end;
-
-  &
-  .active {
-    justify-content: center;
-  }
-
-  a {
-    color: #409EFF;
-    font-size: 12px;
-
-  &
-  :hover {
-    opacity: .6;
-  }
-
-  }
-  }
-  }
-  .login .ivu-input-group-prepend {
-    background-color: #ffffff;
-    border: none;
-    width: 40px;
-    text-align: left;
-  }
-
-  .login .ivu-form-item-content {
-    line-height: 40px;
-    height: 40px;
-  }
-
-  .login .ivu-input {
-    height: 40px;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    font-size: 14px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e6e6e6;
-  }
-
-  .login .ivu-input:focus {
-    border: none;
-    box-shadow: none;
-    border-bottom: 1px solid #e6e6e6;
-  }
-
-  .login .ivu-input:hover {
-    border-color: none;
-    border-bottom: 1px solid #e6e6e6;
-  }
-
-  .login .ivu-form-item-error-tip {
-    left: 40px;
-  }
-</style>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-  .login-top {
-    position: absolute;
+    position: fixed;
+    height: 100%;
     width: 100%;
-    height: 398px;
-    background-image: url("../../assets/images/login-back.jpg");
-    background-position: center;
-    background-size: cover;
-    z-index: -1;
+    background-color: #212224;
   }
 
   .login-box {
-    max-width: 500px;
-    width: 500px;
-    height: 380px;
-    background-color: #fff;
-    position: fixed;
-    top: 45%;
+    width: 760px;
+    height: 400px;
+    border-radius: 15px;
+    position: absolute;
+    top: 50%;
     left: 50%;
-    margin-top: -160px;
-    margin-left: -250px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    transform: translate(-50%, -50%);
   }
 
-  .login-box .logo {
-    display: inline-block;
-    background-image: url("../../assets/images/logo.png");
-    width: 181px;
-    height: 50px;
-    vertical-align: middle;
-    margin: 30px 20px 20px 0;
+  .left-form {
+    width: 310px;
+    height: 100%;
+    background-color: #2e2f31;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    float: left;
+  }
+
+  .right-box {
+    float: left;
+    width: 450px;
+    height: 100%;
+    background-color: #ffffff;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  .logo {
+    background-image: url("../../assets/images/logo2.png");
+    width: 168px;
+    height: 47px;
     background-size: 100% 100%;
+    display: block;
+    margin: 65px 0 0 70px;
   }
 
-  .login-box .title {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 44px;
+  .form-box {
+    width: 205px;
+    margin-left: 52px;
+    margin-top: 15px;
   }
 
-  .login-form {
-    padding-left: 45px;
-    padding-right: 45px;
-    margin-top: 10px;
+  .username, .password {
+    background-color: #2e2f31;
+    border: none;
     width: 100%;
-    box-sizing: border-box;
-
-  .from {
-
-  .from-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-
-  span {
-    width: 100px;
-    font-size: 12px;
-    color: #666;
-    text-align: right;
-    padding-right: 10px;
+    border-bottom: 1px solid #aaaaaa;
+    color: #aaaaaa;
+    line-height: 30px;
+    margin-top: 20px;
+    font-size: 14px;
+    transition: all .5s;
   }
 
-  }
-  }
+  .username:hover,
+  .password:hover,
+  .username:focus,
+  .password:focus {
+    color: #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
   }
 
+  .form-box /deep/ .el-button {
+    background-color: #1981f9;
+    border-color: #1981f9;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 50px;
+    transition: all .5s;
+  }
 
+  .form-box /deep/ .el-button:hover {
+    background-color: #0663f9;
+  }
+
+  .bottom-text {
+    font-size: 14px;
+    margin-top: 40px;
+  }
+
+  .bottom-text span {
+    color: #aeaeae;
+  }
+
+  .bottom-text a {
+    color: #0f84f7;
+  }
+
+  .text-box {
+    margin: 115px 0px 0 50px;
+  }
+
+  .text-box a {
+    display: block;
+    color: #2e312f;
+    font-size: 14px;
+    line-height: 20px;
+    transition: all .5s;
+  }
+
+  .text-box a:hover {
+    transform: translate(5px);
+  }
+
+  .sign-title {
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
+
+  .back-image {
+    background-image: url("../../assets/images/login-back.png");
+    width: 450px;
+    height: 76px;
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 0;
+    border-bottom-right-radius: 15px;
+  }
 </style>

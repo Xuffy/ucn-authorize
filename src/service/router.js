@@ -9,7 +9,7 @@ export const routerMap = [
     {
       path: '*',
       name:'login',
-      component: () => import('../views/login/index2.vue')
+      component: () => import('../views/login/index.vue')
     },
     {
       path: '/forgetPassword',
