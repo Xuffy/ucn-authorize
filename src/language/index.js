@@ -12,21 +12,27 @@ sessionStore.set('query', query);
 localStore.set('language', lang);
 
 const json = {
-  login: {
-    btn: require(`./${lang}/login/btn`),
-    companyInformation: require(`./${lang}/login/companyInformation`),
-    getInvitationCode: require(`./${lang}/login/getInvitationCode`),
-    placeholder: require(`./${lang}/login/placeholder`),
-    prompt: require(`./${lang}/login/prompt`),
-    text: require(`./${lang}/login/text`),
-    userInformation: require(`./${lang}/login/userInformation`)
-  },
+  login: _.extend({},
+    require(`./${lang}/login/userInformation`),
+    {
+      btn: require(`./${lang}/login/btn`),
+      companyInformation: require(`./${lang}/login/companyInformation`),
+      getInvitationCode: require(`./${lang}/login/getInvitationCode`),
+      placeholder: require(`./${lang}/login/placeholder`),
+      prompt: require(`./${lang}/login/prompt`),
+      text: require(`./${lang}/login/text`),
+      userInformation: require(`./${lang}/login/userInformation`)
+    }
+  ),
   hintMessage: _.extend({},
     require(`./${lang}/hintMessage/index`)
   ),
   activation: _.extend({},
     require(`./${lang}/activation/index`)
   ),
+  util: _.extend({},
+    require(`./${lang}/util/index`)
+  )
 }
 
 export default json;

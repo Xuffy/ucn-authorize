@@ -1,7 +1,4 @@
-//////////////////////
 
-
-//////////////////////
 
 import Vue from 'vue'
 import App from './App'
@@ -23,7 +20,6 @@ import store from './store';
 const lang = localStore.get('language') || config.LANGUAGE;
 
 locale.use(require(`element-ui/lib/locale/lang/${lang}`).default);
-Vue.use(util);
 Vue.use(ElementUI, {size: 'mini'});
 
 Vue.prototype.$ajax = new ajax();
@@ -33,6 +29,9 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 });
 
+Object.keys(util).forEach(key => {
+  Vue.prototype[key] = util[key];
+});
 
 config.LANGUAGE = lang;
 

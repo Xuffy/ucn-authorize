@@ -186,7 +186,6 @@
                     if (valid) {
                         this.registerApplication();
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
@@ -230,10 +229,10 @@
                       message: this.$i.login.prompt.signInSuccess,
                       onClose: (() => {
                         this.$router.push({
-                          path: '/signUp',   
+                          path: '/signUp',
                         })
-                      })             
-                    });                  
+                      })
+                    });
                 }).catch(res =>{
                     this.isDisable = false;
                 });
