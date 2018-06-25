@@ -127,7 +127,7 @@
   .logo {
     background-image: url("../../assets/images/logo2.png");
     width: 168px;
-    height: 47px;
+    height: 45px;
     background-size: 100% 100%;
     display: block;
     margin: 65px 0 0 70px;
