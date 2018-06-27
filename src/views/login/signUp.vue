@@ -10,7 +10,7 @@
                 <el-form-item :label="this.$i.login.userInformation.invitationCode" prop="invitationCode">
                   <el-input :placeholder="this.$i.login.placeholder.invitationCode" type="text"
                             v-model="userInfo.invitationCode " style="max-width:200px" @change="getCompany()"/>
-                  <router-link :to="{path:'getInvitationCode', query: {type : this.$route.query.type}}" id="a">
+                  <router-link :to="{path:'getInvitationCode', query: {type : query.type}}" id="a">
                     {{$i.login.text.goSubmitARequest}}>>
                   </router-link>
                 </el-form-item>
@@ -131,7 +131,7 @@
                     <el-button type="primary" @click="submitForm('userInfo')" :disabled="!single">{{ $i.login.btn.ok
                       }}
                     </el-button>
-                    <el-button @click="backSignIn">{{ $i.login.btn.cancel }}</el-button>
+                    <el-button @click="$router.push({path: '/'})">{{ $i.login.btn.cancel }}</el-button>
                   </div>
                 </div>
               </div>
@@ -288,16 +288,9 @@
           if (valid) {
             this.signUp()
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
-      },
-      handleChange(value) {
-        console.log(value)
-      },
-      backSignIn() {
-        window.history.go(-1)
       },
       agreement(val) {
         //跳转协议
@@ -306,11 +299,12 @@
         // }
       },
       signUp() {
+        let {type} = this.$sessionStore.get('query');
         //注册
         const params = {
           tenantType: 0,
-          partnerType: this.userInfo.companyType || this.$route.query.type,
-          companyType: this.userInfo.companyType || this.$route.query.type,
+          partnerType: this.userInfo.companyType || type,
+          companyType: this.userInfo.companyType || type,
           companyName: this.userInfo.name,
           website: this.userInfo.website,
           companyTel: this.userInfo.tel,
@@ -325,7 +319,7 @@
         }
         this.$ajax.post(this.$apis.post_user_signup, params).then(res => {
           //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
-          if (res.partnerType == this.$route.query.type) {
+          if (res.partnerType == type) {
             this.$message.warning({
               message: this.$i.login.prompt.signUpSuccess,
               type: 'success',
@@ -336,17 +330,17 @@
           } else {
             this.$message.warning({message: this.$i.login.prompt.userNoExist});
           }
-        }).catch(res => {
-          console.log(res)
         });
       },
       getCompany() {
         if (!this.userInfo.invitationCode) {
           return false;
         }
+        let {type} = this.$sessionStore.get('query');
+
         //校验邀请码
         this.$ajax.get(`${this.$apis.get_user_invitationCode}/${this.userInfo.invitationCode}`).then(res => {
-          if (res.partnerType == this.$route.query.type) {
+          if (res.partnerType == type) {
             //YsOPY3
             this.userInfo.address = res.address
             this.userInfo.city = res.city
@@ -367,19 +361,18 @@
         //获取国家
         this.$ajax.get(this.$apis.get_country).then(res => {
           this.country = res
-        }).catch(err => {
-          console.log(err)
-        })
+        });
       },
       istype() {
-        switch (Number(this.$route.query.type)) {
-          case 1:
+        let {type} = this.$sessionStore.get('query');
+        switch (type) {
+          case '1':
             this.Type = this.optionsCustomer;
             break;
-          case 2:
+          case '2':
             this.Type = this.optionsSupplier;
             break;
-          case 3:
+          case '3':
             this.Type = this.optionsService;
             break;
         }
@@ -388,7 +381,6 @@
     created() {
       this.getCountry();
       this.istype();
-      console.log(this.$i.login.prompt)
     }
   }
 </script>

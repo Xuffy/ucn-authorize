@@ -18,7 +18,7 @@
           <p class="bottom-text">
             <span>{{$i.login.text.noAccount}}?</span>
             <router-link
-              :to="{path:'signUp', query: {type : this.$route.query.type}}">
+              :to="{path:'signUp', query: {type : query.type}}">
               {{$i.login.text.signUpNow}}>>
             </router-link>
           </p>
@@ -29,7 +29,7 @@
           <p class="sign-title">{{ $i.login.text.signIn}}</p>
           <router-link to="/forgetPassword">{{ $i.login.text.forgetPassword }}?</router-link>
           <router-link
-            :to="{path:'signUp', query: {type : this.$route.query.type}}">
+            :to="{path:'signUp', query: {type : query.type}}">
             {{$i.login.text.noAccount}}? {{$i.login.text.signUpNow}}>>
           </router-link>
         </div>
@@ -81,9 +81,7 @@
             this.$sessionStore.clearAll();
             window.location.href = url;
           })
-          .finally((res) => {
-            this.loading = false
-          });
+          .finally((res) => this.loading = false);
       }
     }
   }

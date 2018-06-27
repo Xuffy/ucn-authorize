@@ -13,7 +13,7 @@
     components: {},
     data() {
       return {
-        show: false
+        show: true
       }
     },
     watch: {},
@@ -23,8 +23,8 @@
       /*if (!query.type || !query.redirect) {
         return false;
       }*/
-      this.$sessionStore.set('query', query);
-      this.show = true;
+      // this.$sessionStore.set('query', query);
+      // this.show = true;
     }
   }
 </script>

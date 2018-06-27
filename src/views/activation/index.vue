@@ -75,7 +75,7 @@
         spinner: 'el-icon-loading',
         customClass: 'activation-loading'
       });
-      this.queryString = this.$route.query || {};
+      this.queryString = this.$sessionStore.get('query');
       this.validateUser();
     },
     methods: {

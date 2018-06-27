@@ -75,7 +75,7 @@
             </el-form>
             <div class="bottom-btn">
                 <div class="btn-wrap">
-                    <el-button type="primary" @click="submitForm('companyInfo')">
+                    <el-button type="primary" :loading="isDisable" @click="submitForm('companyInfo')">
                       {{$i.login.btn.submit}}
                     </el-button>
                     <el-button @click="backSignUp">{{ $i.login.btn.cancel }}</el-button>
@@ -194,21 +194,19 @@
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res;
-                }).catch(err=>{
-                    console.log(err)
                 })
             },
             istype(){
-                 // this.$route.query.type 从url上获取那个端过来进行判断
-                switch (Number(this.$route.query.type))
+              let {type} = this.$sessionStore.get('query');
+                switch (type)
                 {
-                    case 1:
+                    case '1':
                         this.companyTypeInfo = this.optionsCustomer;
                         break;
-                    case 2:
+                    case '2':
                         this.companyTypeInfo = this.optionsSupplier;
                         break;
-                    case 3:
+                    case '3':
                         this.companyTypeInfo = this.optionsService;
                         break;
                     default:
@@ -217,20 +215,22 @@
                 }
             },
             registerApplication(){
-                this.companyInfo.partnerType = this.$route.query.type;
-                this.companyInfo.companyType = this.$route.query.type;
+              let {type} = this.$sessionStore.get('query');
+                this.companyInfo.partnerType = type;
+                this.companyInfo.companyType = type;
                 this.$localStore.set('type', this.companyInfo.type);
+
+              this.isDisable = true;
                 this.$ajax.post(this.$apis.post_user_application, this.companyInfo)
                 .then(res => {
-                    this.isDisable = true;
                     this.$message({
                       type: 'success',
                       message: this.$i.login.prompt.signInSuccess,
                       onClose: (() => {
-                        /*this.$router.push({
+                        this.$router.push({
                           path: '/signUp',
-                        })*/
-                        window.history.go(-1);
+                        })
+                        // window.history.go(-1);
                       })
                     });
                 }).catch(res =>{
