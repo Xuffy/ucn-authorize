@@ -12,5 +12,17 @@
   "repeatThePassword": "再次输入密码",
   "userInformation": "用户信息",
   "goSubmitARequest": "获取邀请码",
-  "companyInformation": "公司信息"
+  "companyInformation": "公司信息",
+  "thisWillBeYourLogInEmail": "This will be your log in email",
+  "inputEmail": "Input email",
+  "identify": "Identify",
+  "resetPassword": "Reset password",
+  "finish": "Finish",
+  "dear": "Dear",
+  "successPassword": "you have reset your password, please remember your new password",
+  "modifyPassword": "we ahave sent you an email , pleasr follow the instruction to reset your password",
+  "ihaveReaded": "I have readed",
+  "submitInfo":"Please submit your company infomation, and we will contact you soon, if you have any, question, feel free to contact us",
+  "email":"email",
+  "tel": "tel"
 }
