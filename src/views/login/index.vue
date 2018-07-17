@@ -82,11 +82,11 @@
 
         this.loading = true;
         params.partnerType = this.query.type;
-        
+
         this.$ajax.post(this.$apis.post_auth_signin, params)
           .then(data => {
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
-              , url = `${Base64.decode(this.query.redirect)}?token=${Base64.encode(data.userSessionToken)}`;
+              , url = `${Base64.decode(this.query.redirect).replace(/\?/g,'')}?token=${Base64.encode(data.userSessionToken)}`;
             this.$localStore.set('username', this.form.email, expire);
             this.$localStore.set('password', Base64.encode(this.form.password), expire);
 
@@ -95,7 +95,7 @@
           })
           .finally((res) =>{
             this.loading = false
-          }); 
+          });
       },
       //刷新图片验证码
       refreshVerificationCode(){
@@ -113,7 +113,7 @@
            }else{
               this.isIdentifyingCode = false;
            }
-       }); 
+       });
       }
     }
   }
@@ -187,7 +187,7 @@
   .password:hover,
   .identifyingCode:hover,
   .username:focus,
-  .password:focus 
+  .password:focus
   .identifyingCode:focus{
     color: #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
