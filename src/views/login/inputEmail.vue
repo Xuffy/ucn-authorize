@@ -11,7 +11,7 @@
 
              <div class="bottom-btn">
                 <div class="btn-wrap">
-                    <el-button type="primary" @click="Next('emailFrom')">{{ $i.login.btn.submit }}</el-button>
+                    <el-button type="primary" @click="Next('emailFrom')" :loading="loading">{{ $i.login.btn.submit }}</el-button>
                     <el-button @click="goBack">{{ $i.login.btn.cancel }}</el-button>
                </div>
              </div>
@@ -23,8 +23,10 @@
         name: 'inputEmail',
         data() {
             return {
+                loading: false,
                 emailFrom:{
                     email:'',
+                    callback:''
                 },
                 rules: {
                      email: [
@@ -34,19 +36,38 @@
                 }
             }
         },
+        mounted(){
+            // console.log(window.location)
+        },
         methods: {
             Next(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                     this.$router.push('Identify')
+                         this.inputEmail();
                     } else {
-                        // this.$Message.warning('请输入正确的邮箱地址！');
                         return false;
                     }
                 });
             },
             inputEmail(){
                 //若录入的email在我们系统不存在，返回：您输入的emai未注册，请核对后重新输入！
+                this.loading = true;
+                let {type} = this.$sessionStore.get('query');
+                this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
+                    email: this.emailFrom.email,
+                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s`
+                })
+                .then(res => {
+                    this.$router.push({
+                        name: 'Identify',
+                        params: {
+                            email: this.emailFrom.email
+                        }
+                    });
+                    this.loading = false;
+                }).catch(res =>{
+                    this.loading = false;
+                });
             },
           goBack(){
               window.history.go(-1);
@@ -71,12 +92,12 @@
      .bottom-btn {
         .choice {
             padding:0 100px;
-            height: 80px;
+            height: 60px;
             display:flex;
             align-items: center;
         }
         .btn-wrap {
-            width: 300px;
+            width: 200px;
             margin:0 auto;
             display:flex;
             align-items: center;

@@ -1,46 +1,47 @@
 <template>
-    <!-- <header>
-        <div v-for="(item, index) in list" :key="item.id" :class="{'active':$route.name === item.name}">
-            <span>{{index + 1}}</span>{{item.text}}
+    <header>
+        <div v-for="(item, index) in list" :key="item.id" :class="{'active':$route.name === item.text}">
+            <span>{{index + 1}}</span>{{item.name}} 
         </div>
-    </header> -->
-    <div>
-        <el-steps :active="1" align-center>
-            <el-step :title="$i.login.text.inputEmail" ></el-step>
+    </header>
+    <!-- <div>
+        <el-steps :active="active" align-center finish-status="success">
+            <el-step :title="$i.login.text.inputEmail"></el-step>
             <el-step :title="$i.login.text.identify" ></el-step>
             <el-step :title="$i.login.text.resetPassword" ></el-step>
             <el-step :title="$i.login.text.finish" ></el-step>
         </el-steps>
-    </div>
+    </div> -->
 </template>
 <script>
     export default {
         name: 'vheader',
         data() {
             return {
-            
+                list:[
+                {
+                    name: this.$i.login.text.inputEmail,
+                    text: 'InputEmail'
+                },
+                {
+                    name: this.$i.login.text.identify,
+                    text: 'Identify'
+                },
+                {
+                    name: this.$i.login.text.resetPassword,
+                    text: 'ResetPassword'
+                },
+                {
+                    name: this.$i.login.text.inputEmail,
+                    text: 'Finish'
+                }
+               ]
             }
         },
-        props: {
-            // list: {
-            //     type:Array,
-            //     default:() => [{
-            //         text:'',
-            //         name: 'inputEmail'
-            //     },{
-            //         text:'',
-            //         name: 'Identify'
-            //     },{
-            //         text: '',
-            //         name: 'ResetPassword'
-            //     },{
-            //         text:'Finish',
-            //         name: 'Finish'
-            //     }]
-            // }
-        },
         created() {
-           
+         
+        },
+        methods: {
         }
     }
 </script>

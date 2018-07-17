@@ -1,15 +1,24 @@
 <template>
   <div class="login">
-    <div class="login-box">
+    <div class="login-box" v-bind:class="{ loginBoxH : isIdentifyingCode }">
       <div class="left-form">
         <i class="logo"></i>
         <div class="form-box">
 
           <input type="text" class="username" :placeholder="$i.login.userInformation.email"
-                 v-model="form.email" @keyup.enter="submitLogin">
+                 v-model="form.email"  @blur="checkVerificationCode">
 
           <input type="password" class="password" :placeholder="$i.login.userInformation.password"
                  v-model="form.password" @keyup.enter="submitLogin">
+
+          <div v-show="isIdentifyingCode">
+            <input type="text" class="identifyingCode" :placeholder="$i.login.userInformation.identifyingCode"
+            v-model="form.verificationCode" @keyup.enter="submitLogin">
+            <img class="verificationCode"  :src="src"/>
+            <i class="el-icon-refresh refresh" @click="refreshVerificationCode"></i>
+          </div>
+
+
 
           <el-button type="primary" size="medium" :loading="loading"
                      @click="submitLogin">{{$i.login.text.loginIn}}
@@ -47,14 +56,18 @@
     data() {
       return {
         loading: false,
+        isIdentifyingCode : false,
+        src:'',
         form: {
           email: '',
-          password: ''
+          password: '',
+          verificationCode: ''
         },
         query: this.$sessionStore.get('query') || {}
       }
     },
     created() {
+      this.checkVerificationCode();
     },
     mounted() {
       this.form.email = this.$localStore.get('username') || '';
@@ -68,9 +81,8 @@
         }
 
         this.loading = true;
-
         params.partnerType = this.query.type;
-
+        
         this.$ajax.post(this.$apis.post_auth_signin, params)
           .then(data => {
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
@@ -81,7 +93,27 @@
             this.$sessionStore.clearAll();
             window.location.href = url;
           })
-          .finally((res) => this.loading = false);
+          .finally((res) =>{
+            this.loading = false
+          }); 
+      },
+      //刷新图片验证码
+      refreshVerificationCode(){
+        this.src = `${this.$apis.GET_VERIFICATION_CODE_REFRESH}?email=${this.form.email}&t=${Math.random()}`;
+      },
+      //检查用户是否需要验证验证码
+      checkVerificationCode(){
+        this.$ajax.get(this.$apis.GET_VERIFICATION_CODE_CHECK, {
+              email: this.form.email
+        })
+        .then(res => {
+           if(res.needVerify){
+              this.isIdentifyingCode = true;
+              this.refreshVerificationCode()
+           }else{
+              this.isIdentifyingCode = false;
+           }
+       }); 
       }
     }
   }
@@ -96,14 +128,16 @@
 
   .login-box {
     width: 760px;
-    height: 400px;
+    height: 400px;;
     border-radius: 15px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
-
+  .loginBoxH{
+    height: 450px;
+  }
   .left-form {
     width: 310px;
     height: 100%;
@@ -151,8 +185,10 @@
 
   .username:hover,
   .password:hover,
+  .identifyingCode:hover,
   .username:focus,
-  .password:focus {
+  .password:focus 
+  .identifyingCode:focus{
     color: #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
   }
@@ -212,5 +248,31 @@
     position: absolute;
     bottom: 0;
     border-bottom-right-radius: 15px;
+  }
+
+  .identifyingCode{
+    background-color: #2e2f31;
+    border: none;
+    width: 50%;
+    border-bottom: 1px solid #aaaaaa;
+    color: #aaaaaa;
+    line-height: 30px;
+    margin-top: 20px;
+    font-size: 14px;
+    transition: all .5s;
+  }
+  .verificationCode{
+    display: inline-block;
+    width: 25%;
+    height: 30px;
+    vertical-align: middle;
+    margin: 0 5px;
+  }
+  .refresh{
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 30px;
+    color: #eeeeee;
+    cursor: pointer;
   }
 </style>

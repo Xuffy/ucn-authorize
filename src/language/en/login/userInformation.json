@@ -3,5 +3,6 @@
   "userName": "User Name",
   "email": "Email",
   "password": "Password",
-  "tel": "Tel"
+  "tel": "Tel",
+  "identifyingCode": "Identifying code"
 }

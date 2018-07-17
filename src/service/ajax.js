@@ -70,7 +70,7 @@ const $ajax = (config) => {
       throw new Error('Request url exception');
     }
 
-    if (!_.isEmpty(params) && !params.length) {
+    if (!_.isEmpty(params) && _.isObject(params) && !_.isArray(params)) {
       _.mapObject(params, (val, key) => {
         if (url.indexOf(`{${key}}`) < 0) {
           p[key] = val;
@@ -117,7 +117,7 @@ const $ajax = (config) => {
       , resData = false
       , _options = _.extend(...this.sethHeader(options, config));
 
-    if (!config.updateCache && config.cache) {
+    if (config.cache) {
       if (!_.isEmpty(resCache) && _.isArray(resCache)) {
         let res = _.findWhere(resCache, {id: md5(url + _options.data)});
         if (res) {
@@ -233,8 +233,7 @@ axios.interceptors.request.use(config => {
         router.push('/login');
       }
     });
-    Promise.reject();
-    return config;
+    throw new Error($i.hintMessage.loginExpired);
   }
 
   return config
@@ -261,7 +260,7 @@ axios.interceptors.response.use(
     // 缓存设置
     resCache = sessionStore.get('request_cache') || [];
 
-    if (config.updateCache || config.cache) {
+    if (!_.isUndefined(config.cache)) {
       let rcList = [], id = md5(config.url + config.data);
 
       rcList = _.filter(resCache, val => {

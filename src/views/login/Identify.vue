@@ -1,7 +1,7 @@
 <template>
     <div class="input-email">
         <div class="inputBox center">
-            <label for="icon"><i class="el-icon-success"></i></label>{{$i.login.text.modifyPassword}} xxxxx，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
+            <label for="icon"><i class="el-icon-success"></i></label>{{$i.login.text.modifyPassword}} {{$route.params.email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
         </div>
         <div class="inputBox">
             <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
@@ -22,19 +22,36 @@
             sendOut() {
                 if(!bFlage) return;
                 bFlage = false;
-                const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
+                this.resetInputEmail();
+                // const loading = this.$loading({
+                //     lock: true,
+                //     text: 'Loading',
+                //     spinner: 'el-icon-loading',
+                //     background: 'rgba(0, 0, 0, 0.7)'
+                // });
                 setTimeout(() => {
-                    this.$router.push('ResetPassword')
-                    loading.close();
+                    // this.$router.push('ResetPassword')
+                    // loading.close();
                     bFlage = true;
-                }, 2000);
-            }
-        }
+                }, 1000);
+            },
+            resetInputEmail(){
+                let {type} = this.$sessionStore.get('query');
+                this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
+                    email: this.$route.params.email,
+                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s`
+                })
+                .then(res => {
+                    this.$message({
+                      type: 'success',
+                      message: this.$i.login.prompt.sendSuccess,
+                    });
+                })
+            },
+        },
+        created() {
+        
+        },
     }
 </script>
 <style lang="less" scoped>

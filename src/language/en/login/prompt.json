@@ -21,5 +21,7 @@
   "invitationCodeInvalid": "Invalid invitation code",
   "emptyType": "Type empty",
   "signInSuccess": "Successful submission, we will contact you as soon as possible",
-  "emailNoExist": "The email you entered is not registered. Please check and re-enter"
+  "emailNoExist": "The email you entered is not registered. Please check and re-enter",
+  "sendSuccess": "发送成功",
+  "linkFailure": "邀请链接失效"
 }

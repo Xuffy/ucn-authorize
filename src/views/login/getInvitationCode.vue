@@ -173,10 +173,6 @@
                 }
             }
         },
-        created() {
-              this.getCountry();
-              this.istype() ;
-        },
         methods: {
             backSignUp(){
               window.history.go(-1)
@@ -194,6 +190,14 @@
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res;
+                })
+            },
+            getCodePart(){
+                this.$ajax.post(this.$apis.POST_CODE_PART,["CUSTOMER_TYPE","SYPPLIER_TYPE","SP_TYPE","SEX"])
+                .then(res => {
+                    this.options.optionsCustomer = _.findWhere(res, {'code': 'CUSTOMER_TYPE'}).codes;
+                    this.options.optionsSupplier = _.findWhere(res, {'code': 'SYPPLIER_TYPE'}).codes;
+                    this.options.optionsService = _.findWhere(res, {'code': 'SP_TYPE'}).codes;    
                 })
             },
             istype(){
@@ -237,7 +241,12 @@
                     this.isDisable = false;
                 });
             }
-        }
+        },
+        created() {
+              this.getCountry();
+              this.istype() ;
+              this.getCodePart();
+        },
     }
 </script>
 <style lang="less" scoped>

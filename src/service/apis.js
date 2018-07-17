@@ -11,7 +11,13 @@ const apis = {
   get_country: ['/country/countryall', 'UMETA_URL'],
   get_code: ['/code/all', 'UMETA_URL'],
   USER_VALIDATE_ACTIVE: ['/user/validate/active/{token}/{email}', 'UUSER_URL'],
-  USER_ACTIVE: ['/user/active', 'UUSER_URL']
+  USER_ACTIVE: ['/user/active', 'UUSER_URL'],
+  POST_CODE_PART: ['/code/part', 'UMETA_URL'],
+  GET_VERIFICATION_CODE_CHECK: ['/verification/code/check', 'UUSER_URL'],
+  GET_VERIFICATION_CODE_REFRESH: ['/verification/code/refresh', 'UUSER_URL'],
+  POST_USER_SEND_PASS_RESET: ['/user/send/pass/reset', 'UUSER_URL'],
+  POST_USER_PASSWORD_RESET: ['/user/password/reset', 'UUSER_URL'],
+  GET_USER_VALIDATE_RESET: ['/user/validate/reset', 'UUSER_URL']
 };
 
 

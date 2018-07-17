@@ -19,7 +19,7 @@ export const routerMap = [
       children: [
         {
           path:'inputEmail',
-          name:'inputEmail',
+          name:'InputEmail',
           component: () => import('../views/login/inputEmail')
         },
         {
