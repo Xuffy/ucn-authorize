@@ -17,7 +17,8 @@ const apis = {
   GET_VERIFICATION_CODE_REFRESH: ['/verification/code/refresh', 'UUSER_URL'],
   POST_USER_SEND_PASS_RESET: ['/user/send/pass/reset', 'UUSER_URL'],
   POST_USER_PASSWORD_RESET: ['/user/password/reset', 'UUSER_URL'],
-  GET_USER_VALIDATE_RESET: ['/user/validate/reset/{activeToken}/{email}', 'UUSER_URL']
+  GET_USER_VALIDATE_RESET: ['/user/validate/reset/{activeToken}/{email}', 'UUSER_URL'],
+  POST_CODE_PART_SIGN: ['/code/part/sign', 'UMETA_URL']
 };
 
 

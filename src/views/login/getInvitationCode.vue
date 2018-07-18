@@ -18,9 +18,9 @@
                                 <el-select v-model="companyInfo.type" filterable :placeholder="this.$i.login.placeholder.companyType"  style="width: 300px">
                                     <el-option
                                         v-for="item in companyTypeInfo"
-                                        :key="item.value"
-                                        :label="item.value"
-                                        :value="item.value"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.code"
                                         style="width: 300px">
                                     </el-option>
                                 </el-select>
@@ -91,7 +91,7 @@
             return {
                 isDisable: false,
                 country:[],
-                companyTypeInfo:{},
+                companyTypeInfo:[],
                 companyType:'',
                 companyInfo:{
                     tenantType: 0, //租户类型
@@ -106,54 +106,9 @@
                     address: '',
                     type:''
                 },
-                 optionsSupplier:
-                    [{
-                        value: 'factory',
-                        label: '工厂',
-                        },{
-                        value: 'trader',
-                        label: '贸易商',
-                        },{
-                        value: 'shop',
-                        label: '商铺',
-                    }],
-                    optionsCustomer:
-                    [{
-                        value: 'large-scale supermarket',
-                        label: '大型商超',
-                        },{
-                        value: 'chain supermarket',
-                        label: '连锁超市',
-                        },{
-                        value: 'trader',
-                        label: '贸易商',
-                    },{
-                        value: 'cross-border e-commerce',
-                        label: '跨境电商',
-                    }],
-                    optionsService:
-                    [{
-                        value: 'logistics company',
-                        label: '物流公司',
-                        },{
-                        value: 'customs broker',
-                        label: '报告公司',
-                        },{
-                        value: 'expert agent',
-                        label: '进出口公司',
-                        },{
-                        value: 'trading company',
-                        label: '工厂',
-                        },{
-                        value: 'inspect company',
-                        label: '贸易公司',
-                        },{
-                        value: 'financial company',
-                        label: '验货公司',
-                        },{
-                        value: 'shipping agent',
-                        label: '金融公司',
-                    }],
+                optionsSupplier: [],
+                optionsCustomer: [],
+                optionsService: [],
                 rules: {
                     companyName:[
                         { required: true, message: this.$i.login.prompt.companyName, trigger: 'blur' },
@@ -190,14 +145,6 @@
                 //获取国家
                 this.$ajax.get(this.$apis.get_country).then(res=>{
                   this.country = res;
-                })
-            },
-            getCodePart(){
-                this.$ajax.post(this.$apis.POST_CODE_PART,["CUSTOMER_TYPE","SYPPLIER_TYPE","SP_TYPE","SEX"])
-                .then(res => {
-                    this.options.optionsCustomer = _.findWhere(res, {'code': 'CUSTOMER_TYPE'}).codes;
-                    this.options.optionsSupplier = _.findWhere(res, {'code': 'SYPPLIER_TYPE'}).codes;
-                    this.options.optionsService = _.findWhere(res, {'code': 'SP_TYPE'}).codes;    
                 })
             },
             istype(){
@@ -243,9 +190,14 @@
             }
         },
         created() {
+             this.$ajax.post(this.$apis.POST_CODE_PART_SIGN,["CUSTOMER_TYPE","SR_TYPE","SP_TYPE"])
+                .then(res => {
+                    this.optionsCustomer = _.findWhere(res, {'code': 'CUSTOMER_TYPE'}).codes;
+                    this.optionsSupplier = _.findWhere(res, {'code': 'SR_TYPE'}).codes;
+                    this.optionsService = _.findWhere(res, {'code': 'SP_TYPE'}).codes; 
+                    this.istype() ;  
+                });
               this.getCountry();
-              this.istype() ;
-              this.getCodePart();
         },
     }
 </script>

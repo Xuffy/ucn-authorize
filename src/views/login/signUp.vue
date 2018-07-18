@@ -69,9 +69,9 @@
                                  style="width: 200px">
                         <el-option
                           v-for="item in Type"
-                          :key="item.value"
-                          :label="item.value"
-                          :value="item.value"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.code"
                           style="width: 200px">
                         </el-option>
                       </el-select>
@@ -193,54 +193,9 @@
           invitationCode: '',
         },
         Type: [],
-        optionsSupplier:
-          [{
-            value: 'factory',
-            label: '工厂',
-          }, {
-            value: 'trader',
-            label: '贸易商',
-          }, {
-            value: 'shop',
-            label: '商铺',
-          }],
-        optionsCustomer:
-          [{
-            value: 'large-scale supermarket',
-            label: '大型商超',
-          }, {
-            value: 'chain supermarket',
-            label: '连锁超市',
-          }, {
-            value: 'trader',
-            label: '贸易商',
-          }, {
-            value: 'cross-border e-commerce',
-            label: '跨境电商',
-          }],
-        optionsService:
-          [{
-            value: 'logistics company',
-            label: '物流公司',
-          }, {
-            value: 'customs broker',
-            label: '报告公司',
-          }, {
-            value: 'expert agent',
-            label: '进出口公司',
-          }, {
-            value: 'trading company',
-            label: '工厂',
-          }, {
-            value: 'inspect company',
-            label: '贸易公司',
-          }, {
-            value: 'financial company',
-            label: '验货公司',
-          }, {
-            value: 'shipping agent',
-            label: '金融公司',
-          }],
+        optionsSupplier: [],
+        optionsCustomer: [],
+        optionsService: [],
         rules: {
           invitationCode: [
             {required: true, message: this.$i.login.prompt.invitationCode, trigger: 'blur'},
@@ -379,8 +334,14 @@
       },
     },
     created() {
+       this.$ajax.post(this.$apis.POST_CODE_PART_SIGN,["CUSTOMER_TYPE","SR_TYPE","SP_TYPE"])
+        .then(res => {
+            this.optionsCustomer = _.findWhere(res, {'code': 'CUSTOMER_TYPE'}).codes;
+            this.optionsSupplier = _.findWhere(res, {'code': 'SR_TYPE'}).codes;
+            this.optionsService = _.findWhere(res, {'code': 'SP_TYPE'}).codes; 
+            this.istype() ;  
+        });
       this.getCountry();
-      this.istype();
     }
   }
 </script>
