@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="input-email">
+        <div class="input-email" v-show="readPassword">
             <el-form :label-position="labelPosition" class="inputBox center" label-width="200px"  :model="password" :rules="rules" ref="password">
             <el-form-item :label="this.$i.login.text.newPassword" prop="pass">
                 <el-input v-model="password.pass" type="password" :placeholder="this.$i.login.placeholder.password"  style="width:200px;"></el-input>
@@ -139,7 +139,7 @@ export default {
     }
   },
   created() {
-    // this.getUserValidateReset();
+     this.getUserValidateReset();
   }
 };
 </script>
