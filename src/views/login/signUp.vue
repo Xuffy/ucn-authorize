@@ -275,7 +275,7 @@
         this.$ajax.post(this.$apis.post_user_signup, params).then(res => {
           //注册成功，系统提示注册成功并跳转对应的workbench页面（采购商、供应商、服务商）
           if (res.partnerType == type) {
-            this.$message.warning({
+            this.$message.success({
               message: this.$i.login.prompt.signUpSuccess,
               type: 'success',
             });
