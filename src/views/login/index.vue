@@ -67,11 +67,14 @@
       }
     },
     created() {
-      this.checkVerificationCode();
+     
     },
     mounted() {
       this.form.email = this.$localStore.get('username') || '';
       this.form.password = Base64.decode(this.$localStore.get('password') || '');
+       if(this.form.email!=''){
+         this.checkVerificationCode();
+      }
     },
     methods: {
       submitLogin() {
@@ -95,6 +98,8 @@
           })
           .finally((res) =>{
             this.loading = false
+            this.checkVerificationCode();
+            this.refreshVerificationCode();
           });
       },
       //刷新图片验证码
