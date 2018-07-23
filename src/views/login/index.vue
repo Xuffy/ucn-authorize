@@ -6,7 +6,7 @@
         <div class="form-box">
 
           <input type="text" class="username" :placeholder="$i.login.userInformation.email"
-                 v-model="form.email"  @blur="checkVerificationCode">
+                 v-model="form.email"  @blur="checkVerificationCode" @keyup.enter="submitLogin">
 
           <input type="password" class="password" :placeholder="$i.login.userInformation.password"
                  v-model="form.password" @keyup.enter="submitLogin">
