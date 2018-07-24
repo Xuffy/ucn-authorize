@@ -6,18 +6,17 @@
         <div class="form-box">
 
           <input type="text" class="username" :placeholder="$i.login.userInformation.email"
-                 v-model="form.email"  @blur="checkVerificationCode" @keyup.enter="submitLogin">
+                 v-model="form.email" @blur="checkVerificationCode" @keyup.enter="submitLogin">
 
           <input type="password" class="password" :placeholder="$i.login.userInformation.password"
                  v-model="form.password" @keyup.enter="submitLogin">
 
           <div v-show="isIdentifyingCode">
             <input type="text" class="identifyingCode" :placeholder="$i.login.userInformation.identifyingCode"
-            v-model="form.verificationCode" @keyup.enter="submitLogin">
-            <img class="verificationCode"  :src="src"/>
+                   v-model="form.verificationCode" @keyup.enter="submitLogin">
+            <img class="verificationCode" :src="src"/>
             <i class="el-icon-refresh refresh" @click="refreshVerificationCode"></i>
           </div>
-
 
 
           <el-button type="primary" size="medium" :loading="loading"
@@ -56,8 +55,8 @@
     data() {
       return {
         loading: false,
-        isIdentifyingCode : false,
-        src:'',
+        isIdentifyingCode: false,
+        src: '',
         form: {
           email: '',
           password: '',
@@ -67,13 +66,13 @@
       }
     },
     created() {
-     
+
     },
     mounted() {
       this.form.email = this.$localStore.get('username') || '';
       this.form.password = Base64.decode(this.$localStore.get('password') || '');
-       if(this.form.email!=''){
-         this.checkVerificationCode();
+      if (this.form.email != '') {
+        this.checkVerificationCode();
       }
     },
     methods: {
@@ -89,36 +88,37 @@
         this.$ajax.post(this.$apis.post_auth_signin, params)
           .then(data => {
             let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
-              , url = `${Base64.decode(this.query.redirect).replace(/\?/g,'')}?token=${Base64.encode(data.userSessionToken)}`;
+              ,
+              url = `${Base64.decode(this.query.redirect).replace(/\?/g, '')}?token=${Base64.encode(data.userSessionToken)}`;
             this.$localStore.set('username', this.form.email, expire);
             this.$localStore.set('password', Base64.encode(this.form.password), expire);
 
             this.$sessionStore.clearAll();
             window.location.href = url;
           })
-          .finally((res) =>{
-            this.loading = false
+          .catch(() => {
             this.checkVerificationCode();
             this.refreshVerificationCode();
-          });
+          })
+          .finally((res) => this.loading = false);
       },
       //刷新图片验证码
-      refreshVerificationCode(){
+      refreshVerificationCode() {
         this.src = `${this.$apis.GET_VERIFICATION_CODE_REFRESH}?email=${this.form.email}&t=${Math.random()}`;
       },
       //检查用户是否需要验证验证码
-      checkVerificationCode(){
+      checkVerificationCode() {
         this.$ajax.get(this.$apis.GET_VERIFICATION_CODE_CHECK, {
-              email: this.form.email
+          email: this.form.email
         })
-        .then(res => {
-           if(res.needVerify){
+          .then(res => {
+            if (res.needVerify) {
               this.isIdentifyingCode = true;
               this.refreshVerificationCode()
-           }else{
+            } else {
               this.isIdentifyingCode = false;
-           }
-       });
+            }
+          });
       }
     }
   }
@@ -140,9 +140,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  .loginBoxH{
+
+  .loginBoxH {
     height: 450px;
   }
+
   .left-form {
     width: 310px;
     height: 100%;
@@ -193,7 +195,7 @@
   .identifyingCode:hover,
   .username:focus,
   .password:focus
-  .identifyingCode:focus{
+  .identifyingCode:focus {
     color: #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
   }
@@ -255,7 +257,7 @@
     border-bottom-right-radius: 15px;
   }
 
-  .identifyingCode{
+  .identifyingCode {
     background-color: #2e2f31;
     border: none;
     width: 50%;
@@ -266,14 +268,16 @@
     font-size: 14px;
     transition: all .5s;
   }
-  .verificationCode{
+
+  .verificationCode {
     display: inline-block;
     width: 25%;
     height: 30px;
     vertical-align: middle;
     margin: 0 5px;
   }
-  .refresh{
+
+  .refresh {
     vertical-align: middle;
     display: inline-block;
     font-size: 30px;
