@@ -87,9 +87,13 @@
 
         this.$ajax.post(this.$apis.post_auth_signin, params)
           .then(data => {
-            let expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30))
-              ,
-              url = `${Base64.decode(this.query.redirect).replace(/\?/g, '')}?token=${Base64.encode(data.userSessionToken)}`;
+            let expire, url, u;
+            expire = new Date(new Date().valueOf() + (24 * 60 * 60 * 1000 * 30));
+            u = Base64.decode(this.query.redirect);
+
+            u = u[u.length - 1] !== 'l' ? u.substring(0, u.length - 1) : u;
+            url = `${u}?token=${Base64.encode(data.userSessionToken)}`;
+
             this.$localStore.set('username', this.form.email, expire);
             this.$localStore.set('password', Base64.encode(this.form.password), expire);
 
