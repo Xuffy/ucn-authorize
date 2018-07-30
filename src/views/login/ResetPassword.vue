@@ -20,6 +20,7 @@
 </template>
 <script>
 let bFlage = true;
+
 export default {
   name: "inputEmail",
   data() {
@@ -86,7 +87,7 @@ export default {
       });
     },
     getUserValidateReset() {
-      let { activeToken, email } = this.$router.query;
+      let { activeToken, email } = this.$route.query;
       if (!activeToken) {
         return this.$message({
           type: "warning",
@@ -102,20 +103,23 @@ export default {
         .then(res => {
           this.readPassword = true;
         }).catch(err=>{
-            this.$message({
-                type: "warning",
-                message: this.$i.login.prompt.signlinkFailureInSuccess,
-                onClose: () => {
-                    this.$router.push({
-                    path: "/inputEmail"
-                    });
-                }
-            });
+            // this.$message({
+            //     type: "warning",
+            //     message: this.$i.login.prompt.signlinkFailureInSuccess,
+            //     onClose: () => {
+            //         this.$router.push({
+            //         path: "/inputEmail"
+            //         });
+            //     }
+            // });
+            // this.$router.push({
+            //   path: "/inputEmail"
+            // });
         });
     },
     postUserPasswordReset() {
-        this.loading = ture;
-        let { activeToken, email } = this.$router.query;
+        this.loading = true;
+        let { activeToken, email } = this.$route.query;
         this.$ajax.post(this.$apis.POST_USER_PASSWORD_RESET, {
             email: email,
             token: activeToken,
@@ -124,10 +128,10 @@ export default {
         .then(res => {
             this.$message({
                 type: "success",
-                message: "重置成功",
+                message: this.$i.login.prompt.resetSuccess,
                 onClose: () => {
                 this.$router.push({
-                    path: "/Finish"
+                    path: "/forgetPassword/Finish"
                 });
                 }
             });
@@ -139,7 +143,7 @@ export default {
     }
   },
   created() {
-     this.getUserValidateReset();
+      this.getUserValidateReset();
   }
 };
 </script>

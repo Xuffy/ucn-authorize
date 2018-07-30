@@ -21,5 +21,8 @@
   "invitationCodeInvalid": "邀请码无效",
   "emptyType": "类型为空",
   "signInSuccess": "提交成功，我们将尽快联系您",
-  "emailNoExist": "您输入的邮箱未注册,请核对后重新输入"
+  "emailNoExist": "您输入的邮箱未注册,请核对后重新输入",
+  "sendSuccess": "发送成功",
+  "linkFailure": "邀请链接失效",
+  "resetSuccess": "重置成功"
 }

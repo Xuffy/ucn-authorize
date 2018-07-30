@@ -23,5 +23,6 @@
   "signInSuccess": "Successful submission, we will contact you as soon as possible",
   "emailNoExist": "The email you entered is not registered. Please check and re-enter",
   "sendSuccess": "发送成功",
-  "linkFailure": "邀请链接失效"
+  "linkFailure": "邀请链接失效",
+  "resetSuccess": "重置成功"
 }
