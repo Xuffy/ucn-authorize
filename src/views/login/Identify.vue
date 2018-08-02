@@ -1,39 +1,31 @@
 <template>
     <div class="input-email">
         <div class="inputBox center">
-            <label for="icon"><i class="el-icon-success"></i></label>{{$i.login.text.modifyPassword}} {{$route.params.email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
+            <label for="icon"><i class="el-icon-success"></i></label> {{$route.params.email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
         </div>
         <div class="inputBox">
             <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
-            <router-link to="/login" v-else>{{ $i.login.text.goSignInNow }}>></router-link>
+            <div class="link" v-else @click="linklogin">
+                {{ $i.login.text.goSignInNow }}>>
+            </div>
         </div>
     </div>
 </template>
 <script>
-    let bFlage = true;
     export default {
         name: 'inputEmail',
         data() {
             return {
                 val:'',
+                email:'',
+                bFlage:true,
             }
         },
         methods: {
             sendOut() {
                 if(!bFlage) return;
-                bFlage = false;
+                this.bFlage = false;
                 this.resetInputEmail();
-                // const loading = this.$loading({
-                //     lock: true,
-                //     text: 'Loading',
-                //     spinner: 'el-icon-loading',
-                //     background: 'rgba(0, 0, 0, 0.7)'
-                // });
-                setTimeout(() => {
-                    // this.$router.push('ResetPassword')
-                    // loading.close();
-                    bFlage = true;
-                }, 1000);
             },
             resetInputEmail(){
                 let {type} = this.$sessionStore.get('query');
@@ -46,11 +38,17 @@
                       type: 'success',
                       message: this.$i.login.prompt.sendSuccess,
                     });
+                    this.bFlage = true;
                 })
             },
+            linklogin(){
+                this.$router.push({
+                   name:'login'
+                });
+            }
         },
         created() {
-        
+            this.sendOut();
         },
     }
 </script>
@@ -73,7 +71,7 @@
                     font-size:25px;
                 }
             }
-            button, a {
+            button, .link {
                 border:none;
                 background:none;
                 color:#2d8cf0;
@@ -85,5 +83,6 @@
             }
         }
     }
+
 </style>
 
