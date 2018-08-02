@@ -5,7 +5,7 @@
         </div>
         <div class="inputBox">
             <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
-            <router-link to="/" v-else>{{ $i.login.text.goSignInNow }}>></router-link>
+            <router-link to="/login" v-else>{{ $i.login.text.goSignInNow }}>></router-link>
         </div>
     </div>
 </template>
