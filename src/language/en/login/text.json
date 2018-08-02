@@ -1,5 +1,5 @@
 {
-  "RequestToGetInvitationCode": "Request To Get Invitation Code",
+  "RequestToGetInvitationCode": "Get Invitation Code",
   "reSendMail": "Resend mail",
   "goSignInNow": "Go sign in now",
   "signIn": "Sign in",
@@ -9,9 +9,9 @@
   "signUpNow": "Sign up now",
   "loginIn": "Login",
   "newPassword": "New password",
-  "repeatThePassword": "Enter the password again",
+  "repeatThePassword": "Please input the password again",
   "userInformation": "User Information",
-  "goSubmitARequest": "Go Submit a request",
+  "goSubmitARequest": "Go Submitting a request",
   "companyInformation": "Company Information",
   "thisWillBeYourLogInEmail": "This will be your log in email",
   "inputEmail": "Input email",
@@ -19,10 +19,10 @@
   "resetPassword": "Reset password",
   "finish": "Finish",
   "dear": "Dear",
-  "successPassword": "you have reset your password, please remember your new password",
-  "modifyPassword": "we ahave sent you an email , pleasr follow the instruction to reset your password",
-  "ihaveReaded": "I have readed",
-  "submitInfo":"Please submit your company infomation, and we will contact you soon, if you have any, question, feel free to contact us",
-  "email":"email",
-  "tel": "tel"
+  "successPassword": "You have reset your password, please remember your new password",
+  "modifyPassword": "We have sent you an email , pleasr follow the instruction to reset your password",
+  "ihaveReaded": "I have read",
+  "submitInfo":"Please submit your company information, and we will contact you soon, if you have any question, please contact us",
+  "email":"Email",
+  "tel": "Tel"
 }

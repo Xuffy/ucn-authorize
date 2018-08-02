@@ -1,7 +1,7 @@
 {
-  "title": "Activating account - setting account password",
+  "title": "激活帐户-设置帐户密码",
   "pwd":"密码",
   "confirmPwd":"确认密码",
-  "reset":"Reset",
-  "authenticating":"Authenticating"
+  "reset":"重置",
+  "authenticating":"正在验证"
 }

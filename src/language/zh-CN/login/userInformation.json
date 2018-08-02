@@ -4,5 +4,5 @@
   "email": "邮箱",
   "password": "密码",
   "tel": "联系方式",
-  "identifyingCode": "Identifying code"
+  "identifyingCode": "验证码"
 }
