@@ -6,8 +6,8 @@
   "logoutHints": "确认退出登录吗",
   "systemHints": "系统提示",
   "operationSuccessful": "操作成功",
-  "noLatestNews": "最近无消息",
+  "noLatestNews": "无最近消息",
   "operationFailed": "操作失败",
-  "pleaseEnter": "Please enter",
-  "noData": "No data"
+  "pleaseEnter": "请输入",
+  "noData": "无数据"
 }
