@@ -3,9 +3,9 @@ import config from 'service/config';
 import Qs from 'qs'
 
 // 获取地址参数 存到缓存中
-let query = window.location.href.split('?'), lang;
+let query = window.location.search.replace('?',''), lang;
 
-query = Qs.parse(query.length > 1 ? query.pop() : '');
+query = Qs.parse(query);
 lang = query.language || config.LANGUAGE;
 
 sessionStore.set('query', query);

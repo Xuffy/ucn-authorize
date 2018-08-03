@@ -12,6 +12,8 @@
     </div>
 </template>
 <script>
+    import Qs from 'qs';
+    import {Base64} from 'js-base64';
     export default {
         name: 'inputEmail',
         data() {
@@ -19,6 +21,7 @@
                 val:'',
                 email:'',
                 bFlage:true,
+                query: this.$sessionStore.get('query') || {}
             }
         },
         methods: {
@@ -28,10 +31,18 @@
                 this.resetInputEmail();
             },
             resetInputEmail(){
-                let {type} = this.$sessionStore.get('query');
+                console.log(1)
+                let {type} = this.$sessionStore.get('query')
+                ,callback='{url}/#/forgetPassword/ResetPassword?{params}&activeToken=%s&email=%s&reset_email={reset}';
+
+                callback=_.template(callback)({
+                    url:window.location.origin,
+                    params:Qs.stringify(this.$sessionStore.get('query')),
+                    reset:Base64.encode(`${window.location.ancestorOrigins[0]}/login`)
+                    })
                 this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
                     email: this.email,
-                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s`
+                    callback
                 })
                 .then(res => {
                     this.$message({
@@ -42,14 +53,12 @@
                 })
             },
             linklogin(){
-                this.$router.push({
-                   name:'login'
-                });
+                let url = Base64.decode(this.query.reset_email)
+                window.location.href = url
             }
         },
         created() {
-             this.email =  this.$localStore.get('email') || ''
-            this.sendOut();
+            this.email =  this.$localStore.get('email') || ''
         },
     }
 </script>
