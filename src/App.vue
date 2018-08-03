@@ -18,13 +18,19 @@
     },
     watch: {},
     created() {
-      let query = this.$sessionStore.get('query');
-
       /*if (!query.type || !query.redirect) {
         return false;
       }*/
       // this.$sessionStore.set('query', query);
       // this.show = true;
+    },
+    mounted(){
+      let query = this.$sessionStore.get('query');
+      // console.log(query)
+      // if(_.isEmpty(query)){
+      //   console.log('this.$route.query',this.$route.query)
+      //   this.$sessionStore.set('query',this.$route.query);
+      // }
     }
   }
 </script>

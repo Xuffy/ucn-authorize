@@ -19,6 +19,8 @@
     </div>
 </template>
 <script>
+  import Qs from 'qs';
+  import {Base64} from 'js-base64';
     export default {
         name: 'inputEmail',
         data() {
@@ -37,7 +39,7 @@
             }
         },
         mounted(){
-            console.log(window.location)
+        
         },
         methods: {
             Next(formName) {
@@ -52,10 +54,17 @@
             inputEmail(){
                 //若录入的email在我们系统不存在，返回：您输入的emai未注册，请核对后重新输入！
                 this.loading = true;
-                let {type} = this.$sessionStore.get('query');
+                let {type} = this.$sessionStore.get('query')
+                ,callback='{url}/#/forgetPassword/ResetPassword?{params}&activeToken=%s&email=%s&reset_email={reset}';
+
+                callback=_.template(callback)({
+                    url:window.location.origin,
+                    params:Qs.stringify(this.$sessionStore.get('query')),
+                    reset:Base64.encode(`${window.location.ancestorOrigins[0]}/login`)
+                    })
                 this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
                     email: this.emailFrom.email,
-                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s&redirect=${Base64.encode(window.location.origin + '/#/login')}`
+                    callback
                 })
                 .then(res => {
                     this.$localStore.set('email', this.emailFrom.email);
@@ -77,33 +86,33 @@
     }
 </script>
 <style lang="less" scoped>
-    .input-email {
-        flex:1;
-        display:flex;
-        flex-direction: column;
-        .inputBox {
-            display:flex;
-            align-items: center;
-            justify-content: center;
-            &.center {
-                height:50%;
-            }
-        }
+.input-email {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  .inputBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.center {
+      height: 50%;
     }
-     .bottom-btn {
-        .choice {
-            padding:0 100px;
-            height: 60px;
-            display:flex;
-            align-items: center;
-        }
-        .btn-wrap {
-            width: 200px;
-            margin:0 auto;
-            display:flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-    }
+  }
+}
+.bottom-btn {
+  .choice {
+    padding: 0 100px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
+  .btn-wrap {
+    width: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 </style>
 

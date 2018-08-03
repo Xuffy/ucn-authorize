@@ -83,7 +83,7 @@ export default {
       });
     },
     getUserValidateReset() {
-      let { activeToken, email } = this.$route.query;
+      let { activeToken, email,reset_email } = this.$route.query;
       if (!activeToken) {
         return this.$message({
           type: "warning",
@@ -99,18 +99,6 @@ export default {
         .then(res => {
           this.readPassword = true;
         }).catch(err=>{
-            // this.$message({
-            //     type: "warning",
-            //     message: this.$i.login.prompt.signlinkFailureInSuccess,
-            //     onClose: () => {
-            //         this.$router.push({
-            //         path: "/inputEmail"
-            //         });
-            //     }
-            // });
-            // this.$router.push({
-            //   path: "/inputEmail"
-            // });
         });
     },
     postUserPasswordReset() {
@@ -141,6 +129,7 @@ export default {
   },
   created() {
       this.getUserValidateReset();
+      this.$sessionStore.set('query',this.$route.query);
   }
 };
 </script>
