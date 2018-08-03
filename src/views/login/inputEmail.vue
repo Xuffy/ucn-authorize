@@ -37,7 +37,7 @@
             }
         },
         mounted(){
-            // console.log(window.location)
+            console.log(window.location)
         },
         methods: {
             Next(formName) {
@@ -55,9 +55,10 @@
                 let {type} = this.$sessionStore.get('query');
                 this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
                     email: this.emailFrom.email,
-                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s`
+                    callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s&redirect=${Base64.encode(window.location.origin + '/#/login')}`
                 })
                 .then(res => {
+                    this.$localStore.set('email', this.emailFrom.email);
                     this.$router.push({
                         name: 'Identify',
                         params: {

@@ -1,15 +1,15 @@
 {
   "invitationCode": "Please input your Invitation code",
-  "username": "Please Input your username",
+  "username": "Please input your username",
   "email": "Please input your email",
   "password": "Please Input your password",
-  "tel": "Please input your Tel",
-  "checkpassword": "Please Input your password again",
-  "companyName": "Please Input company name",
-  "companyType": "Please Select company type",
-  "contactNumber": "Please Input contact number",
-  "website": "Please Input company website",
-  "country": "Please Select country",
-  "city": "Please Input city",
-  "address": "Please Input address"
+  "tel": "Please input your tel",
+  "checkpassword": "Please input your password again",
+  "companyName": "Please input company name",
+  "companyType": "Please select company type",
+  "contactNumber": "Please input contact number",
+  "website": "Please input company website",
+  "country": "Please select country",
+  "city": "Please input city",
+  "address": "Please input address"
 }

@@ -32,7 +32,7 @@
                     text: 'ResetPassword'
                 },
                 {
-                    name: this.$i.login.text.inputEmail,
+                    name: this.$i.login.text.finish,
                     text: 'Finish'
                 }
                ]
