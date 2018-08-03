@@ -1,7 +1,7 @@
 <template>
     <div class="input-email">
         <div class="inputBox center">
-            <label for="icon"><i class="el-icon-success"></i></label> {{$route.params.email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
+            <label for="icon"><i class="el-icon-success"></i></label> {{email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
         </div>
         <div class="inputBox">
             <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
@@ -23,14 +23,14 @@
         },
         methods: {
             sendOut() {
-                if(!bFlage) return;
+                if(!this.bFlage) return;
                 this.bFlage = false;
                 this.resetInputEmail();
             },
             resetInputEmail(){
                 let {type} = this.$sessionStore.get('query');
                 this.$ajax.post(this.$apis.POST_USER_SEND_PASS_RESET, {
-                    email: this.$route.params.email,
+                    email: this.email,
                     callback:`${window.location.origin}/#/forgetPassword/ResetPassword?type=${type}&activeToken=%s&email=%s`
                 })
                 .then(res => {
@@ -48,6 +48,7 @@
             }
         },
         created() {
+             this.email =  this.$localStore.get('email') || ''
             this.sendOut();
         },
     }
