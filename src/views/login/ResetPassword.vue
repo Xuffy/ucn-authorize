@@ -10,7 +10,7 @@
             </el-form-item>
             </el-form>
             <div class="inputBox btn">
-                <el-button type="primary" @click="Next('password')" :loading="loading">{{$i.login.btn.submit }}</el-button>
+                <el-button type="primary" @click="Next('password')" :loading="loading" :disabled="sendFlag">{{$i.login.btn.submit }}</el-button>
             </div>
         </div>
         <div>
@@ -19,7 +19,6 @@
     </div>
 </template>
 <script>
-let bFlage = true;
 
 export default {
   name: "inputEmail",
@@ -51,6 +50,8 @@ export default {
         pass: "",
         checkPass: ""
       },
+      sendFlag:false,
+      bFlage:true,
       rules: {
         pass: [
           {
@@ -75,19 +76,14 @@ export default {
     Next(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!bFlage) return;
-          bFlage = false;
-          setTimeout(() => {
-            this.postUserPasswordReset();
-            bFlage = true;
-          }, 1000);
+          this.postUserPasswordReset();
         } else {
           return false;
         }
       });
     },
     getUserValidateReset() {
-      let { activeToken, email } = this.$route.query;
+      let { activeToken, email,reset_email } = this.$route.query;
       if (!activeToken) {
         return this.$message({
           type: "warning",
@@ -103,18 +99,6 @@ export default {
         .then(res => {
           this.readPassword = true;
         }).catch(err=>{
-            // this.$message({
-            //     type: "warning",
-            //     message: this.$i.login.prompt.signlinkFailureInSuccess,
-            //     onClose: () => {
-            //         this.$router.push({
-            //         path: "/inputEmail"
-            //         });
-            //     }
-            // });
-            // this.$router.push({
-            //   path: "/inputEmail"
-            // });
         });
     },
     postUserPasswordReset() {
@@ -135,6 +119,7 @@ export default {
                 });
                 }
             });
+            this.sendFlag = true
             this.loading = false;
         })
         .catch(res => {
@@ -144,6 +129,7 @@ export default {
   },
   created() {
       this.getUserValidateReset();
+      this.$sessionStore.set('query',this.$route.query);
   }
 };
 </script>
