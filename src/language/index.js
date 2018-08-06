@@ -2,14 +2,31 @@ import {localStore, sessionStore} from 'service/store';
 import config from 'service/config';
 import Qs from 'qs'
 
-// 获取地址参数 存到缓存中
-let query = window.location.search.replace('?',''), lang;
+const getUrlParam=()=>{
+  var href  =window.location.href;
+  var params = href.split('?')[1];
+  if (!params){
+    return {};
+  }
+  var paramArr = params.split('&');
+  var res = {};
+  for(var i = 0;i<paramArr.length;i++){
+    var str = paramArr[i].split('=');
+    res[str[0]]=str[1];
+  }
+  return res;
+}
 
-query = Qs.parse(query);
+// 获取地址参数 存到缓存中
+let query=getUrlParam(), lang;
+
+// query = Qs.parse(query);
 lang = query.language || config.LANGUAGE;
 
 sessionStore.set('query', query);
 localStore.set('language', lang);
+
+
 
 const json = {
   login: _.extend({},
