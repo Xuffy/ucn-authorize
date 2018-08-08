@@ -80,7 +80,7 @@
                 </el-row>
                 <el-row>
                   <el-col :span="12">
-                    <el-form-item :label="this.$i.login.getInvitationCode.contactNumber" prop="tel">
+                    <el-form-item :label="this.$i.login.getInvitationCode.contactNumber">
                       <el-input :placeholder="this.$i.login.placeholder.contactNumber" type="text"
                                 v-model="userInfo.tel" style="max-width:200px"/>
                     </el-form-item>
@@ -226,10 +226,10 @@
           companyTypeN: [
             {required: true, message: this.$i.login.prompt.companyType, trigger: 'blur'},
           ],
-          tel: [
-            {required: true, message: this.$i.login.prompt.inputYourTel, trigger: 'blur'},
-            {max: 13, message: this.$i.login.prompt.telLength, trigger: 'blur,change'}
-          ],
+          // tel: [
+          //   {required: true, message: this.$i.login.prompt.inputYourTel, trigger: 'blur'},
+          //   {max: 13, message: this.$i.login.prompt.telLength, trigger: 'blur,change'}
+          // ],
           // email: [
           //     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           //     { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }

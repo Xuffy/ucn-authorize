@@ -4,7 +4,7 @@
             <label for="icon"><i class="el-icon-success"></i></label> {{email}}，<span v-if="$route.name === 'Identify'">{{$i.login.text.modifyPassword}}</span><span v-else>{{$i.login.text.successPassword}}</span>
         </div>
         <div class="inputBox">
-            <button @click="sendOut" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
+            <button @click="resetInputEmail" v-if="$route.name === 'Identify'"> {{ $i.login.text.reSendMail }} </button>
             <div class="link" v-else @click="linklogin">
                 {{ $i.login.text.goSignInNow }}>>
             </div>
@@ -25,13 +25,7 @@
             }
         },
         methods: {
-            sendOut() {
-                if(!this.bFlage) return;
-                this.bFlage = false;
-                this.resetInputEmail();
-            },
             resetInputEmail(){
-                console.log(1)
                 let {type} = this.$sessionStore.get('query')
                 ,callback='{url}/#/forgetPassword/ResetPassword?{params}&activeToken=%s&email=%s&reset_email={reset}';
 
@@ -49,7 +43,6 @@
                       type: 'success',
                       message: this.$i.login.prompt.sendSuccess,
                     });
-                    this.bFlage = true;
                 })
             },
             linklogin(){
@@ -58,7 +51,8 @@
             }
         },
         created() {
-            this.email =  this.$localStore.get('email') || ''
+            this.email =  Base64.decode(this.query.email)
+            //"aHR0cDovLzE5Mi4xNjguNTEuMjIwOjgwMTAvbG9naW4="
         },
     }
 </script>
